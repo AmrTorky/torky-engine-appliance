@@ -184,19 +184,38 @@
     <div class="section-head" id="client-workspace">
       <div>
         <div class="section-title">Enterprise Client Interactive Workspace</div>
-        <div class="section-sub">Autonomous execution sandbox: input arbitrary vectors, tune manifold dimensions, and certify proofs.</div>
+        <div class="section-sub">Autonomous execution sandbox optimized for desktop & mobile: drag-and-drop file ingestion, manual vector entry, and hardware proof extraction.</div>
       </div>
     </div>
 
-    <div class="panel-box" style="border-color: #0284c7; background: #080e18;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+    <div class="panel-box" style="border-color: #0284c7; background: #080e18; padding: 1.5rem;">
+      <!-- Mobile Responsive Ingestion Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+        
+        <!-- Left: Upload Zone & Manual Ingestion -->
         <div>
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">1. Raw Query / Vector Input (Floats or Text Seed)</label>
-          <textarea id="ws-input" style="width: 100%; height: 110px; background: #03060a; border: 1px solid var(--card-border); border-radius: 6px; padding: 0.75rem; color: #fff; font-family: ui-monospace, monospace; font-size: 0.8rem; margin-top: 0.35rem; resize: vertical;" placeholder="Enter continuous vector coordinates or seed string, e.g. [0.421, -0.912, 0.118, 0.654, ... ]">[0.0824, -0.4192, 0.8812, 0.1045, -0.3129, 0.7718, 0.0412, -0.1983]</textarea>
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 0.4rem;">
+            1. Vector Ingestion (File Upload or Raw Coords)
+          </label>
+          
+          <!-- Drag-and-Drop Zone -->
+          <div id="drop-zone" style="border: 2px dashed #1e3a5f; background: #03060a; border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; transition: 0.2s; margin-bottom: 0.75rem;" onclick="document.getElementById('file-upload').click()">
+            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">📁</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Click to Upload or Drag & Drop File</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">Accepts .json, .csv, .txt (Vector Embeddings)</div>
+            <input type="file" id="file-upload" style="display: none;" accept=".json,.csv,.txt" onchange="handleFileUpload(event)">
+          </div>
+
+          <textarea id="ws-input" style="width: 100%; height: 95px; background: #03060a; border: 1px solid var(--card-border); border-radius: 6px; padding: 0.65rem; color: #fff; font-family: ui-monospace, monospace; font-size: 0.8rem; resize: vertical;" placeholder="Paste raw vector coordinates e.g. [0.421, -0.912, 0.118, 0.654] or upload a file above.">[0.0824, -0.4192, 0.8812, 0.1045, -0.3129, 0.7718, 0.0412, -0.1983]</textarea>
         </div>
+
+        <!-- Right: Engine Controls & Sliders -->
         <div>
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">2. Runtime Engine Parameters</label>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.35rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 0.4rem;">
+            2. Engine Target Parameters
+          </label>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
             <div>
               <span style="font-size: 0.7rem; color: var(--text-muted);">Target Dimension:</span>
               <select id="ws-dim" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #7dd3fc; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
@@ -206,15 +225,15 @@
               </select>
             </div>
             <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">Tenant Isolation Mask:</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);">Tenant Isolation:</span>
               <input type="text" id="ws-tenant" value="0x2a" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #fff; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
             </div>
             <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">PITR Snapshot Boundary:</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);">PITR Record Lock:</span>
               <input type="number" id="ws-pitr" value="500000" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #fff; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
             </div>
             <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">Verification Mode:</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);">Hardware Proof:</span>
               <select id="ws-proof" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #a855f7; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
                 <option value="quantum">QPU Hardware Proof (IQM)</option>
                 <option value="hessian">Hessian Curvature Proof</option>
@@ -222,15 +241,16 @@
               </select>
             </div>
           </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+            <button class="nav-btn nav-btn-primary" style="flex: 1; min-width: 160px;" onclick="executeClientWorkspace()">&#9654; Execute Custom Pipeline</button>
+            <button class="nav-btn" style="flex: 1; min-width: 140px;" onclick="downloadClientOutput()">Download Seal (.json)</button>
+          </div>
         </div>
       </div>
 
-      <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
-        <button class="nav-btn nav-btn-primary" onclick="executeClientWorkspace()">&#9654; Execute Custom Client Pipeline</button>
-        <button class="nav-btn" onclick="downloadClientOutput()">Download Client Execution Seal (.json)</button>
-      </div>
-
-      <div style="background: #020408; border: 1px solid var(--card-border); border-radius: 8px; padding: 1.25rem; font-family: ui-monospace, monospace; font-size: 0.85rem; color: #38bdf8; min-height: 120px; max-height: 300px; overflow-y: auto; white-space: pre-wrap;" id="ws-output">// Client execution console idle. Configure parameters above and click 'Execute Custom Client Pipeline'.</div>
+      <!-- Execution Telemetry Card -->
+      <div style="background: #020408; border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; font-family: ui-monospace, monospace; font-size: 0.8rem; color: #38bdf8; min-height: 110px; max-height: 260px; overflow-y: auto; white-space: pre-wrap;" id="ws-output">// Sandbox ready. Upload a vector file (.json/.csv) or enter manual coordinates to run the engine.</div>
     </div>
 
     <!-- Live Cluster Operations & Verification Panel (All 20 Wired) -->
@@ -800,6 +820,40 @@
     }
   
     let lastClientResult = null;
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("ws-input").value = e.target.result.trim();
+        logTerm(`[FILE LOADED] ${file.name} (${(file.size / 1024).toFixed(1)} KB) staged for pipeline.`, 'ok');
+      };
+      reader.readAsText(file);
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+    if (dropZone) {
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#38bdf8';
+        dropZone.style.background = '#061324';
+      });
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.style.borderColor = '#1e3a5f';
+        dropZone.style.background = '#03060a';
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#1e3a5f';
+        dropZone.style.background = '#03060a';
+        if (e.dataTransfer.files.length) {
+          document.getElementById('file-upload').files = e.dataTransfer.files;
+          handleFileUpload({ target: { files: e.dataTransfer.files } });
+        }
+      });
+    }
+
 
     function executeClientWorkspace() {
       const inputVec = document.getElementById("ws-input").value.trim();
