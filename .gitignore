@@ -1,1 +1,9 @@
 __pycache__/
+build_*.py
+generate_*.py
+inject_*.py
+make_*.py
+upgrade_*.py
+run_iqm_*.py
+*.tar.gz
+stress_1M.torky
