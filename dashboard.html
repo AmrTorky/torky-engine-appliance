@@ -6,22 +6,14 @@
   <title>Torky Continuum Engine — Live Enterprise Appliance</title>
   <style>
     :root {
-      --bg: #070b14;
-      --card: #0f172a;
-      --card-hover: #1e293b;
-      --border: #334155;
-      --blue: #38bdf8;
-      --emerald: #10b981;
-      --text: #f8fafc;
-      --muted: #94a3b8;
+      --bg: #070b14; --card: #0f172a; --card-hover: #1e293b;
+      --border: #334155; --blue: #38bdf8; --emerald: #10b981;
+      --text: #f8fafc; --muted: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
-      background: var(--bg);
-      color: var(--text);
-      padding: 2.5rem 1rem;
-      line-height: 1.6;
+      background: var(--bg); color: var(--text); padding: 2.5rem 1rem; line-height: 1.6;
     }
     .wrapper { max-width: 1200px; margin: 0 auto; }
     .header {
@@ -37,8 +29,6 @@
       display: flex; align-items: center; gap: 0.5rem;
     }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 10px var(--emerald); }
-    
-    /* Metrics */
     .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 3rem; }
     .metric {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
@@ -49,8 +39,12 @@
     .metric-val { font-size: 2.2rem; font-weight: 800; margin: 0.4rem 0; font-family: monospace; }
     .metric-val.green { color: var(--emerald); }
     .metric-val.blue { color: var(--blue); }
-
-    /* Interactive Terminal */
+    .inspector {
+      background: #090d16; border: 1px solid var(--emerald); border-radius: 12px; padding: 1.5rem;
+      margin-bottom: 3rem; display: none;
+    }
+    .inspector h3 { color: var(--emerald); margin-bottom: 0.5rem; font-size: 1.2rem; }
+    .inspector-body { font-family: monospace; font-size: 0.9rem; color: #e2e8f0; }
     .terminal-box {
       background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 3.5rem;
     }
@@ -65,8 +59,6 @@
       background: #090d16; border: 1px solid #1e293b; border-radius: 8px; padding: 1.25rem;
       font-family: monospace; font-size: 0.9rem; color: #a5f3fc; white-space: pre-wrap; min-height: 120px;
     }
-
-    /* 20 Sweet Spots Grid (Fully Clickable) */
     .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
     .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; margin-bottom: 3.5rem; }
     .feat-card {
@@ -85,22 +77,11 @@
     }
     .feat-info h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
     .feat-info p { font-size: 0.82rem; color: var(--muted); }
-
-    /* Modal / Inspector for Features */
-    .inspector {
-      background: #090d16; border: 1px solid var(--emerald); border-radius: 12px; padding: 1.5rem;
-      margin-bottom: 3rem; display: none;
-    }
-    .inspector h3 { color: var(--emerald); margin-bottom: 0.5rem; font-size: 1.2rem; }
-    .inspector-body { font-family: monospace; font-size: 0.9rem; color: #e2e8f0; }
-
-    /* Tables */
     .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; margin-bottom: 3rem; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
     th, td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
     th { background: rgba(15, 23, 42, 0.9); color: var(--muted); text-transform: uppercase; font-size: 0.8rem; }
     .hl { color: var(--emerald); font-weight: 700; font-family: monospace; }
-
     .repro {
       background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem;
       font-family: monospace; font-size: 0.88rem; color: var(--blue); overflow-x: auto; margin-top: 1rem;
@@ -119,37 +100,34 @@
       <div class="badge"><div class="dot"></div> SYSTEM OPERATIONAL & SEALED</div>
     </header>
 
-    <!-- Top Invariant Cards -->
     <div class="metrics">
-      <div class="metric" onclick="inspectMetric("storage")">
+      <div class="metric" onclick="inspectMetric('storage')">
         <div class="metric-label">Storage Reduction</div>
         <div class="metric-val green">96.96%</div>
         <p style="color: var(--muted); font-size: 0.85rem;">Click to audit algebraic manifold compaction &rarr;</p>
       </div>
-      <div class="metric" onclick="inspectMetric("latency")">
+      <div class="metric" onclick="inspectMetric('latency')">
         <div class="metric-label">Mean Latency</div>
         <div class="metric-val blue">5.48 µs</div>
         <p style="color: var(--muted); font-size: 0.85rem;">Click to view microsecond benchmark bounds &rarr;</p>
       </div>
-      <div class="metric" onclick="inspectMetric("drift")">
+      <div class="metric" onclick="inspectMetric('drift')">
         <div class="metric-label">Field Invariant Drift</div>
         <div class="metric-val green">1.11e-16</div>
         <p style="color: var(--muted); font-size: 0.85rem;">Click to verify IEEE-754 machine precision &rarr;</p>
       </div>
-      <div class="metric" onclick="inspectMetric("ram")">
+      <div class="metric" onclick="inspectMetric('ram')">
         <div class="metric-label">Active RAM Ceiling</div>
         <div class="metric-val blue">&lt; 512 MiB</div>
         <p style="color: var(--muted); font-size: 0.85rem;">Click to review immutable memory fence &rarr;</p>
       </div>
     </div>
 
-    <!-- Active Feature Inspector Box (Appears when clicking features) -->
     <div id="inspectorBox" class="inspector">
       <h3 id="inspectorTitle">Capability Inspector</h3>
       <div id="inspectorContent" class="inspector-body"></div>
     </div>
 
-    <!-- Interactive Simulator Runner -->
     <div class="terminal-box">
       <div class="term-head">
         <div class="term-title">&gt;_ Client-Side Continuum Invariant Simulator</div>
@@ -158,7 +136,6 @@
       <div class="term-view" id="termOutput">Click "Execute Continuous Invariant Projection" above to project a 1536-D vector manifold and verify exact invariant conservation live.</div>
     </div>
 
-    <!-- Architectural Benchmarks -->
     <h2 class="section-title">Architectural Benchmarks: Torky Continuum vs Industry Baselines</h2>
     <div class="table-wrap">
       <table>
@@ -199,11 +176,151 @@
       </table>
     </div>
 
-    <!-- 20 Interactive Capabilities -->
     <h2 class="section-title">20 Enterprise & Mathematical Capabilities <span style="font-size: 0.9rem; color: var(--emerald); font-weight: normal;">(Click any capability to inspect)</span></h2>
-    <div class="features" id="featuresGrid"></div>
+    <div class="features">
+      
+      <div class="feat-card" id="card-1" onclick="selectCap(1)">
+        <div class="feat-num">1</div>
+        <div class="feat-info">
+          <h4>Dynamic Dimension Rescaling</h4>
+          <p>Project 1536-D to 512-D instantly without retrained networks.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-2" onclick="selectCap(2)">
+        <div class="feat-num">2</div>
+        <div class="feat-info">
+          <h4>Hard Memory Fencing</h4>
+          <p>Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-3" onclick="selectCap(3)">
+        <div class="feat-num">3</div>
+        <div class="feat-info">
+          <h4>Deterministic Microsecond SLA</h4>
+          <p>Watchdog monitors real-time query latency with sub-microsecond precision.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-4" onclick="selectCap(4)">
+        <div class="feat-num">4</div>
+        <div class="feat-info">
+          <h4>Continuous Microsecond PITR</h4>
+          <p>Point-in-time manifold restoration without transaction log storage.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-5" onclick="selectCap(5)">
+        <div class="feat-num">5</div>
+        <div class="feat-info">
+          <h4>Hot Ingestion Buffer</h4>
+          <p>Immediate zero-degradation concurrent vector ingestion and query routing.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-6" onclick="selectCap(6)">
+        <div class="feat-num">6</div>
+        <div class="feat-info">
+          <h4>Instant Cold-Start</h4>
+          <p>Appliance initializes and reaches ready status in < 100 milliseconds.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-7" onclick="selectCap(7)">
+        <div class="feat-num">7</div>
+        <div class="feat-info">
+          <h4>Multi-Tenant Namespacing</h4>
+          <p>Cryptographically isolated vector workspaces under single-runtime instances.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-8" onclick="selectCap(8)">
+        <div class="feat-num">8</div>
+        <div class="feat-info">
+          <h4>Cryptographic Proof Ledgers</h4>
+          <p>Tamper-evident verification logs certifying every invariant state change.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-9" onclick="selectCap(9)">
+        <div class="feat-num">9</div>
+        <div class="feat-info">
+          <h4>Metadata-Vector Algebraic Fusion</h4>
+          <p>Direct algebraic integration of payload filters into the projection tensor.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-10" onclick="selectCap(10)">
+        <div class="feat-num">10</div>
+        <div class="feat-info">
+          <h4>Embedded Bare-Metal Binary</h4>
+          <p>Self-contained execution profile for edge hardware and appliance clusters.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-11" onclick="selectCap(11)">
+        <div class="feat-num">11</div>
+        <div class="feat-info">
+          <h4>Concept Superposition & Negation</h4>
+          <p>Linear algebraic composition and subtraction of semantic vectors.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-12" onclick="selectCap(12)">
+        <div class="feat-num">12</div>
+        <div class="feat-info">
+          <h4>Self-Certifying Invariant Proofs</h4>
+          <p>Automatic real-time calculation and assertion of system field invariants.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-13" onclick="selectCap(13)">
+        <div class="feat-num">13</div>
+        <div class="feat-info">
+          <h4>Continuous Dimension Extender</h4>
+          <p>Expand latent representations to higher dimensions with zero variance loss.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-14" onclick="selectCap(14)">
+        <div class="feat-num">14</div>
+        <div class="feat-info">
+          <h4>Zero-Storage Waveform Synthesis</h4>
+          <p>Generate high-dimensional manifolds deterministically from compact seeds.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-15" onclick="selectCap(15)">
+        <div class="feat-num">15</div>
+        <div class="feat-info">
+          <h4>Non-Euclidean Hyperbolic Mapping</h4>
+          <p>Isomorphic Poincaré ball projection for deep hierarchical semantic trees.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-16" onclick="selectCap(16)">
+        <div class="feat-num">16</div>
+        <div class="feat-info">
+          <h4>Coordinate Inversion</h4>
+          <p>Reconstruct dense coordinate embeddings without iterative factorization.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-17" onclick="selectCap(17)">
+        <div class="feat-num">17</div>
+        <div class="feat-info">
+          <h4>Dynamic Scale Interpolation</h4>
+          <p>Continuous geometric geodesic trajectories between dissimilar vector states.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-18" onclick="selectCap(18)">
+        <div class="feat-num">18</div>
+        <div class="feat-info">
+          <h4>Deterministic Zero-Jitter Routing</h4>
+          <p>Constant-time scheduling avoiding garbage collection micro-pauses.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-19" onclick="selectCap(19)">
+        <div class="feat-num">19</div>
+        <div class="feat-info">
+          <h4>Self-Balancing Invariant Equilibrium</h4>
+          <p>Closed-form thermodynamic equilibrium stabilizing vector drift continuously.</p>
+        </div>
+      </div>
+      <div class="feat-card" id="card-20" onclick="selectCap(20)">
+        <div class="feat-num">20</div>
+        <div class="feat-info">
+          <h4>Conserved Field Auditor</h4>
+          <p>Machine-level verification compliant with double-precision IEEE-754 standards.</p>
+        </div>
+      </div>
+    </div>
 
-    <!-- 30-Second Reproduction -->
     <h2 class="section-title">30-Second Terminal Reproduction</h2>
     <p style="color: var(--muted);">Clone the official appliance repository and run the cryptographic verification suites locally:</p>
     <div class="repro">git clone https://github.com/AmrTorky/torky-engine-appliance.git
@@ -219,47 +336,14 @@ python3 test_new_capabilities.py</div>
   </div>
 
   <script>
-    const capabilities = [
-      { id: 1, name: "Dynamic Dimension Rescaling", desc: "Project from 1536-D to 512-D instantly without retraining.", details: "Calculates closed-form projection tensor in 4.2 µs. Conserves vector energy and cosine angle integrity." },
-      { id: 2, name: "Hard Memory Fencing", desc: "Guaranteed RAM ceiling under 512 MiB with absolute Zero-OOM protection.", details: "Pre-allocated contiguous buffers enforced by OS virtual memory limits. Disallows dynamic runtime allocations." },
-      { id: 3, name: "Deterministic Microsecond SLA", desc: "Watchdog monitors real-time query latency with sub-microsecond precision.", details: "Enforces strict deadline gating. Aborts non-deterministic jitter paths at 25 µs boundary." },
-      { id: 4, name: "Continuous Microsecond PITR", desc: "Point-in-time manifold restoration without write-ahead logging overhead.", details: "Uses continuous closed-form parameterization to interpolate past index states without transaction log storage." },
-      { id: 5, name: "Hot Ingestion Buffer", desc: "Immediate zero-degradation concurrent vector ingestion and query routing.", details: "Lock-free ring buffer absorbs incoming dense embeddings with zero index locking or search interruption." },
-      { id: 6, name: "Instant Cold-Start", desc: "Appliance initializes and reaches ready status in less than 100 milliseconds.", details: "Zero graph deserialization needed. Algebraic formulas are compiled into bare-metal memory structures." },
-      { id: 7, name: "Multi-Tenant Namespacing", desc: "Cryptographically isolated vector workspaces under single-runtime instances.", details: "Per-tenant invariant keys preserve total mathematical isolation within the unified continuous manifold." },
-      { id: 8, name: "Cryptographic Proof Ledgers", desc: "Tamper-evident verification logs certifying every invariant state change.", details: "Every 5,000 iterations outputs SHA-256 sealed receipts into PEAK_ENTERPRISE_EVIDENCE.json." },
-      { id: 9, name: "Metadata-Vector Algebraic Fusion", desc: "Direct algebraic integration of payload filters into the projection tensor.", details: "Eliminates post-filter latency spikes by embedding boolean predicates directly into invariant coordinates." },
-      { id: 10, name: "Embedded Bare-Metal Binary", desc: "Self-contained execution profile for edge hardware and appliance clusters.", details: "Compiles to standalone runtime without external C++ or Python heavy runtime dependencies." },
-      { id: 11, name: "Concept Superposition & Negation", desc: "Linear algebraic composition and subtraction of semantic vectors.", details: "Performs exact subtraction: Vector(A) - Vector(B) while maintaining invariant unit norm (1.0000)." },
-      { id: 12, name: "Self-Certifying Invariant Proofs", desc: "Automatic real-time calculation and assertion of system field invariants.", details: "Continual verification yielding max field drift of 1.1102e-16, bounded strictly by IEEE 754 precision." },
-      { id: 13, name: "Continuous Dimension Extender", desc: "Expand latent representations to higher dimensions with zero variance loss.", details: "Deterministic continuous harmonic extension from 512-D up to 1024-D with conserved scalar projections." },
-      { id: 14, name: "Zero-Storage Waveform Synthesis", desc: "Generate high-dimensional manifolds deterministically from compact seeds.", details: "Eliminates stored vectors on disk by synthesizing dense coordinate arrays directly from 64-bit integer seeds." },
-      { id: 15, name: "Non-Euclidean Hyperbolic Mapping", desc: "Isomorphic Poincaré ball projection for deep hierarchical semantic trees.", details: "Projects Euclidean coordinates into hyperbolic space with bounded radius (0.5800 < 1.0) for hierarchy trees." },
-      { id: 16, name: "Coordinate Inversion", desc: "Reconstruct dense coordinate embeddings without iterative factorization.", details: "Inverts continuous manifold invariants back to raw latent vectors in closed-form without gradient descent." },
-      { id: 17, name: "Dynamic Scale Interpolation", desc: "Continuous geometric geodesic trajectories between dissimilar vector states.", details: "Computes smooth Riemannian geodesics between divergent concepts with deterministic midpoint accuracy (0.7071)." },
-      { id: 18, name: "Deterministic Zero-Jitter Routing", desc: "Constant-time scheduling avoiding garbage collection micro-pauses.", details: "Tail latency (P99) clamped to 23.8 µs, completely eliminating JVM/V8 style stop-the-world pauses." },
-      { id: 19, name: "Self-Balancing Invariant Equilibrium", desc: "Closed-form thermodynamic equilibrium stabilizing vector drift continuously.", details: "Self-correcting manifold dynamics prevent numerical drift accumulation over billions of continuous updates." },
-      { id: 20, name: "Conserved Field Auditor", desc: "Machine-level verification compliant with double-precision IEEE-754 standards.", details: "Automated test harness executing 50,000 deterministic iterations with verified 1.11e-16 convergence." }
-    ];
+    const capsData = [{"id": 1, "name": "Dynamic Dimension Rescaling", "desc": "Project 1536-D to 512-D instantly without retrained networks.", "details": "Closed-form projection tensor in 4.2 \u00b5s conserving vector cosine angle integrity."}, {"id": 2, "name": "Hard Memory Fencing", "desc": "Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.", "details": "Pre-allocated contiguous buffers enforced by OS virtual memory limits."}, {"id": 3, "name": "Deterministic Microsecond SLA", "desc": "Watchdog monitors real-time query latency with sub-microsecond precision.", "details": "Enforces strict deadline gating, aborting jitter paths at 25 \u00b5s boundary."}, {"id": 4, "name": "Continuous Microsecond PITR", "desc": "Point-in-time manifold restoration without transaction log storage.", "details": "Interpolates past index states without write-ahead logging overhead."}, {"id": 5, "name": "Hot Ingestion Buffer", "desc": "Immediate zero-degradation concurrent vector ingestion and query routing.", "details": "Lock-free ring buffer absorbs incoming dense embeddings with zero index locking."}, {"id": 6, "name": "Instant Cold-Start", "desc": "Appliance initializes and reaches ready status in < 100 milliseconds.", "details": "Zero graph deserialization needed; algebraic formulas compile into bare-metal memory structures."}, {"id": 7, "name": "Multi-Tenant Namespacing", "desc": "Cryptographically isolated vector workspaces under single-runtime instances.", "details": "Per-tenant invariant keys preserve total mathematical isolation within the unified manifold."}, {"id": 8, "name": "Cryptographic Proof Ledgers", "desc": "Tamper-evident verification logs certifying every invariant state change.", "details": "Every 5,000 iterations outputs SHA-256 sealed receipts into PEAK_ENTERPRISE_EVIDENCE.json."}, {"id": 9, "name": "Metadata-Vector Algebraic Fusion", "desc": "Direct algebraic integration of payload filters into the projection tensor.", "details": "Eliminates post-filter latency spikes by embedding boolean predicates into invariant coordinates."}, {"id": 10, "name": "Embedded Bare-Metal Binary", "desc": "Self-contained execution profile for edge hardware and appliance clusters.", "details": "Compiles to standalone runtime without heavy external runtime dependencies."}, {"id": 11, "name": "Concept Superposition & Negation", "desc": "Linear algebraic composition and subtraction of semantic vectors.", "details": "Exact vector subtraction while maintaining invariant unit norm (1.0000)."}, {"id": 12, "name": "Self-Certifying Invariant Proofs", "desc": "Automatic real-time calculation and assertion of system field invariants.", "details": "Continual verification yielding max field drift of 1.1102e-16 bounded strictly by IEEE 754 precision."}, {"id": 13, "name": "Continuous Dimension Extender", "desc": "Expand latent representations to higher dimensions with zero variance loss.", "details": "Deterministic harmonic extension from 512-D up to 1024-D with conserved scalar projections."}, {"id": 14, "name": "Zero-Storage Waveform Synthesis", "desc": "Generate high-dimensional manifolds deterministically from compact seeds.", "details": "Synthesizes dense coordinate arrays directly from 64-bit integer seeds, eliminating raw vector storage."}, {"id": 15, "name": "Non-Euclidean Hyperbolic Mapping", "desc": "Isomorphic Poincar\u00e9 ball projection for deep hierarchical semantic trees.", "details": "Projects Euclidean coordinates into hyperbolic space with bounded radius (0.5800 < 1.0)."}, {"id": 16, "name": "Coordinate Inversion", "desc": "Reconstruct dense coordinate embeddings without iterative factorization.", "details": "Inverts continuous manifold invariants back to raw latent vectors in closed-form."}, {"id": 17, "name": "Dynamic Scale Interpolation", "desc": "Continuous geometric geodesic trajectories between dissimilar vector states.", "details": "Computes smooth Riemannian geodesics with deterministic midpoint accuracy (0.7071)."}, {"id": 18, "name": "Deterministic Zero-Jitter Routing", "desc": "Constant-time scheduling avoiding garbage collection micro-pauses.", "details": "Clamped tail latency (P99) to 23.8 \u00b5s, completely eliminating stop-the-world pauses."}, {"id": 19, "name": "Self-Balancing Invariant Equilibrium", "desc": "Closed-form thermodynamic equilibrium stabilizing vector drift continuously.", "details": "Self-correcting manifold dynamics prevent numerical drift accumulation over billions of updates."}, {"id": 20, "name": "Conserved Field Auditor", "desc": "Machine-level verification compliant with double-precision IEEE-754 standards.", "details": "Automated harness executing 50,000 deterministic iterations with verified 1.11e-16 convergence."}];
 
-    // Render 20 Features
-    const grid = document.getElementById("featuresGrid");
-    grid.innerHTML = capabilities.map(c => `
-      <div class="feat-card" id="card-${c.id}" onclick="selectCapability(${c.id})">
-        <div class="feat-num">${c.id}</div>
-        <div class="feat-info">
-          <h4>${c.name}</h4>
-          <p>${c.desc}</p>
-        </div>
-      </div>
-    `).join("");
-
-    function selectCapability(id) {
+    function selectCap(id) {
       document.querySelectorAll(".feat-card").forEach(el => el.classList.remove("active"));
       const target = document.getElementById("card-" + id);
       if (target) target.classList.add("active");
 
-      const item = capabilities.find(c => c.id === id);
+      const item = capsData.find(c => c.id === id);
       const inspector = document.getElementById("inspectorBox");
       const title = document.getElementById("inspectorTitle");
       const content = document.getElementById("inspectorContent");
@@ -267,9 +351,9 @@ python3 test_new_capabilities.py</div>
       inspector.style.display = "block";
       title.innerText = "[" + item.id + "] " + item.name;
       content.innerHTML = `
-<strong>Architecture Specification:</strong> ${item.desc}<br><br>
-<strong>Verification Detail:</strong> ${item.details}<br><br>
-<strong>Local Terminal Execution:</strong> <code>python3 test_new_capabilities.py --test ${item.id}</code>
+        <strong>Architecture Specification:</strong> ${item.desc}<br><br>
+        <strong>Verification Detail:</strong> ${item.details}<br><br>
+        <strong>Local Terminal Execution:</strong> <code>python3 test_new_capabilities.py --test ${item.id}</code>
       `;
       inspector.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
@@ -300,9 +384,7 @@ python3 test_new_capabilities.py</div>
       const term = document.getElementById("termOutput");
       const btn = document.getElementById("runBtn");
       btn.innerText = "Calculating Invariants...";
-      term.innerText = "[*] Allocating 1536-D source dense vector...
-[*] Initiating closed-form continuous manifold projection...
-";
+      term.innerText = "[*] Allocating 1536-D source dense vector...\n[*] Initiating closed-form continuous manifold projection...\n";
 
       setTimeout(() => {
         const t0 = performance.now();
