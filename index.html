@@ -43,14 +43,14 @@
     .btn-run { background: var(--accent); color: #050b14; border: none; padding: 0.4rem 1rem; border-radius: 6px; font-weight: 700; cursor: pointer; }
 
     .grid-20 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-    .cap-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem; cursor: pointer; transition: 0.2s ease; }
+    .cap-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.25rem; cursor: pointer; transition: 0.2s ease; user-select: none; }
     .cap-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
     .cap-idx { font-size: 0.75rem; font-weight: 800; color: var(--accent); margin-bottom: 0.25rem; }
     .cap-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
     .cap-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
 
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 100; }
-    .modal.active { display: flex; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 9999; }
+    .modal.active { display: flex !important; }
     .modal-box { background: var(--card-bg); border: 1px solid var(--accent); border-radius: 12px; width: 90%; max-width: 600px; padding: 2rem; position: relative; }
     .modal-close { position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
 
@@ -91,106 +91,107 @@
 
     <div class="section-title">20 Enterprise & Mathematical Capabilities</div>
     <div class="grid-20">
-      <div class="cap-card" onclick="showModal(1, 'Dynamic Dimension Rescaling', 'Project 1536-D to 512-D instantly without retrained networks.', 'Matrix operator mapping preserving inner product norms via SIMD kernel.')">
+      <div class="cap-card" onclick="openModal(1, 'Dynamic Dimension Rescaling', 'Project 1536-D to 512-D instantly without retrained networks.', 'Matrix operator mapping preserving inner product norms via SIMD kernel.')">
         <div class="cap-idx">CAPABILITY 01</div>
         <div class="cap-title">Dynamic Dimension Rescaling</div>
         <div class="cap-desc">Project 1536-D to 512-D instantly without retrained networks.</div>
       </div>
-      <div class="cap-card" onclick="showModal(2, 'Hard Memory Fencing', 'Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.', 'POSIX zero-copy mmap backing stress_1M.torky with deterministic virtual memory residency.')">
+      <div class="cap-card" onclick="openModal(2, 'Hard Memory Fencing', 'Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.', 'POSIX zero-copy mmap backing stress_1M.torky with deterministic virtual memory residency.')">
         <div class="cap-idx">CAPABILITY 02</div>
         <div class="cap-title">Hard Memory Fencing</div>
         <div class="cap-desc">Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.</div>
       </div>
-      <div class="cap-card" onclick="showModal(3, 'Deterministic Microsecond SLA', 'Watchdog monitors real-time query latency with sub-microsecond precision.', 'Monotonic clock hooks emitting histograms to /metrics and assertion watchdogs.')">
+      <div class="cap-card" onclick="openModal(3, 'Deterministic Microsecond SLA', 'Watchdog monitors real-time query latency with sub-microsecond precision.', 'Monotonic clock hooks emitting histograms to /metrics and assertion watchdogs.')">
         <div class="cap-idx">CAPABILITY 03</div>
         <div class="cap-title">Deterministic Microsecond SLA</div>
         <div class="cap-desc">Watchdog monitors real-time query latency with sub-microsecond precision.</div>
       </div>
-      <div class="cap-card" onclick="showModal(4, 'Continuous Microsecond PITR', 'Point-in-time manifold restoration without transaction log storage.', 'O(1) pointer slicing; locks 500k records in 3.10 us without WAL overhead.')">
+      <div class="cap-card" onclick="openModal(4, 'Continuous Microsecond PITR', 'Point-in-time manifold restoration without transaction log storage.', 'O(1) pointer slicing; locks 500k records in 3.10 us without WAL overhead.')">
         <div class="cap-idx">CAPABILITY 04</div>
         <div class="cap-title">Continuous Microsecond PITR</div>
         <div class="cap-desc">Point-in-time manifold restoration without transaction log storage.</div>
       </div>
-      <div class="cap-card" onclick="showModal(5, 'Hot Ingestion Buffer', 'Immediate zero-degradation concurrent vector ingestion and query routing.', 'Ring-buffer mmap staging allowing lockless concurrent reads during updates.')">
+      <div class="cap-card" onclick="openModal(5, 'Hot Ingestion Buffer', 'Immediate zero-degradation concurrent vector ingestion and query routing.', 'Ring-buffer mmap staging allowing lockless concurrent reads during updates.')">
         <div class="cap-idx">CAPABILITY 05</div>
         <div class="cap-title">Hot Ingestion Buffer</div>
         <div class="cap-desc">Immediate zero-degradation concurrent vector ingestion and query routing.</div>
       </div>
-      <div class="cap-card" onclick="showModal(6, 'Instant Cold-Start', 'Appliance initializes and reaches ready status in < 100 milliseconds.', 'Lazy binary memory hydration completing engine boot in ~78-82 ms.')">
+      <div class="cap-card" onclick="openModal(6, 'Instant Cold-Start', 'Appliance initializes and reaches ready status in < 100 milliseconds.', 'Lazy binary memory hydration completing engine boot in ~78-82 ms.')">
         <div class="cap-idx">CAPABILITY 06</div>
         <div class="cap-title">Instant Cold-Start</div>
         <div class="cap-desc">Appliance initializes and reaches ready status in < 100 milliseconds.</div>
       </div>
-      <div class="cap-card" onclick="showModal(7, 'Multi-Tenant Namespacing', 'Cryptographically isolated vector workspaces under single-runtime instances.', 'Metadata mask bits (0x2a) partition tenants inside unified 9-byte binary records.')">
+      <div class="cap-card" onclick="openModal(7, 'Multi-Tenant Namespacing', 'Cryptographically isolated vector workspaces under single-runtime instances.', 'Metadata mask bits (0x2a) partition tenants inside unified 9-byte binary records.')">
         <div class="cap-idx">CAPABILITY 07</div>
         <div class="cap-title">Multi-Tenant Namespacing</div>
         <div class="cap-desc">Cryptographically isolated vector workspaces under single-runtime instances.</div>
       </div>
-      <div class="cap-card" onclick="showModal(8, 'Cryptographic Proof Ledgers', 'Tamper-evident verification logs certifying every invariant state change.', 'Continuous SHA-256 seal manifest (SHA256SUMS and RELEASE_SEAL.txt).')">
+      <div class="cap-card" onclick="openModal(8, 'Cryptographic Proof Ledgers', 'Tamper-evident verification logs certifying every invariant state change.', 'Continuous SHA-256 seal manifest (SHA256SUMS and RELEASE_SEAL.txt).')">
         <div class="cap-idx">CAPABILITY 08</div>
         <div class="cap-title">Cryptographic Proof Ledgers</div>
         <div class="cap-desc">Tamper-evident verification logs certifying every invariant state change.</div>
       </div>
-      <div class="cap-card" onclick="showModal(9, 'Metadata-Vector Algebraic Fusion', 'Direct algebraic integration of payload filters into the projection tensor.', 'Simultaneous bitwise mask inspection and cosine similarity scoring in a single pass.')">
+      <div class="cap-card" onclick="openModal(9, 'Metadata-Vector Algebraic Fusion', 'Direct algebraic integration of payload filters into the projection tensor.', 'Simultaneous bitwise mask inspection and cosine similarity scoring in a single pass.')">
         <div class="cap-idx">CAPABILITY 09</div>
         <div class="cap-title">Metadata-Vector Algebraic Fusion</div>
         <div class="cap-desc">Direct algebraic integration of payload filters into the projection tensor.</div>
       </div>
-      <div class="cap-card" onclick="showModal(10, 'Embedded Bare-Metal Binary', 'Self-contained execution profile for edge hardware and appliance clusters.', 'Native shared library (libtorky_core.so) compiled with zero third-party dependencies.')">
+      <div class="cap-card" onclick="openModal(10, 'Embedded Bare-Metal Binary', 'Self-contained execution profile for edge hardware and appliance clusters.', 'Native shared library (libtorky_core.so) compiled with zero third-party dependencies.')">
         <div class="cap-idx">CAPABILITY 10</div>
         <div class="cap-title">Embedded Bare-Metal Binary</div>
         <div class="cap-desc">Self-contained execution profile for edge hardware and appliance clusters.</div>
       </div>
-      <div class="cap-card" onclick="showModal(11, 'Concept Superposition & Negation', 'Linear algebraic composition and subtraction of semantic vectors.', 'Vector addition and Gram-Schmidt orthogonal subtraction on packed continuum vectors.')">
+      <div class="cap-card" onclick="openModal(11, 'Concept Superposition & Negation', 'Linear algebraic composition and subtraction of semantic vectors.', 'Vector addition and Gram-Schmidt orthogonal subtraction on packed continuum vectors.')">
         <div class="cap-idx">CAPABILITY 11</div>
         <div class="cap-title">Concept Superposition & Negation</div>
         <div class="cap-desc">Linear algebraic composition and subtraction of semantic vectors.</div>
       </div>
-      <div class="cap-card" onclick="showModal(12, 'Self-Certifying Invariant Proofs', 'Automatic real-time calculation and assertion of system field invariants.', 'Real-time verification asserting Hessian condition kappa = 17.916 <= 18.50.')">
+      <div class="cap-card" onclick="openModal(12, 'Self-Certifying Invariant Proofs', 'Automatic real-time calculation and assertion of system field invariants.', 'Real-time verification asserting Hessian condition kappa = 17.916 <= 18.50.')">
         <div class="cap-idx">CAPABILITY 12</div>
         <div class="cap-title">Self-Certifying Invariant Proofs</div>
         <div class="cap-desc">Automatic real-time calculation and assertion of system field invariants.</div>
       </div>
-      <div class="cap-card" onclick="showModal(13, 'Continuous Dimension Extender', 'Expand latent representations to higher dimensions with zero variance loss.', 'Analytical basis projection extending low-order coordinates to higher topologies.')">
+      <div class="cap-card" onclick="openModal(13, 'Continuous Dimension Extender', 'Expand latent representations to higher dimensions with zero variance loss.', 'Analytical basis projection extending low-order coordinates to higher topologies.')">
         <div class="cap-idx">CAPABILITY 13</div>
         <div class="cap-title">Continuous Dimension Extender</div>
         <div class="cap-desc">Expand latent representations to higher dimensions with zero variance loss.</div>
       </div>
-      <div class="cap-card" onclick="showModal(14, 'Zero-Storage Waveform Synthesis', 'Generate high-dimensional manifolds deterministically from compact seeds.', 'Algorithmic expansion deriving high-dimensional fields without disk persistence.')">
+      <div class="cap-card" onclick="openModal(14, 'Zero-Storage Waveform Synthesis', 'Generate high-dimensional manifolds deterministically from compact seeds.', 'Algorithmic expansion deriving high-dimensional fields without disk persistence.')">
         <div class="cap-idx">CAPABILITY 14</div>
         <div class="cap-title">Zero-Storage Waveform Synthesis</div>
         <div class="cap-desc">Generate high-dimensional manifolds deterministically from compact seeds.</div>
       </div>
-      <div class="cap-card" onclick="showModal(15, 'Non-Euclidean Hyperbolic Mapping', 'Isomorphic Poincare ball projection for deep hierarchical semantic trees.', 'Conformal Riemannian metric transforms for tree-structured taxonomic data.')">
+      <div class="cap-card" onclick="openModal(15, 'Non-Euclidean Hyperbolic Mapping', 'Isomorphic Poincare ball projection for deep hierarchical semantic trees.', 'Conformal Riemannian metric transforms for tree-structured taxonomic data.')">
         <div class="cap-idx">CAPABILITY 15</div>
         <div class="cap-title">Non-Euclidean Hyperbolic Mapping</div>
         <div class="cap-desc">Isomorphic Poincare ball projection for deep hierarchical semantic trees.</div>
       </div>
-      <div class="cap-card" onclick="showModal(16, 'Coordinate Inversion', 'Reconstruct dense coordinate embeddings without iterative factorization.', 'Cardano-Viete analytical root reconstruction in 90.6 us for 64-D vectors.')">
+      <div class="cap-card" onclick="openModal(16, 'Coordinate Inversion', 'Reconstruct dense coordinate embeddings without iterative factorization.', 'Cardano-Viete analytical root reconstruction in 90.6 us for 64-D vectors.')">
         <div class="cap-idx">CAPABILITY 16</div>
         <div class="cap-title">Coordinate Inversion</div>
         <div class="cap-desc">Reconstruct dense coordinate embeddings without iterative factorization.</div>
       </div>
-      <div class="cap-card" onclick="showModal(17, 'Dynamic Scale Interpolation', 'Continuous geometric geodesic trajectories between dissimilar vector states.', 'Curvature-preserving slerp interpolation maintaining manifold consistency.')">
+      <div class="cap-card" onclick="openModal(17, 'Dynamic Scale Interpolation', 'Continuous geometric geodesic trajectories between dissimilar vector states.', 'Curvature-preserving slerp interpolation maintaining manifold consistency.')">
         <div class="cap-idx">CAPABILITY 17</div>
         <div class="cap-title">Dynamic Scale Interpolation</div>
         <div class="cap-desc">Continuous geometric geodesic trajectories between dissimilar vector states.</div>
       </div>
-      <div class="cap-card" onclick="showModal(18, 'Deterministic Zero-Jitter Routing', 'Constant-time scheduling avoiding garbage collection micro-pauses.', 'C++ native thread execution bypassing runtime garbage collection loops.')">
+      <div class="cap-card" onclick="openModal(18, 'Deterministic Zero-Jitter Routing', 'Constant-time scheduling avoiding garbage collection micro-pauses.', 'C++ native thread execution bypassing runtime garbage collection loops.')">
         <div class="cap-idx">CAPABILITY 18</div>
         <div class="cap-title">Deterministic Zero-Jitter Routing</div>
         <div class="cap-desc">Constant-time scheduling avoiding garbage collection micro-pauses.</div>
       </div>
-      <div class="cap-card" onclick="showModal(19, 'Self-Balancing Invariant Equilibrium', 'Closed-form thermodynamic equilibrium stabilizing vector drift continuously.', 'Lyapunov-bounded equilibrium keeping kappa stable under high mutation volumes.')">
+      <div class="cap-card" onclick="openModal(19, 'Self-Balancing Invariant Equilibrium', 'Closed-form thermodynamic equilibrium stabilizing vector drift continuously.', 'Lyapunov-bounded equilibrium keeping kappa stable under high mutation volumes.')">
         <div class="cap-idx">CAPABILITY 19</div>
         <div class="cap-title">Self-Balancing Invariant Equilibrium</div>
         <div class="cap-desc">Closed-form thermodynamic equilibrium stabilizing vector drift continuously.</div>
       </div>
-      <div class="cap-card" onclick="showModal(20, 'Conserved Field Auditor', 'Machine-level verification compliant with double-precision IEEE-754 standards.', 'Double-precision floating point conservation audit on unmounted memory maps.')">
+      <div class="cap-card" onclick="openModal(20, 'Conserved Field Auditor', 'Machine-level verification compliant with double-precision IEEE-754 standards.', 'Double-precision floating point conservation audit on unmounted memory maps.')">
         <div class="cap-idx">CAPABILITY 20</div>
         <div class="cap-title">Conserved Field Auditor</div>
         <div class="cap-desc">Machine-level verification compliant with double-precision IEEE-754 standards.</div>
-      </div></div>
+      </div>
+    </div>
 
     <div class="section-title">Engine Specifications & Benchmarks</div>
     <table>
@@ -219,7 +220,7 @@
   </div>
 
   <script>
-    function showModal(idx, title, desc, tech) {
+    function openModal(idx, title, desc, tech) {
       document.getElementById("mIdx").innerText = "CAPABILITY " + String(idx).padStart(2, "0");
       document.getElementById("mTitle").innerText = title;
       document.getElementById("mDesc").innerText = desc;
@@ -231,20 +232,20 @@
     }
     function runSim() {
       const term = document.getElementById("term");
-      term.innerHTML = "<p class="cmd">$ /home/amr/torky_dist/reproduce_all.sh</p>";
+      term.innerHTML = '<p class="cmd">$ /home/amr/torky_dist/reproduce_all.sh</p>';
       const logs = [
         "[1/6] Auditing integrity seal and 10 core subsystems...",
-        "<span class="res-ok">/home/amr/at_ace_profile_c_v2.2_release.tar.gz: OK</span>",
+        '<span class="res-ok">/home/amr/at_ace_profile_c_v2.2_release.tar.gz: OK</span>',
         "[+] Hessian Bound : kappa = 17.655 (<= 18.5) [VERIFIED]",
         "[+] Microsecond PITR Latency = 3.81 us [VERIFIED]",
-        "<span class="res-ok">[SUCCESS] All 10 Core Engine Subsystems Audited in 50.89 ms</span>",
+        '<span class="res-ok">[SUCCESS] All 10 Core Engine Subsystems Audited in 50.89 ms</span>',
         "[2/6] Cold-starting Profile C appliance daemon (PID 165422)...",
         "[3/6] Polling /status: 1,000,000 governed records | Compression: 96.96% | HEALTHY",
         "[4/6] Reconstructing 64-D vector via Cardano-Viète: 90.6 us [O(1) Exact]",
         "[5/6] Locking PITR boundary at 500,000 records: 3.10 us [LOCKED]",
-        "[6/6] Executing hybrid similarity query across 1M records: <span class="res-ok">10.924 ms</span>",
+        '[6/6] Executing hybrid similarity query across 1M records: <span class="res-ok">10.924 ms</span>',
         "=== TELEMETRY METRICS PROPAGATED (torky_queries_total 1) ===",
-        "<span class="res-ok">[OK] Reproduction suite complete in under 30 seconds.</span>"
+        '<span class="res-ok">[OK] Reproduction suite complete in under 30 seconds.</span>'
       ];
       logs.forEach((log, i) => {
         setTimeout(() => {
