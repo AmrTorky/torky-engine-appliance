@@ -4,3 +4,6 @@ torky-engine-appliance/
 __pycache__/
 *.log
 torky-engine-appliance/
+__pycache__/
+*.log
+torky-engine-appliance/
