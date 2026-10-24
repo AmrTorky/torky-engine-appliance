@@ -7,7 +7,7 @@
 
 ## 30-Second Terminal Reproduction
 ```bash
-git clone [https://github.com/AmrTorky/torky-engine-appliance.git](https://github.com/AmrTorky/torky-engine-appliance.git) && cd torky-engine-appliance && python3 torky_math_audit.py && python3 full_system_audit.py && python3 test_new_capabilities.py
+git clone https://github.com/AmrTorky/torky-engine-appliance.git && cd torky-engine-appliance && python3 torky_math_audit.py && python3 full_system_audit.py && python3 test_new_capabilities.py
 ```
 
 ## Verified Benchmark Metrics
