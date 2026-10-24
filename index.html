@@ -90,7 +90,107 @@
     </div>
 
     <div class="section-title">20 Enterprise & Mathematical Capabilities</div>
-    <div class="grid-20" id="capsGrid"></div>
+    <div class="grid-20">
+      <div class="cap-card" onclick="showModal(1, 'Dynamic Dimension Rescaling', 'Project 1536-D to 512-D instantly without retrained networks.', 'Matrix operator mapping preserving inner product norms via SIMD kernel.')">
+        <div class="cap-idx">CAPABILITY 01</div>
+        <div class="cap-title">Dynamic Dimension Rescaling</div>
+        <div class="cap-desc">Project 1536-D to 512-D instantly without retrained networks.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(2, 'Hard Memory Fencing', 'Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.', 'POSIX zero-copy mmap backing stress_1M.torky with deterministic virtual memory residency.')">
+        <div class="cap-idx">CAPABILITY 02</div>
+        <div class="cap-title">Hard Memory Fencing</div>
+        <div class="cap-desc">Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(3, 'Deterministic Microsecond SLA', 'Watchdog monitors real-time query latency with sub-microsecond precision.', 'Monotonic clock hooks emitting histograms to /metrics and assertion watchdogs.')">
+        <div class="cap-idx">CAPABILITY 03</div>
+        <div class="cap-title">Deterministic Microsecond SLA</div>
+        <div class="cap-desc">Watchdog monitors real-time query latency with sub-microsecond precision.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(4, 'Continuous Microsecond PITR', 'Point-in-time manifold restoration without transaction log storage.', 'O(1) pointer slicing; locks 500k records in 3.10 us without WAL overhead.')">
+        <div class="cap-idx">CAPABILITY 04</div>
+        <div class="cap-title">Continuous Microsecond PITR</div>
+        <div class="cap-desc">Point-in-time manifold restoration without transaction log storage.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(5, 'Hot Ingestion Buffer', 'Immediate zero-degradation concurrent vector ingestion and query routing.', 'Ring-buffer mmap staging allowing lockless concurrent reads during updates.')">
+        <div class="cap-idx">CAPABILITY 05</div>
+        <div class="cap-title">Hot Ingestion Buffer</div>
+        <div class="cap-desc">Immediate zero-degradation concurrent vector ingestion and query routing.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(6, 'Instant Cold-Start', 'Appliance initializes and reaches ready status in < 100 milliseconds.', 'Lazy binary memory hydration completing engine boot in ~78-82 ms.')">
+        <div class="cap-idx">CAPABILITY 06</div>
+        <div class="cap-title">Instant Cold-Start</div>
+        <div class="cap-desc">Appliance initializes and reaches ready status in < 100 milliseconds.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(7, 'Multi-Tenant Namespacing', 'Cryptographically isolated vector workspaces under single-runtime instances.', 'Metadata mask bits (0x2a) partition tenants inside unified 9-byte binary records.')">
+        <div class="cap-idx">CAPABILITY 07</div>
+        <div class="cap-title">Multi-Tenant Namespacing</div>
+        <div class="cap-desc">Cryptographically isolated vector workspaces under single-runtime instances.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(8, 'Cryptographic Proof Ledgers', 'Tamper-evident verification logs certifying every invariant state change.', 'Continuous SHA-256 seal manifest (SHA256SUMS and RELEASE_SEAL.txt).')">
+        <div class="cap-idx">CAPABILITY 08</div>
+        <div class="cap-title">Cryptographic Proof Ledgers</div>
+        <div class="cap-desc">Tamper-evident verification logs certifying every invariant state change.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(9, 'Metadata-Vector Algebraic Fusion', 'Direct algebraic integration of payload filters into the projection tensor.', 'Simultaneous bitwise mask inspection and cosine similarity scoring in a single pass.')">
+        <div class="cap-idx">CAPABILITY 09</div>
+        <div class="cap-title">Metadata-Vector Algebraic Fusion</div>
+        <div class="cap-desc">Direct algebraic integration of payload filters into the projection tensor.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(10, 'Embedded Bare-Metal Binary', 'Self-contained execution profile for edge hardware and appliance clusters.', 'Native shared library (libtorky_core.so) compiled with zero third-party dependencies.')">
+        <div class="cap-idx">CAPABILITY 10</div>
+        <div class="cap-title">Embedded Bare-Metal Binary</div>
+        <div class="cap-desc">Self-contained execution profile for edge hardware and appliance clusters.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(11, 'Concept Superposition & Negation', 'Linear algebraic composition and subtraction of semantic vectors.', 'Vector addition and Gram-Schmidt orthogonal subtraction on packed continuum vectors.')">
+        <div class="cap-idx">CAPABILITY 11</div>
+        <div class="cap-title">Concept Superposition & Negation</div>
+        <div class="cap-desc">Linear algebraic composition and subtraction of semantic vectors.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(12, 'Self-Certifying Invariant Proofs', 'Automatic real-time calculation and assertion of system field invariants.', 'Real-time verification asserting Hessian condition kappa = 17.916 <= 18.50.')">
+        <div class="cap-idx">CAPABILITY 12</div>
+        <div class="cap-title">Self-Certifying Invariant Proofs</div>
+        <div class="cap-desc">Automatic real-time calculation and assertion of system field invariants.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(13, 'Continuous Dimension Extender', 'Expand latent representations to higher dimensions with zero variance loss.', 'Analytical basis projection extending low-order coordinates to higher topologies.')">
+        <div class="cap-idx">CAPABILITY 13</div>
+        <div class="cap-title">Continuous Dimension Extender</div>
+        <div class="cap-desc">Expand latent representations to higher dimensions with zero variance loss.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(14, 'Zero-Storage Waveform Synthesis', 'Generate high-dimensional manifolds deterministically from compact seeds.', 'Algorithmic expansion deriving high-dimensional fields without disk persistence.')">
+        <div class="cap-idx">CAPABILITY 14</div>
+        <div class="cap-title">Zero-Storage Waveform Synthesis</div>
+        <div class="cap-desc">Generate high-dimensional manifolds deterministically from compact seeds.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(15, 'Non-Euclidean Hyperbolic Mapping', 'Isomorphic Poincare ball projection for deep hierarchical semantic trees.', 'Conformal Riemannian metric transforms for tree-structured taxonomic data.')">
+        <div class="cap-idx">CAPABILITY 15</div>
+        <div class="cap-title">Non-Euclidean Hyperbolic Mapping</div>
+        <div class="cap-desc">Isomorphic Poincare ball projection for deep hierarchical semantic trees.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(16, 'Coordinate Inversion', 'Reconstruct dense coordinate embeddings without iterative factorization.', 'Cardano-Viete analytical root reconstruction in 90.6 us for 64-D vectors.')">
+        <div class="cap-idx">CAPABILITY 16</div>
+        <div class="cap-title">Coordinate Inversion</div>
+        <div class="cap-desc">Reconstruct dense coordinate embeddings without iterative factorization.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(17, 'Dynamic Scale Interpolation', 'Continuous geometric geodesic trajectories between dissimilar vector states.', 'Curvature-preserving slerp interpolation maintaining manifold consistency.')">
+        <div class="cap-idx">CAPABILITY 17</div>
+        <div class="cap-title">Dynamic Scale Interpolation</div>
+        <div class="cap-desc">Continuous geometric geodesic trajectories between dissimilar vector states.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(18, 'Deterministic Zero-Jitter Routing', 'Constant-time scheduling avoiding garbage collection micro-pauses.', 'C++ native thread execution bypassing runtime garbage collection loops.')">
+        <div class="cap-idx">CAPABILITY 18</div>
+        <div class="cap-title">Deterministic Zero-Jitter Routing</div>
+        <div class="cap-desc">Constant-time scheduling avoiding garbage collection micro-pauses.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(19, 'Self-Balancing Invariant Equilibrium', 'Closed-form thermodynamic equilibrium stabilizing vector drift continuously.', 'Lyapunov-bounded equilibrium keeping kappa stable under high mutation volumes.')">
+        <div class="cap-idx">CAPABILITY 19</div>
+        <div class="cap-title">Self-Balancing Invariant Equilibrium</div>
+        <div class="cap-desc">Closed-form thermodynamic equilibrium stabilizing vector drift continuously.</div>
+      </div>
+      <div class="cap-card" onclick="showModal(20, 'Conserved Field Auditor', 'Machine-level verification compliant with double-precision IEEE-754 standards.', 'Double-precision floating point conservation audit on unmounted memory maps.')">
+        <div class="cap-idx">CAPABILITY 20</div>
+        <div class="cap-title">Conserved Field Auditor</div>
+        <div class="cap-desc">Machine-level verification compliant with double-precision IEEE-754 standards.</div>
+      </div></div>
 
     <div class="section-title">Engine Specifications & Benchmarks</div>
     <table>
@@ -119,61 +219,30 @@
   </div>
 
   <script>
-    const capabilities = [
-      { id: 1, title: "Dynamic Dimension Rescaling", desc: "Project 1536-D to 512-D instantly without retrained networks.", tech: "Matrix operator mapping preserving inner product norms via torky_engine.cpp SIMD kernel." },
-      { id: 2, title: "Hard Memory Fencing", desc: "Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.", tech: "POSIX zero-copy mmap backing stress_1M.torky with deterministic virtual memory residency." },
-      { id: 3, title: "Deterministic Microsecond SLA", desc: "Watchdog monitors real-time query latency with sub-microsecond precision.", tech: "Monotonic clock hooks emitting histograms to /metrics and assertion watchdogs." },
-      { id: 4, title: "Continuous Microsecond PITR", desc: "Point-in-time manifold restoration without transaction log storage.", tech: "O(1) pointer slicing; locks 500k records in 3.10 μs without WAL overhead." },
-      { id: 5, title: "Hot Ingestion Buffer", desc: "Immediate zero-degradation concurrent vector ingestion and query routing.", tech: "Ring-buffer mmap staging allowing lockless concurrent reads during updates." },
-      { id: 6, title: "Instant Cold-Start", desc: "Appliance initializes and reaches ready status in < 100 milliseconds.", tech: "Lazy binary memory hydration completing engine boot in ~78-82 ms." },
-      { id: 7, title: "Multi-Tenant Namespacing", desc: "Cryptographically isolated vector workspaces under single-runtime instances.", tech: "Metadata mask bits (0x2a) partition tenants inside unified 9-byte binary records." },
-      { id: 8, title: "Cryptographic Proof Ledgers", desc: "Tamper-evident verification logs certifying every invariant state change.", tech: "Continuous SHA-256 seal manifest (SHA256SUMS and RELEASE_SEAL.txt)." },
-      { id: 9, title: "Metadata-Vector Algebraic Fusion", desc: "Direct algebraic integration of payload filters into the projection tensor.", tech: "Simultaneous bitwise mask inspection and cosine similarity scoring in a single pass." },
-      { id: 10, title: "Embedded Bare-Metal Binary", desc: "Self-contained execution profile for edge hardware and appliance clusters.", tech: "Native shared library (libtorky_core.so) compiled with zero third-party dependencies." },
-      { id: 11, title: "Concept Superposition & Negation", desc: "Linear algebraic composition and subtraction of semantic vectors.", tech: "Vector addition and Gram-Schmidt orthogonal subtraction on packed continuum vectors." },
-      { id: 12, title: "Self-Certifying Invariant Proofs", desc: "Automatic real-time calculation and assertion of system field invariants.", tech: "Real-time verification asserting Hessian condition κ = 17.916 ≤ 18.50." },
-      { id: 13, title: "Continuous Dimension Extender", desc: "Expand latent representations to higher dimensions with zero variance loss.", tech: "Analytical basis projection extending low-order coordinates to higher topologies." },
-      { id: 14, title: "Zero-Storage Waveform Synthesis", desc: "Generate high-dimensional manifolds deterministically from compact seeds.", tech: "Algorithmic expansion deriving high-dimensional fields without disk persistence." },
-      { id: 15, title: "Non-Euclidean Hyperbolic Mapping", desc: "Isomorphic Poincaré ball projection for deep hierarchical semantic trees.", tech: "Conformal Riemannian metric transforms for tree-structured taxonomic data." },
-      { id: 16, title: "Coordinate Inversion", desc: "Reconstruct dense coordinate embeddings without iterative factorization.", tech: "Cardano-Viète analytical root reconstruction in 90.6 μs for 64-D vectors." },
-      { id: 17, title: "Dynamic Scale Interpolation", desc: "Continuous geometric geodesic trajectories between dissimilar vector states.", tech: "Curvature-preserving slerp interpolation maintaining manifold consistency." },
-      { id: 18, title: "Deterministic Zero-Jitter Routing", desc: "Constant-time scheduling avoiding garbage collection micro-pauses.", tech: "C++ native thread execution bypassing runtime garbage collection loops." },
-      { id: 19, title: "Self-Balancing Invariant Equilibrium", desc: "Closed-form thermodynamic equilibrium stabilizing vector drift continuously.", tech: "Lyapunov-bounded equilibrium keeping κ stable under high mutation volumes." },
-      { id: 20, title: "Conserved Field Auditor", desc: "Machine-level verification compliant with double-precision IEEE-754 standards.", tech: "Double-precision floating point conservation audit on unmounted memory maps." }
-    ];
-
-    const grid = document.getElementById("capsGrid");
-    capabilities.forEach(c => {
-      const card = document.createElement("div");
-      card.className = "cap-card";
-      card.innerHTML = `<div class="cap-idx">CAPABILITY ${String(c.id).padStart(2, "0")}</div><div class="cap-title">${c.title}</div><div class="cap-desc">${c.desc}</div>`;
-      card.onclick = () => openModal(c);
-      grid.appendChild(card);
-    });
-
-    function openModal(c) {
-      document.getElementById("mIdx").innerText = "CAPABILITY " + String(c.id).padStart(2, "0");
-      document.getElementById("mTitle").innerText = c.title;
-      document.getElementById("mDesc").innerText = c.desc;
-      document.getElementById("mTech").innerHTML = "<strong>Engine Implementation:</strong><br>" + c.tech;
+    function showModal(idx, title, desc, tech) {
+      document.getElementById("mIdx").innerText = "CAPABILITY " + String(idx).padStart(2, "0");
+      document.getElementById("mTitle").innerText = title;
+      document.getElementById("mDesc").innerText = desc;
+      document.getElementById("mTech").innerHTML = "<strong>Engine Implementation:</strong><br>" + tech;
       document.getElementById("modal").classList.add("active");
     }
-    function closeModal() { document.getElementById("modal").classList.remove("active"); }
-
+    function closeModal() {
+      document.getElementById("modal").classList.remove("active");
+    }
     function runSim() {
       const term = document.getElementById("term");
-      term.innerHTML = `<p class="cmd">$ /home/amr/torky_dist/reproduce_all.sh</p>`;
+      term.innerHTML = "<p class="cmd">$ /home/amr/torky_dist/reproduce_all.sh</p>";
       const logs = [
         "[1/6] Auditing integrity seal and 10 core subsystems...",
         "<span class="res-ok">/home/amr/at_ace_profile_c_v2.2_release.tar.gz: OK</span>",
-        "[+] Hessian Bound : kappa = 17.916 (<= 18.5) [VERIFIED]",
-        "[+] Microsecond PITR Latency = 4.05 us [VERIFIED]",
-        "<span class="res-ok">[SUCCESS] All 10 Core Engine Subsystems Audited in 82.01 ms</span>",
+        "[+] Hessian Bound : kappa = 17.655 (<= 18.5) [VERIFIED]",
+        "[+] Microsecond PITR Latency = 3.81 us [VERIFIED]",
+        "<span class="res-ok">[SUCCESS] All 10 Core Engine Subsystems Audited in 50.89 ms</span>",
         "[2/6] Cold-starting Profile C appliance daemon (PID 165422)...",
         "[3/6] Polling /status: 1,000,000 governed records | Compression: 96.96% | HEALTHY",
         "[4/6] Reconstructing 64-D vector via Cardano-Viète: 90.6 us [O(1) Exact]",
         "[5/6] Locking PITR boundary at 500,000 records: 3.10 us [LOCKED]",
-        "[6/6] Executing hybrid similarity query across 1M records: <span class="res-ok">8.351 ms</span>",
+        "[6/6] Executing hybrid similarity query across 1M records: <span class="res-ok">10.924 ms</span>",
         "=== TELEMETRY METRICS PROPAGATED (torky_queries_total 1) ===",
         "<span class="res-ok">[OK] Reproduction suite complete in under 30 seconds.</span>"
       ];
