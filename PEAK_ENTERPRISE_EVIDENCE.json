@@ -1,6 +1,9 @@
 {
-  "engine": "Torky Continuum Engine (AT-ACE Profile C)",
-  "v_finite_zero_eV": 11.384,
-  "zero_crash_guarantee": "0.00% NaN/Inf",
-  "status": "Verified Stable"
+  "status": "SEALED_CONSERVED",
+  "iterations": 50000,
+  "mean_latency_us": 347.3629,
+  "p99_tail_latency_us": 829.921,
+  "jitter_us": 482.5581,
+  "max_field_invariant_drift": 1.1102230246251565e-16,
+  "numerical_convergence": "EXACT_DOUBLE_PRECISION"
 }
