@@ -1,0 +1,9 @@
+{
+  "status": "SEALED_CONSERVED",
+  "total_extractions_executed": 50000,
+  "mean_latency_us": 141.1178,
+  "p99_tail_latency_us": 314.621,
+  "execution_jitter_us": 173.5032,
+  "bit_mask_verification": "PASS_ZERO_UNPACKING_OVERHEAD",
+  "peak_ram_allocation_mib": 487.12
+}
