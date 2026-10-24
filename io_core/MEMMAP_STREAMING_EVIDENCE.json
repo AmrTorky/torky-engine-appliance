@@ -1,8 +1,0 @@
-{
-  "status": "SEALED_CONSERVED",
-  "physical_records_streamed": 5000000,
-  "cold_write_latency_ms": 73.97,
-  "out_of_core_read_latency_ms": 26.49,
-  "peak_ram_allocation_mib": 487.12,
-  "ram_ceiling_fence": "UNDER_500_MIB_STABLE"
-}

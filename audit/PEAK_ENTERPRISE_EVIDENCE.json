@@ -1,9 +1,0 @@
-{
-  "status": "SEALED_CONSERVED",
-  "total_hardware_iterations": 50000,
-  "mean_latency_us": 1.7101,
-  "p99_tail_latency_us": 3.3,
-  "execution_jitter_us": 1.5899,
-  "max_field_invariant_drift": 7.554,
-  "numerical_convergence": "EXACT_DOUBLE_PRECISION_IEEE_754"
-}
