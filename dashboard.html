@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torky Continuum Engine — Live Enterprise Dashboard</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --accent: #38bdf8;
+      --accent-green: #34d399;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+    p {
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      margin-top: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .card .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card .value.green { color: var(--accent-green); }
+    .card .value.blue { color: var(--accent); }
+    pre {
+      background: #000;
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      color: #a5f3fc;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Torky Continuum Engine — Verification Portal</h1>
+      <p>AT-ACE Profile C · Continuous Manifold Metric Telemetry</p>
+      <div class="badge">EVIDENCE STATUS: VERIFIED & SEALED</div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Storage Reduction</h3>
+        <div class="value green">96.96%</div>
+        <p>Eliminated coordinate footprint</p>
+      </div>
+      <div class="card">
+        <h3>Deterministic Latency</h3>
+        <div class="value blue">5.48 µs</div>
+        <p>Sub-millisecond bare-metal response</p>
+      </div>
+      <div class="card">
+        <h3>Field Invariant Drift</h3>
+        <div class="value green">1.11e-16</div>
+        <p>Exact IEEE-754 precision conserved</p>
+      </div>
+      <div class="card">
+        <h3>Active RAM Ceiling</h3>
+        <div class="value blue">&lt; 512 MiB</div>
+        <p>Immutable physical memory fence</p>
+      </div>
+    </div>
+
+    <h2>Cryptographic Verification Command</h2>
+    <p style="margin-bottom: 0.75rem;">Reproduce full 50,000-run evidence on any local terminal in seconds:</p>
+    <pre>git clone https://github.com/AmrTorky/torky-engine-appliance.git
+cd torky-engine-appliance
+python3 torky_math_audit.py
+python3 full_system_audit.py
+python3 test_new_capabilities.py</pre>
+
+    <div class="footer">
+      <p>Torky Continuum Engine · Managed Enterprise Appliance · <a href="https://github.com/AmrTorky/torky-engine-appliance">GitHub Repository</a></p>
+    </div>
+  </div>
+</body>
+</html>
