@@ -1,3 +1,4 @@
 *.log
 __pycache__/
 torky-engine-appliance/
+!PERMANENT_PROOF_AUDIT.log
