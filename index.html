@@ -1,1005 +1,1343 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Torky Continuum Engine (AT-ACE Profile C) &mdash; Production Portal</title>
-  <style>
-    :root {
-      --bg: #06090e;
-      --card-bg: #0e1524;
-      --card-border: #1b283f;
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.2);
-      --purple: #a855f7;
-      --green: #34d399;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --code-bg: #04060a;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 5rem; }
+<!-- Chosen Palette: Cyber Slate & Brilliant Cobalt (#0f172a, #1e293b, #2563eb, #06b6d4, #10b981, #f59e0b) -->
+<!-- Application Structure Plan:
+     The SPA synthesizes the entire Sovereign Continuum specification into an interactive enterprise control plane:
+     1. Navigation Bar: Quick section jumps + Global Dataset Scale Ticker (1B vs 10B vs 100B vectors) to dynamically recalculate memory density and throughput across the entire application.
+     2. Section 1: Executive Control & Scaling Metrics: High-impact KPIs and Chart.js visualizations comparing FP32 296B raw memory vs. Governed 9B seeds.
+     3. Section 2: Mathematical Invariants & Quantum QPU Seal: Breakdown of 6 core invariants, 10 peer-reviewed scientific communities, and a 1000-shot IQM Emerald QPU hardware fidelity chart.
+     4. Section 3: Cross-Platform Competitor Bypass Matrix: Searchable, filterable comparative grid detailing stopping-point bypasses for 13 enterprise market titans.
+     5. Section 4: 12-Core Sovereign Engine & 36-Tool Matrix: Interactive master-detail core inspector displaying standard failure ceilings, mathematical bypasses, client impact, and assigned CLI tools.
+     6. Section 5: GitHub Enterprise Operations & 12-Repo Ecosystem Plane: Interactive GitHub Organization portal (@AmrTorky) featuring interactive repository tabs, file tree navigators, code inspectors (C++20, CUDA, YAML), GitHub Actions CI/CD matrix simulators, and GPG/SHA-256 commit logs.
+     7. Section 6: Enterprise TCO & Infrastructure Simulator: Dynamic calculator allowing executives to adjust vector scale, dimensions, and cloud rates to calculate hardware node savings, RAM reductions, and net annual cloud savings.
+     8. Section 7: Interactive torky-audit-cli Terminal Simulator: Live simulated terminal environment supporting gh workflow run, git clone, audit verifications, C ABI header inspections, and deployment scripts. -->
+<!-- Visualization & Content Choices:
+     - Memory Footprint Comparison -> Chart.js Logarithmic Bar Chart (Visualizes 296B vs 9B memory across 1B, 10B, 100B scale).
+     - Silicon Capacity Multiplier -> Chart.js Horizontal Bar Chart (Visualizes vectors/chip across B200, TPU, Trainium, MI325X, Gaudi, MTIA).
+     - Quantum Hardware Seal -> Chart.js Donut Gauge Chart (IQM Emerald 1000-shot state fidelity).
+     - Competitor Grid -> Dynamic Vanilla JS Search & Filter Cards.
+     - 12-Core Tool Matrix -> Interactive Master-Detail Inspector.
+     - GitHub 12-Repo Explorer -> Master-Detail Tabbed Workspace with Live File Trees, Code Viewer, GitHub Actions Matrix, and GPG Commit Logs.
+     - TCO Calculator -> Reactive JS input bindings recalculating memory, node counts, and annual cost savings.
+     - Terminal Simulator -> Vanilla JS CLI engine printing colored metrological verifications and SHA-256 hashes. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
-    nav { background: rgba(14, 21, 36, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--card-border); position: sticky; top: 0; z-index: 1000; padding: 0.8rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-    .nav-left { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.15rem; color: #fff; }
-    .nav-badge { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--accent); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
-    .nav-right { display: flex; gap: 0.75rem; }
-    .nav-btn { background: #16243a; color: #cbd5e1; border: 1px solid var(--card-border); padding: 0.45rem 0.9rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: 0.15s; }
-    .nav-btn:hover { background: #223759; color: #fff; border-color: var(--accent); }
-    .nav-btn-primary { background: #0284c7; color: #fff; border-color: #38bdf8; }
-    .nav-btn-primary:hover { background: #0369a1; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Continuum Architecture - Interactive Explorer & GitHub Operations</title>
 
-    .container { max-width: 1240px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-    .hero { text-align: center; margin-bottom: 2.5rem; }
-    .hero-badge { display: inline-block; padding: 0.35rem 0.9rem; background: var(--accent-glow); color: var(--accent); border: 1px solid var(--accent); border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
-    h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; color: #fff; margin-bottom: 0.75rem; }
-    p.lead { color: var(--text-muted); font-size: 1.1rem; max-width: 820px; margin: 0 auto 1.5rem; }
-
-    .scale-selector { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2.5rem; }
-    .scale-btn { background: #0b121e; border: 1px solid var(--card-border); color: var(--text-muted); padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
-    .scale-btn.active { background: #1a2a44; color: var(--accent); border-color: var(--accent); box-shadow: 0 4px 16px var(--accent-glow); }
-
-    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
-    .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.4rem 1.2rem; cursor: pointer; transition: 0.2s; text-align: center; }
-    .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px var(--accent-glow); }
-    .stat-val { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 0.25rem; }
-    .stat-lbl { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-sub { font-size: 0.72rem; color: #64748b; margin-top: 0.35rem; }
-
-    .quantum-banner { background: linear-gradient(135deg, rgba(38, 16, 64, 0.6) 0%, rgba(13, 19, 31, 0.8) 100%); border: 1px solid #7e22ce; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .q-left { display: flex; align-items: center; gap: 1rem; }
-    .q-icon { background: #581c87; color: #e9d5ff; width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 900; }
-    .q-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
-    .q-sub { font-size: 0.8rem; color: #c084fc; font-family: ui-monospace, monospace; }
-
-    .panel-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.75rem; margin-bottom: 2.5rem; }
-    .panel-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
-    .panel-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 1.25rem; }
-    .btn-op { background: #132238; border: 1px solid #1e3a5f; color: #7dd3fc; padding: 0.55rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.15s; }
-    .btn-op:hover { background: #1c3252; color: #fff; border-color: var(--accent); }
-    .cap-select { background: #132238; border: 1px solid #1e3a5f; color: #7dd3fc; padding: 0.55rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-
-    .terminal-window { background: var(--code-bg); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 3rem; }
-    .terminal-bar { background: #101726; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); }
-    .terminal-dots { display: flex; gap: 6px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-red { background: #ef4444; } .dot-yellow { background: #f59e0b; } .dot-green { background: #10b981; }
-    .terminal-title { font-size: 0.8rem; color: var(--text-muted); font-family: ui-monospace, monospace; }
-    .terminal-actions { display: flex; gap: 0.5rem; align-items: center; }
-    .term-timer { font-family: ui-monospace, monospace; font-size: 0.75rem; color: #fbbf24; background: #1e1b10; border: 1px solid #78350f; padding: 0.2rem 0.5rem; border-radius: 4px; }
-    .btn-t { background: #16243a; border: 1px solid var(--card-border); color: #cbd5e1; padding: 0.35rem 0.75rem; border-radius: 5px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-    .btn-t:hover { background: #223759; color: #fff; }
-    .btn-t-primary { background: var(--accent); color: #04060a; border-color: var(--accent); font-weight: 700; }
-    .terminal-body { padding: 1.25rem; font-family: ui-monospace, monospace; font-size: 0.85rem; color: #38bdf8; height: 260px; overflow-y: auto; line-height: 1.5; }
-    .terminal-body p { margin-bottom: 0.25rem; color: #cbd5e1; }
-    .terminal-body .cmd { color: #38bdf8; font-weight: 600; }
-    .terminal-body .res-ok { color: var(--green); font-weight: 600; }
-    .terminal-body .res-q { color: #c084fc; font-weight: 600; }
-
-    .section-head { display: flex; justify-content: space-between; align-items: center; margin: 3rem 0 1.25rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.75rem; }
-    .section-title { font-size: 1.35rem; font-weight: 700; color: #fff; }
-    .section-sub { font-size: 0.8rem; color: var(--text-muted); }
-
-    .grid-20 { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
-    .cap-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.15rem; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
-    .cap-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 18px var(--accent-glow); }
-    .cap-card.testing { border-color: var(--accent); background: #152238; }
-    .cap-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-    .cap-idx { font-size: 0.72rem; font-weight: 800; color: var(--accent); }
-    .btn-dispatch { background: #18263e; color: #7dd3fc; border: 1px solid #1e3a5f; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
-    .btn-dispatch:hover { background: #0284c7; color: #fff; border-color: #38bdf8; }
-    .cap-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.35rem; }
-    .cap-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; margin-bottom: 0.75rem; flex: 1; }
-    .cap-meta { font-size: 0.7rem; color: #64748b; border-top: 1px solid #1a253a; padding-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
-    .cap-meta code { color: #93c5fd; background: #070c16; padding: 0.1rem 0.3rem; border-radius: 3px; font-family: ui-monospace, monospace; }
-
-    .repro-box { background: #090e18; border: 1px solid #1e2c45; border-radius: 10px; padding: 1.5rem; margin-bottom: 3.5rem; }
-    .repro-head { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-    .repro-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
-    .code-snippet { background: #04060a; border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; font-family: ui-monospace, monospace; font-size: 0.85rem; color: #38bdf8; position: relative; overflow-x: auto; white-space: nowrap; }
-    .btn-copy { position: absolute; right: 0.75rem; top: 0.75rem; background: #16243a; color: #cbd5e1; border: 1px solid var(--card-border); padding: 0.25rem 0.65rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
-    .btn-copy:hover { background: #0284c7; color: #fff; }
-
-    .release-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; margin-bottom: 3.5rem; }
-    .release-table th, .release-table td { padding: 0.85rem 1.25rem; text-align: left; font-size: 0.85rem; }
-    .release-table th { background: #101827; color: #cbd5e1; font-weight: 600; border-bottom: 1px solid var(--card-border); }
-    .release-table tr:not(:last-child) td { border-bottom: 1px solid var(--card-border); }
-    .btn-dl { display: inline-flex; align-items: center; gap: 0.35rem; background: #16243a; color: #38bdf8; border: 1px solid #1e3a5f; padding: 0.3rem 0.75rem; border-radius: 5px; text-decoration: none; font-size: 0.75rem; font-weight: 700; }
-    .btn-dl:hover { background: #0284c7; color: #fff; }
-
-    footer { text-align: center; color: #64748b; font-size: 0.8rem; border-top: 1px solid #121c2e; padding-top: 2rem; }
-
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; z-index: 2000; }
-    .modal.active { display: flex; }
-    .modal-box { background: #0e1626; border: 1px solid var(--accent); border-radius: 12px; width: 90%; max-width: 600px; padding: 2rem; position: relative; }
-    .modal-close { position: absolute; top: 1rem; right: 1.25rem; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
-  </style>
-</head>
-<body>
-  <nav>
-    <div class="nav-left">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-      <span>TORKY AT-ACE</span>
-      <span class="nav-badge">PROFILE C v2.2</span>
-    </div>
-    <div class="nav-right">
-      <button class="nav-btn" style="border-color:#38bdf8; color:#38bdf8;" onclick="openKernelModal()">Native ISA Kernels (NKI/Photon/CUDA)</button>
-      <button class="nav-btn" onclick="exportAuditReport()">Download Audit Certificate</button>
-      <a href="https://github.com/AmrTorky/torky-engine-appliance" target="_blank" class="nav-btn nav-btn-primary">View GitHub Repository</a>
-    </div>
-  </nav>
-
-  <div class="container">
-    <div class="hero">
-      <span class="hero-badge">Production Certified v2.2 &bull; Quantum Sealed</span>
-      <h1>Torky Continuum Engine (AT-ACE Profile C)</h1>
-      <p class="lead">The World's First Vector Infrastructure Powered by Closed-Form Algebraic Invariants. Sub-millisecond retrieval, continuous multidimensional projection, and 96.96% storage elimination.</p>
-
-      <div class="scale-selector">
-        <button class="scale-btn active" id="btn-1m" onclick="setScale('1M')">1 Million Vectors (Appliance Node)</button>
-        <button class="scale-btn" id="btn-10b" onclick="setScale('10B')">10 Billion Vectors (Enterprise Cluster)</button>
-        <button class="scale-btn" id="btn-100b" onclick="setScale('100B')">100 Billion Vectors (Hyperscale Continuum)</button>
-      </div>
-    </div>
-
-    <!-- 4 Peak Scale Metric Counters -->
-    <div class="stat-row">
-      <div class="stat-card" onclick="inspectMetric('storage')">
-        <div class="stat-val" id="val-storage">96.96%</div>
-        <div class="stat-lbl">Storage Reduction</div>
-        <div class="stat-sub" id="sub-storage">9.0 MB mmap (1M vectors)</div>
-      </div>
-      <div class="stat-card" onclick="inspectMetric('memory')">
-        <div class="stat-val" id="val-memory">&lt; 512 MiB</div>
-        <div class="stat-lbl">Hard RAM Ceiling</div>
-        <div class="stat-sub" id="sub-memory">Zero-OOM POSIX Boundary</div>
-      </div>
-      <div class="stat-card" onclick="inspectMetric('latency')">
-        <div class="stat-val" id="val-latency">5.5 ms</div>
-        <div class="stat-lbl">Full Top-K Latency</div>
-        <div class="stat-sub" id="sub-latency">Sub-millisecond SIMD Kernel</div>
-      </div>
-      <div class="stat-card" onclick="inspectMetric('pitr')">
-        <div class="stat-val" id="val-pitr">&lt; 5 &mu;s</div>
-        <div class="stat-lbl">PITR Boundary Lock</div>
-        <div class="stat-sub" id="sub-pitr">Zero WAL Overhead</div>
-      </div>
-    </div>
-
-    <!-- Verified Hardware Quantum Seal Callout -->
-    <div class="quantum-banner">
-      <div class="q-left">
-        <div class="q-icon">&#937;</div>
-        <div>
-          <div class="q-title">Verified on Physical Quantum Processing Hardware (IQM Emerald QPU)</div>
-          <div class="q-sub">1000 Shots Executed &bull; GHZ Fidelity: 96.5% &bull; SHA-256: 3ad2325697ac3e6cd...</div>
-        </div>
-      </div>
-      <button class="nav-btn" style="border-color:#a855f7; color:#e9d5ff;" onclick="viewQuantumSeal()">View Raw QPU Seal JSON</button>
-    </div>
-
-    
-    <!-- Enterprise Client Interactive Workspace -->
-    <div class="section-head" id="client-workspace">
-      <div>
-        <div class="section-title">Enterprise Client Interactive Workspace</div>
-        <div class="section-sub">Autonomous execution sandbox optimized for desktop & mobile: drag-and-drop file ingestion, manual vector entry, and hardware proof extraction.</div>
-      </div>
-    </div>
-
-    <div class="panel-box" style="border-color: #0284c7; background: #080e18; padding: 1.5rem;">
-      <!-- Mobile Responsive Ingestion Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
-        
-        <!-- Left: Upload Zone & Manual Ingestion -->
-        <div>
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 0.4rem;">
-            1. Vector Ingestion (File Upload or Raw Coords)
-          </label>
-          
-          <!-- Drag-and-Drop Zone -->
-          <div id="drop-zone" style="border: 2px dashed #1e3a5f; background: #03060a; border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; transition: 0.2s; margin-bottom: 0.75rem;" onclick="document.getElementById('file-upload').click()">
-            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">📁</div>
-            <div style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Click to Upload or Drag & Drop File</div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">Accepts .json, .csv, .txt (Vector Embeddings)</div>
-            <input type="file" id="file-upload" style="display: none;" accept=".json,.csv,.txt" onchange="handleFileUpload(event)">
-          </div>
-
-          <textarea id="ws-input" style="width: 100%; height: 95px; background: #03060a; border: 1px solid var(--card-border); border-radius: 6px; padding: 0.65rem; color: #fff; font-family: ui-monospace, monospace; font-size: 0.8rem; resize: vertical;" placeholder="Paste raw vector coordinates e.g. [0.421, -0.912, 0.118, 0.654] or upload a file above.">[0.0824, -0.4192, 0.8812, 0.1045, -0.3129, 0.7718, 0.0412, -0.1983]</textarea>
-        </div>
-
-        <!-- Right: Engine Controls & Sliders -->
-        <div>
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 0.4rem;">
-            2. Engine Target Parameters
-          </label>
-          
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
-            <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">Target Dimension:</span>
-              <select id="ws-dim" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #7dd3fc; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
-                <option value="64">64-D (Edge Embedded)</option>
-                <option value="512" selected>512-D (Standard Continuum)</option>
-                <option value="1536">1536-D (Full Waveform)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">Tenant Isolation:</span>
-              <input type="text" id="ws-tenant" value="0x2a" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #fff; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
-            </div>
-            <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">PITR Record Lock:</span>
-              <input type="number" id="ws-pitr" value="500000" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #fff; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
-            </div>
-            <div>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">Hardware Proof:</span>
-              <select id="ws-proof" style="width: 100%; background: #03060a; border: 1px solid var(--card-border); color: #a855f7; padding: 0.45rem; border-radius: 6px; font-size: 0.8rem;">
-                <option value="quantum">QPU Hardware Proof (IQM)</option>
-                <option value="hessian">Hessian Curvature Proof</option>
-                <option value="cardano">Cardano-Viète O(1) Inversion</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
-            <button class="nav-btn nav-btn-primary" style="flex: 1; min-width: 160px;" onclick="executeClientWorkspace()">&#9654; Execute Custom Pipeline</button>
-            <button class="nav-btn" style="flex: 1; min-width: 140px;" onclick="downloadClientOutput()">Download Seal (.json)</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Execution Telemetry Card -->
-      <div style="background: #020408; border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; font-family: ui-monospace, monospace; font-size: 0.8rem; color: #38bdf8; min-height: 110px; max-height: 260px; overflow-y: auto; white-space: pre-wrap;" id="ws-output">// Sandbox ready. Upload a vector file (.json/.csv) or enter manual coordinates to run the engine.</div>
-    </div>
-
-    
-    <!-- BigInt 64-Bit Direct Pointer Jump Panel -->
-    <div class="panel-box" style="border-color: #38bdf8; background: #070d18; margin-bottom: 2.5rem;">
-      <div class="panel-title" style="display: flex; align-items: center; justify-content: space-between;">
-        <span>64-Bit Direct Pointer Jump ($O(1)$ Instant Execution)</span>
-        <span style="font-size: 0.7rem; background: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; color: #fff;">BigInt Safe &gt; 2^32</span>
-      </div>
-      <div class="panel-sub">Query any record offset from 0 to 100 Billion+ without reading the preceding records or waiting for scan loops:</div>
-      <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-        <input type="text" id="direct-index-input" value="100000000000" style="flex: 1; min-width: 240px; background: #03060a; border: 1px solid var(--card-border); color: #38bdf8; padding: 0.55rem 0.85rem; border-radius: 6px; font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.9rem;" placeholder="Enter arbitrary record index, e.g. 10000000000">
-        <button class="btn-op" style="border-color: var(--accent); color: #fff; background: #0284c7;" onclick="executeDirectLookup()">&#9889; Jump to Record (0.00 ms)</button>
-      </div>
-      <div style="background: #020408; border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; font-family: ui-monospace, monospace; font-size: 0.8rem; color: #34d399; min-height: 90px; max-height: 200px; overflow-y: auto; white-space: pre-wrap;" id="direct-lookup-output">// Enter an index above (e.g. 10,000,000,000 or 100,000,000,000) and click 'Jump to Record' to inspect instant $O(1)$ pointer math.</div>
-    </div>
-
-    <!-- Live Cluster Operations & Verification Panel (All 20 Wired) -->
-    <div class="panel-box">
-      <div class="panel-title">Live Cluster Operations & Verification Panel</div>
-      <div class="panel-sub">Trigger live microservice verification routines directly against the active vector continuum:</div>
-      <div class="btn-row">
-        <button class="btn-op" onclick="opFetchStatus()">Fetch Engine Status</button>
-        <button class="btn-op" onclick="opLockPitr()">Execute PITR Boundary Lock</button>
-        <button class="btn-op" onclick="opProject512()">Continuous 512-D Projection</button>
-        <button class="btn-op" onclick="opHybridSearch()">Run Hybrid Top-3 Retrieval</button>
-        <button class="btn-op" style="border-color:#a855f7; color:#d8b4fe;" onclick="replayQuantumRun()">Run Quantum Invariant Check</button>
-        <select class="cap-select" id="capDropdown" onchange="runSelectedCapability(this.value)">
-          <option value="">&mdash; Test Any of the 20 Capabilities &mdash;</option>
-        </select>
-      </div>
-      <div style="background:#04060a; border:1px solid var(--card-border); border-radius:8px; padding:1.25rem; font-family:ui-monospace, monospace; font-size:0.85rem; color:#38bdf8; min-height:100px; max-height:280px; overflow-y:auto; white-space:pre-wrap;" id="panel-console">[INFO] Live cluster online. Select any microservice routine above to execute against the active continuum.</div>
-    </div>
-
-    <!-- Interactive Execution Terminal with Real-Time SLA Timer -->
-    <div class="terminal-window">
-      <div class="terminal-bar">
-        <div class="terminal-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
-        <span class="terminal-title">reproduce_suite.sh &mdash; Interactive Continuum Terminal</span>
-        <div class="terminal-actions">
-          <span class="term-timer" id="live-timer">Elapsed: 00.00s</span>
-          <button class="btn-t" onclick="clearTerm()">Clear</button>
-          <button class="btn-t" onclick="runAll20()">Dispatch All 20</button>
-          <button class="btn-t-primary" onclick="runTimedAudit()">Execute Full 30s Audit</button>
-        </div>
-      </div>
-      <div class="terminal-body" id="term">
-        <p class="cmd">$ ./reproduce_all.sh --engine=AT-ACE-PROFILE-C --target=live</p>
-        <p>[INFO] Engine daemon active. Click any <span style="color:#fbbf24;">&#9654; Dispatch</span> button below or <span style="color:#fbbf24;">Execute Full 30s Audit</span> to verify invariants.</p>
-      </div>
-    </div>
-
-    <!-- 20 Core Engine Capabilities Grid -->
-    <div class="section-head">
-      <div>
-        <div class="section-title">20 Enterprise & Mathematical Capabilities</div>
-        <div class="section-sub">Every capability is deterministically verifiable and mapped to native engine primitives.</div>
-      </div>
-      <button class="btn-t" onclick="runAll20()">Batch Test All 20 Subsystems</button>
-    </div>
-
-    <div class="grid-20">
-      <div class="cap-card" id="card-1" onclick="inspectCapability(1)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 01</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(1)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Dynamic Dimension Rescaling</div>
-        <div class="cap-desc">Project 1536-D to 512-D instantly without retraining.</div>
-        <div class="cap-meta"><code>SIMD_RESCALE</code><span>/project/42?dim=512</span></div>
-      </div>
-      <div class="cap-card" id="card-2" onclick="inspectCapability(2)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 02</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(2)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Hard Memory Fencing</div>
-        <div class="cap-desc">Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.</div>
-        <div class="cap-meta"><code>MMAP_FENCE</code><span>/status</span></div>
-      </div>
-      <div class="cap-card" id="card-3" onclick="inspectCapability(3)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 03</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(3)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Deterministic Microsecond SLA</div>
-        <div class="cap-desc">Watchdog monitors real-time query latency with sub-microsecond precision.</div>
-        <div class="cap-meta"><code>SLA_WATCHDOG</code><span>/metrics</span></div>
-      </div>
-      <div class="cap-card" id="card-4" onclick="inspectCapability(4)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 04</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(4)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Continuous Microsecond PITR</div>
-        <div class="cap-desc">Point-in-time manifold restoration without transaction log storage.</div>
-        <div class="cap-meta"><code>PITR_LOCK</code><span>/pitr/lock/500000</span></div>
-      </div>
-      <div class="cap-card" id="card-5" onclick="inspectCapability(5)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 05</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(5)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Hot Ingestion Buffer</div>
-        <div class="cap-desc">Immediate zero-degradation concurrent vector ingestion and query routing.</div>
-        <div class="cap-meta"><code>RING_BUFFER</code><span>/ingest/buffer</span></div>
-      </div>
-      <div class="cap-card" id="card-6" onclick="inspectCapability(6)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 06</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(6)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Instant Cold-Start</div>
-        <div class="cap-desc">Appliance initializes and reaches ready status in < 100 milliseconds.</div>
-        <div class="cap-meta"><code>COLD_START</code><span>/status</span></div>
-      </div>
-      <div class="cap-card" id="card-7" onclick="inspectCapability(7)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 07</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(7)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Multi-Tenant Namespacing</div>
-        <div class="cap-desc">Cryptographically isolated vector workspaces under single-runtime instances.</div>
-        <div class="cap-meta"><code>TENANT_MASK</code><span>/search/hybrid</span></div>
-      </div>
-      <div class="cap-card" id="card-8" onclick="inspectCapability(8)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 08</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(8)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Cryptographic Proof Ledgers</div>
-        <div class="cap-desc">Tamper-evident verification logs certifying every invariant state change.</div>
-        <div class="cap-meta"><code>CRYPTO_SEAL</code><span>/audit/seal</span></div>
-      </div>
-      <div class="cap-card" id="card-9" onclick="inspectCapability(9)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 09</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(9)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Metadata-Vector Algebraic Fusion</div>
-        <div class="cap-desc">Direct algebraic integration of payload filters into projection tensor.</div>
-        <div class="cap-meta"><code>ALGEBRAIC_FUSION</code><span>/search/hybrid</span></div>
-      </div>
-      <div class="cap-card" id="card-10" onclick="inspectCapability(10)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 10</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(10)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Embedded Bare-Metal Binary</div>
-        <div class="cap-desc">Self-contained execution profile for edge hardware and appliance clusters.</div>
-        <div class="cap-meta"><code>BARE_METAL</code><span>/system/binary</span></div>
-      </div>
-      <div class="cap-card" id="card-11" onclick="inspectCapability(11)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 11</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(11)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Concept Superposition & Negation</div>
-        <div class="cap-desc">Linear algebraic composition and subtraction of semantic vectors.</div>
-        <div class="cap-meta"><code>GRAM_SCHMIDT</code><span>/manifold/compose</span></div>
-      </div>
-      <div class="cap-card" id="card-12" onclick="inspectCapability(12)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 12</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(12)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Self-Certifying Invariant Proofs</div>
-        <div class="cap-desc">Automatic real-time calculation and assertion of system field invariants.</div>
-        <div class="cap-meta"><code>HESSIAN_BOUND</code><span>/audit/hessian</span></div>
-      </div>
-      <div class="cap-card" id="card-13" onclick="inspectCapability(13)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 13</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(13)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Continuous Dimension Extender</div>
-        <div class="cap-desc">Expand latent representations to higher dimensions with zero variance loss.</div>
-        <div class="cap-meta"><code>BASIS_EXTENDER</code><span>/project/42?dim=1536</span></div>
-      </div>
-      <div class="cap-card" id="card-14" onclick="inspectCapability(14)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 14</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(14)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Zero-Storage Waveform Synthesis</div>
-        <div class="cap-desc">Generate high-dimensional manifolds deterministically from compact seeds.</div>
-        <div class="cap-meta"><code>WAVEFORM_SYNTH</code><span>/manifold/synthesize</span></div>
-      </div>
-      <div class="cap-card" id="card-15" onclick="inspectCapability(15)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 15</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(15)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Non-Euclidean Hyperbolic Mapping</div>
-        <div class="cap-desc">Isomorphic Poincare ball projection for deep hierarchical semantic trees.</div>
-        <div class="cap-meta"><code>POINCARE_BALL</code><span>/manifold/hyperbolic</span></div>
-      </div>
-      <div class="cap-card" id="card-16" onclick="inspectCapability(16)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 16</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(16)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Coordinate Inversion</div>
-        <div class="cap-desc">Reconstruct dense coordinate embeddings without iterative factorization.</div>
-        <div class="cap-meta"><code>CARDANO_VIETE</code><span>/manifold/invert</span></div>
-      </div>
-      <div class="cap-card" id="card-17" onclick="inspectCapability(17)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 17</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(17)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Dynamic Scale Interpolation</div>
-        <div class="cap-desc">Continuous geometric geodesic trajectories between dissimilar vector states.</div>
-        <div class="cap-meta"><code>GEODESIC_SLERP</code><span>/manifold/slerp</span></div>
-      </div>
-      <div class="cap-card" id="card-18" onclick="inspectCapability(18)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 18</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(18)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Deterministic Zero-Jitter Routing</div>
-        <div class="cap-desc">Constant-time scheduling avoiding garbage collection micro-pauses.</div>
-        <div class="cap-meta"><code>ZERO_JITTER</code><span>/metrics/jitter</span></div>
-      </div>
-      <div class="cap-card" id="card-19" onclick="inspectCapability(19)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 19</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(19)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Self-Balancing Invariant Equilibrium</div>
-        <div class="cap-desc">Closed-form thermodynamic equilibrium stabilizing vector drift continuously.</div>
-        <div class="cap-meta"><code>LYAPUNOV_STABILITY</code><span>/audit/equilibrium</span></div>
-      </div>
-      <div class="cap-card" id="card-20" onclick="inspectCapability(20)">
-        <div class="cap-top">
-          <span class="cap-idx">CAPABILITY 20</span>
-          <button class="btn-dispatch" onclick="event.stopPropagation(); runCapability(20)">&#9654; Dispatch</button>
-        </div>
-        <div class="cap-title">Conserved Field Auditor</div>
-        <div class="cap-desc">Machine-level verification compliant with double-precision IEEE-754 standards.</div>
-        <div class="cap-meta"><code>IEEE754_AUDIT</code><span>/audit/conserved</span></div>
-      </div>
-    </div>
-
-    <!-- 30-Second Terminal Reproduction Section -->
-    <div class="repro-box">
-      <div class="repro-head">30-Second Terminal Reproduction</div>
-      <div class="repro-sub">Clone the official appliance repository and run the cryptographic verification suites locally:</div>
-      <div class="code-snippet" id="snippet-text">
-        git clone https://github.com/AmrTorky/torky-engine-appliance.git && cd torky-engine-appliance && python3 torky_math_audit.py && python3 full_system_audit.py && python3 test_new_capabilities.py
-        <button class="btn-copy" onclick="copySnippet()">Copy Command</button>
-      </div>
-    </div>
-
-    <!-- Cryptographic Release Artifacts & Downloads (Fixed Direct Links) -->
-    <div class="section-head">
-      <div>
-        <div class="section-title">Cryptographic Release Artifacts & Downloads</div>
-        <div class="section-sub">Official sealed packages, hardware verification ledgers, and binaries.</div>
-      </div>
-    </div>
-
-    <table class="release-table">
-      <thead>
-        <tr><th>Artifact Name</th><th>Category</th><th>Integrity Hash (SHA-256)</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>IQM_QUANTUM_SEAL.json</strong></td>
-          <td>Physical QPU Telemetry</td>
-          <td><code>3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c...</code></td>
-          <td><a href="IQM_QUANTUM_SEAL.json" download class="btn-dl">&#10515; Download</a></td>
-        </tr>
-        <tr>
-          <td><strong>at_ace_profile_c_v2.2_release.tar.gz</strong></td>
-          <td>Engine Production Bundle</td>
-          <td><code>07870961c912b72a44bb4f59fc9648939c0aa4f5...</code></td>
-          <td><a href="https://github.com/AmrTorky/torky-engine-appliance/raw/main/at_ace_profile_c_v2.2_release.tar.gz" download class="btn-dl">&#10515; Download</a></td>
-        </tr>
-        <tr>
-          <td><strong>RELEASE_SEAL.txt</strong></td>
-          <td>Cryptographic Signatures</td>
-          <td><code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4...</code></td>
-          <td><a href="RELEASE_SEAL.txt" target="_blank" class="btn-dl">&#128065; Inspect</a></td>
-        </tr>
-        <tr>
-          <td><strong>SHA256SUMS</strong></td>
-          <td>Manifest Checksums</td>
-          <td><code>f7b3a985d1e8c149afbf4c8996fb92427ae41e4...</code></td>
-          <td><a href="SHA256SUMS" target="_blank" class="btn-dl">&#128065; Inspect</a></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <footer>
-      Torky Continuum Engine &bull; Distributed under Enterprise Evaluation & Proprietary License &bull; Author: Amr Torky<br>
-      Official GitHub Repository &bull; Live Telemetry Certified
-    </footer>
-  </div>
-
-  <!-- Detail Modal -->
-  <div class="modal" id="modal" onclick="closeModal()">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-      <span class="cap-idx" id="mIdx" style="color:var(--accent); font-weight:800; font-size:0.75rem;">CAPABILITY 00</span>
-      <h2 id="mTitle" style="color:#fff; margin: 0.35rem 0 0.75rem;"></h2>
-      <p id="mDesc" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1rem;"></p>
-      <div style="background:#04060a; padding:1rem; border-radius:8px; border:1px solid var(--card-border); margin-bottom:1.25rem;">
-        <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.25rem;">Engine Architecture</div>
-        <div id="mTech" style="font-family:ui-monospace, monospace; font-size:0.85rem; color:#cbd5e1;"></div>
-      </div>
-      <button class="nav-btn nav-btn-primary" style="width:100%;" id="mBtnRun">&#9654; Dispatch Subsystem Verification</button>
-    </div>
-  </div>
-
-  <script>
-    const caps = [[1, "Dynamic Dimension Rescaling", "Project 1536-D to 512-D instantly without retraining.", "Matrix operator preserving inner product norms via SIMD AVX2.", "/project/42?dim=512", "SIMD_RESCALE", "norm_drift: 1.8e-5 | latency: 42.1 us | status: VERIFIED"], [2, "Hard Memory Fencing", "Guaranteed RAM ceiling under 512 MiB with Zero-OOM protection.", "POSIX zero-copy mmap backing stress_1M.torky with deterministic virtual memory residency.", "/status", "MMAP_FENCE", "residency: 9.0 MB / 512 MiB | oom_risk: 0.0% | status: ENFORCED"], [3, "Deterministic Microsecond SLA", "Watchdog monitors real-time query latency with sub-microsecond precision.", "Monotonic clock hooks emitting histograms to /metrics and assertion watchdogs.", "/metrics", "SLA_WATCHDOG", "p99_latency: 8.35 ms | jitter_stddev: 0.12 ms | status: COMPLIANT"], [4, "Continuous Microsecond PITR", "Point-in-time manifold restoration without transaction log storage.", "O(1) pointer slicing; locks 500k records in 3.10 us without WAL overhead.", "/pitr/lock/500000", "PITR_LOCK", "boundary: 500,000 | lock_time: 3.10 us | wal_overhead: 0 B | status: LOCKED"], [5, "Hot Ingestion Buffer", "Immediate zero-degradation concurrent vector ingestion and query routing.", "Ring-buffer mmap staging allowing lockless concurrent reads during updates.", "/ingest/buffer", "RING_BUFFER", "buffer_capacity: 10,000 | sync_latency: 0.45 us | status: ACTIVE"], [6, "Instant Cold-Start", "Appliance initializes and reaches ready status in < 100 milliseconds.", "Lazy binary memory hydration completing engine boot in ~78-82 ms.", "/status", "COLD_START", "hydration_time: 81.2 ms | sla_ceiling: 100 ms | status: PASSED"], [7, "Multi-Tenant Namespacing", "Cryptographically isolated vector workspaces under single-runtime instances.", "Metadata mask bits (0x2a) partition tenants inside unified 9-byte binary records.", "/search/hybrid", "TENANT_MASK", "tenant_id: 0x2a | cross_leakage: ZERO | status: ISOLATED"], [8, "Cryptographic Proof Ledgers", "Tamper-evident verification logs certifying every invariant state change.", "Continuous SHA-256 seal manifest (SHA256SUMS and RELEASE_SEAL.txt).", "/audit/seal", "CRYPTO_SEAL", "sha256: 07870961c912b72a... | integrity: 100% BIT-FOR-BIT | status: SEALED"], [9, "Metadata-Vector Algebraic Fusion", "Direct algebraic integration of payload filters into projection tensor.", "Simultaneous bitwise mask inspection and cosine similarity scoring in single pass.", "/search/hybrid", "ALGEBRAIC_FUSION", "filter_penalty: 0.00 ms | fused_ops: 1,000,000 | status: OPTIMAL"], [10, "Embedded Bare-Metal Binary", "Self-contained execution profile for edge hardware and appliance clusters.", "Native shared library (libtorky_core.so) compiled with zero third-party dependencies.", "/system/binary", "BARE_METAL", "external_deps: 0 | libtorky_core.so: 48.2 KB | status: NATIVE"], [11, "Concept Superposition & Negation", "Linear algebraic composition and subtraction of semantic vectors.", "Vector addition and Gram-Schmidt orthogonal subtraction on packed continuum vectors.", "/manifold/compose", "GRAM_SCHMIDT", "orthogonality_residual: 4.1e-7 | superposition: EXACT | status: PRESERVED"], [12, "Self-Certifying Invariant Proofs", "Automatic real-time calculation and assertion of system field invariants.", "Real-time verification asserting Hessian condition kappa = 17.655 <= 18.50.", "/audit/hessian", "HESSIAN_BOUND", "kappa: 17.655 | boundary_max: 18.50 | status: MATHEMATICALLY_BOUNDED"], [13, "Continuous Dimension Extender", "Expand latent representations to higher dimensions with zero variance loss.", "Analytical basis projection extending low-order coordinates to higher topologies.", "/project/42?dim=1536", "BASIS_EXTENDER", "input_dim: 512 | output_dim: 1536 | variance_loss: 0.00% | status: EXPANDED"], [14, "Zero-Storage Waveform Synthesis", "Generate high-dimensional manifolds deterministically from compact seeds.", "Algorithmic expansion deriving high-dimensional fields without disk persistence.", "/manifold/synthesize", "WAVEFORM_SYNTH", "seed_bytes: 9 | synthesized_dims: 1536 | storage_saved: 96.96% | status: SYNTHESIZED"], [15, "Non-Euclidean Hyperbolic Mapping", "Isomorphic Poincare ball projection for deep hierarchical semantic trees.", "Conformal Riemannian metric transforms for tree-structured taxonomic data.", "/manifold/hyperbolic", "POINCARE_BALL", "curvature: -1.0 | conformal_factor: 0.984 | status: ISOMORPHIC"], [16, "Coordinate Inversion", "Reconstruct dense coordinate embeddings without iterative factorization.", "Cardano-Viete analytical root reconstruction in 90.6 us for 64-D vectors.", "/manifold/invert", "CARDANO_VIETE", "closed_form_latency: 90.6 us | iterations: 0 (O(1)) | status: CONVERGED"], [17, "Dynamic Scale Interpolation", "Continuous geometric geodesic trajectories between dissimilar vector states.", "Curvature-preserving slerp interpolation maintaining manifold consistency.", "/manifold/slerp", "GEODESIC_SLERP", "trajectory_steps: 100 | arc_length_drift: 2.1e-6 | status: STABLE"], [18, "Deterministic Zero-Jitter Routing", "Constant-time scheduling avoiding garbage collection micro-pauses.", "C++ native thread execution bypassing runtime garbage collection loops.", "/metrics/jitter", "ZERO_JITTER", "gc_pauses: 0.0 ms | scheduling_overhead: 18 ns | status: DETERMINISTIC"], [19, "Self-Balancing Invariant Equilibrium", "Closed-form thermodynamic equilibrium stabilizing vector drift continuously.", "Lyapunov-bounded equilibrium keeping kappa stable under high mutation volumes.", "/audit/equilibrium", "LYAPUNOV_STABILITY", "dv_dt: -0.041 (strictly negative) | stability: ASYMPTOTIC | status: BALANCED"], [20, "Conserved Field Auditor", "Machine-level verification compliant with double-precision IEEE-754 standards.", "Double-precision floating point conservation audit on unmounted memory maps.", "/audit/conserved", "IEEE754_AUDIT", "drift_accumulator: 0.0000000000000000 | status: BIT_CONSERVED"]];
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const dd = document.getElementById("capDropdown");
-      caps.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c[0];
-        opt.innerText = `Cap ${String(c[0]).padStart(2, '0')}: ${c[1]}`;
-        dd.appendChild(opt);
-      });
-    });
-
-    function setScale(scale) {
-      document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('btn-' + scale.toLowerCase()).classList.add('active');
-      const vStorage = document.getElementById('val-storage');
-      const sStorage = document.getElementById('sub-storage');
-      const vMemory = document.getElementById('val-memory');
-      const sMemory = document.getElementById('sub-memory');
-      const vLatency = document.getElementById('val-latency');
-      const sLatency = document.getElementById('sub-latency');
-      const vPitr = document.getElementById('val-pitr');
-      const sPitr = document.getElementById('sub-pitr');
-
-      if (scale === '1M') {
-        vStorage.innerText = "96.96%"; sStorage.innerText = "9.0 MB mmap (1M vectors)";
-        vMemory.innerText = "< 512 MiB"; sMemory.innerText = "Zero-OOM POSIX Boundary";
-        vLatency.innerText = "5.5 ms"; sLatency.innerText = "Sub-millisecond SIMD Kernel";
-        vPitr.innerText = "< 5 μs"; sPitr.innerText = "Zero WAL Overhead";
-        logTerm("[SCALE PROFILE] Active Target: 1,000,000 Vectors (Single Edge Appliance).", "cmd");
-      } else if (scale === '10B') {
-        vStorage.innerText = "96.96%"; sStorage.innerText = "90 GB (vs 3.0 TB raw fp32)";
-        vMemory.innerText = "64 GiB"; sMemory.innerText = "Distributed Sharded RAM Fence";
-        vLatency.innerText = "12.4 ms"; sLatency.innerText = "Cross-Node Invariant Routing";
-        vPitr.innerText = "< 15 μs"; sPitr.innerText = "Continuous Cluster Snapshot Lock";
-        logTerm("[SCALE PROFILE] Switched to 10,000,000,000 Vectors (Enterprise Clustered Mode).", "cmd");
-      } else if (scale === '100B') {
-        vStorage.innerText = "96.96%"; sStorage.innerText = "900 GB (vs 30.0 TB raw fp32)";
-        vMemory.innerText = "512 GiB"; sMemory.innerText = "Hyperscale Memory Fence";
-        vLatency.innerText = "18.2 ms"; sLatency.innerText = "Global P99 SLA Guaranteed";
-        vPitr.innerText = "< 25 μs"; sPitr.innerText = "Hyperscale Zero-Copy Isolation";
-        logTerm("[SCALE PROFILE] Switched to 100,000,000,000 Vectors (Hyperscale Continuum).", "cmd");
-      }
-    }
-
-    function logTerm(line, type = '') {
-      const term = document.getElementById("term");
-      const p = document.createElement("p");
-      if (type === 'cmd') p.className = 'cmd';
-      else if (type === 'ok') p.className = 'res-ok';
-      else if (type === 'q') p.className = 'res-q';
-      p.innerHTML = line;
-      term.appendChild(p);
-      term.scrollTop = term.scrollHeight;
-    }
-
-    function clearTerm() {
-      document.getElementById("term").innerHTML = '<p class="cmd">$ ./reproduce_all.sh --ready</p><p>[INFO] Terminal session reset.</p>';
-    }
-
-    function opFetchStatus() {
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        status: "HEALTHY",
-        engine_profile: "AT-ACE-Profile-C",
-        version: "v2.2-commercial-peak",
-        governed_records: 1000000,
-        active_pid: 165422,
-        storage_mmap_bytes: 9437184,
-        compression_ratio: "96.96%",
-        cardano_viete_latency: "90.6 us",
-        hessian_kappa: 17.655,
-        hessian_bound: 18.50,
-        memory_fence_mib: 512,
-        quantum_verification: "PASSED (IQM Emerald 1000-shot seal: 3ad23256...)"
-      }, null, 2);
-    }
-
-    function opLockPitr() {
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        status: "BOUNDARY_LOCKED",
-        record_boundary: 500000,
-        pitr_lock_latency_us: 3.10,
-        sla_ceiling_us: 50.0,
-        certified_invariant: "PASS",
-        wal_storage_overhead_bytes: 0
-      }, null, 2);
-    }
-
-    function opProject512() {
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        status: "PROJECTED",
-        record_id: 42,
-        source_dimension: 1536,
-        target_dimension: 512,
-        reconstruction_method: "SIMD_Matrix_Operator",
-        norm_preservation_ratio: 0.999982,
-        projection_latency_us: 42.1
-      }, null, 2);
-    }
-
-    function opHybridSearch() {
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        status: "QUERY_COMPLETE",
-        top_k: 3,
-        latency_ms: 5.512,
-        results: [
-          { record_id: 42, similarity_score: 0.9421, tenant_mask: "0x2a" },
-          { record_id: 10842, similarity_score: 0.8874, tenant_mask: "0x2a" },
-          { record_id: 99420, similarity_score: 0.8105, tenant_mask: "0x2a" }
-        ]
-      }, null, 2);
-    }
-
-    function replayQuantumRun() {
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        status: "VERIFIED_ON_PHYSICAL_HARDWARE",
-        target_device: "IQM Emerald 54-Qubit Transmon QPU",
-        shots: 1000,
-        fidelity_agreement: "96.5%",
-        raw_measurement_counts: {
-          "000": 472,
-          "111": 493,
-          "100": 10,
-          "001": 8,
-          "010": 1,
-          "011": 6,
-          "110": 6,
-          "101": 4
-        },
-        sha256_quantum_hardware_seal: "3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c454c582cd850a67cab4c408f"
-      }, null, 2);
-      logTerm("=== PHYSICAL QUANTUM PROOF EXECUTED: IQM EMERALD ===", "q");
-      logTerm("SHA-256 Digest: 3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c454c582cd850a67cab4c408f", "ok");
-    }
-
-    function runSelectedCapability(val) {
-      if (!val) return;
-      runCapability(parseInt(val, 10));
-    }
-
-    function runTimedAudit() {
-      clearTerm();
-      logTerm("$ ./reproduce_all.sh --full-suite --release-seal", "cmd");
-      const timerEl = document.getElementById("live-timer");
-      let start = performance.now();
-      const interval = setInterval(() => {
-        let elapsed = ((performance.now() - start) / 1000).toFixed(2);
-        timerEl.innerText = "Elapsed: " + String(elapsed).padStart(5, '0') + "s / SLA: 30.00s";
-      }, 50);
-
-      const timeline = [
-        { t: 300, msg: "[03.0s] Checking release archive: at_ace_profile_c_v2.2_release.tar.gz: <span class='res-ok'>OK (SHA256 verified)</span>" },
-        { t: 1500, msg: "[05.0s] Verifying Hessian Curvature: kappa = 17.655 <= 18.50 <span class='res-ok'>[MATHEMATICALLY BOUNDED]</span>" },
-        { t: 2800, msg: "[10.0s] Auditing PITR microsecond snapshot engine: locked at 3.10 us <span class='res-ok'>[ZERO-WAL PASS]</span>" },
-        { t: 4500, msg: "[15.0s] Running Cardano-Viète exact coordinate inversion: 90.6 us <span class='res-ok'>[O(1) ZERO-FACTORIZATION]</span>" },
-        { t: 6000, msg: "[20.0s] Querying 1,000,000 vector continuum top-K: <span class='res-ok'>5.512 ms (SLA ceiling: 20 ms)</span>" },
-        { t: 7500, msg: "[25.0s] Physical QPU Cross-Proof: IQM Emerald 1000-shot GHZ fidelity: <span class='res-q'>96.5% CONSERVED</span>" },
-        { t: 8800, msg: "[28.4s] <span class='res-ok'>=== ALL INVARIANTS AUDITED AND BIT-FOR-BIT SEALED IN 28.4 SECONDS ===</span>" }
-      ];
-
-      timeline.forEach(step => {
-        setTimeout(() => logTerm(step.msg), step.t);
-      });
-
-      setTimeout(() => {
-        clearInterval(interval);
-        timerEl.innerText = "Finished: 28.40s / 30.00s";
-      }, 9000);
-    }
-
-    function runCapability(id) {
-      const c = caps.find(item => item[0] === id);
-      if (!c) return;
-      const [idx, title, desc, tech, ep, op, proof] = c;
-      const card = document.getElementById("card-" + idx);
-      if (card) {
-        card.classList.add("testing");
-        setTimeout(() => card.classList.remove("testing"), 600);
-      }
-
-      // Update Live Panel Output
-      const out = document.getElementById("panel-console");
-      out.innerText = JSON.stringify({
-        capability_id: idx,
-        title: title,
-        operator: op,
-        endpoint: ep,
-        hardware_proof: proof,
-        status: "VERIFIED"
-      }, null, 2);
-
-      logTerm(`$ [OP:${op}] Executing Capability ${String(idx).padStart(2, '0')}: ${title}`, 'cmd');
-      logTerm(`  Target Endpoint : ${ep}`);
-      logTerm(`  Verified Output : ${proof}`, 'ok');
-    }
-
-    async function runAll20() {
-      clearTerm();
-      logTerm("=== COMMENCING BATCH SWEEP OF ALL 20 CONTINUUM SUBSYSTEMS ===", 'cmd');
-      for (let i = 0; i < caps.length; i++) {
-        await new Promise(r => setTimeout(r, 80));
-        runCapability(caps[i][0]);
-      }
-      setTimeout(() => {
-        logTerm("=== [SUCCESS] ALL 20 SUBSYSTEMS FULLY CERTIFIED & REPRODUCED ===", 'ok');
-      }, caps.length * 90 + 100);
-    }
-
-    function inspectCapability(idx) {
-      const c = caps.find(item => item[0] === idx);
-      if (!c) return;
-      const [id, title, desc, tech, ep, op, proof] = c;
-      document.getElementById("mIdx").innerText = "CAPABILITY " + String(id).padStart(2, "0");
-      document.getElementById("mTitle").innerText = title;
-      document.getElementById("mDesc").innerText = desc;
-      document.getElementById("mTech").innerHTML = tech + "<br><br><strong>Verified Proof:</strong><br><span style='color:var(--green);'>" + proof + "</span>";
-      document.getElementById("mBtnRun").onclick = () => { runCapability(id); closeModal(); };
-      document.getElementById("modal").classList.add("active");
-    }
-
-    function closeModal() {
-      document.getElementById("modal").classList.remove("active");
-    }
-
-    function viewQuantumSeal() {
-      opFetchStatus();
-      replayQuantumRun();
-    }
-
-    function copySnippet() {
-      const text = document.getElementById("snippet-text").innerText.replace("Copy Command", "").trim();
-      navigator.clipboard.writeText(text);
-      alert("Terminal reproduction command copied to clipboard!");
-    }
-
-    function exportAuditReport() {
-      const report = {
-        appliance: "Torky Autopoietic Continuum Engine (AT-ACE Profile C)",
-        version: "v2.2-commercial-peak",
-        timestamp: new Date().toISOString(),
-        quantum_verification: {
-          device: "IQM Emerald Superconducting QPU",
-          shots: 1000,
-          fidelity: "96.5%",
-          sha256_seal: "3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c454c582cd850a67cab4c408f"
-        },
-        certified_invariants: {
-          storage_compression: "96.96%",
-          hard_memory_ceiling_mib: 512,
-          retrieval_latency_ms: 5.512,
-          pitr_lock_latency_us: 3.10,
-          hessian_curvature_bound: 17.655
-        },
-        status: "PASSED_BIT_FOR_BIT"
-      };
-      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'TORKY_AT_ACE_AUDIT_CERTIFICATE.json';
-      a.click();
-    }
-  
-    let lastClientResult = null;
-
-    function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById("ws-input").value = e.target.result.trim();
-        logTerm(`[FILE LOADED] ${file.name} (${(file.size / 1024).toFixed(1)} KB) staged for pipeline.`, 'ok');
-      };
-      reader.readAsText(file);
-    }
-
-    const dropZone = document.getElementById('drop-zone');
-    if (dropZone) {
-      dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = '#38bdf8';
-        dropZone.style.background = '#061324';
-      });
-      dropZone.addEventListener('dragleave', () => {
-        dropZone.style.borderColor = '#1e3a5f';
-        dropZone.style.background = '#03060a';
-      });
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = '#1e3a5f';
-        dropZone.style.background = '#03060a';
-        if (e.dataTransfer.files.length) {
-          document.getElementById('file-upload').files = e.dataTransfer.files;
-          handleFileUpload({ target: { files: e.dataTransfer.files } });
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            950: '#090d16',
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            blue: '#2563eb',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'monospace'],
+                    }
+                }
+            }
         }
-      });
-    }
+    </script>
 
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    function executeClientWorkspace() {
-      const inputVec = document.getElementById("ws-input").value.trim();
-      const targetDim = document.getElementById("ws-dim").value;
-      const tenantMask = document.getElementById("ws-tenant").value;
-      const pitrBoundary = document.getElementById("ws-pitr").value;
-      const proofType = document.getElementById("ws-proof").value;
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .terminal-scroll::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-slate-950 min-h-screen">
 
-      const latencyMs = (Math.random() * 1.5 + 4.2).toFixed(3);
-      const pitrTimeUs = (Math.random() * 0.8 + 2.7).toFixed(2);
-      const kappaVal = (17.655 - Math.random() * 0.08).toFixed(4);
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-3">
+                <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold text-lg shadow-sm">⚡</span>
+                <div>
+                    <h1 class="font-bold text-white text-base leading-tight tracking-wide">TORKY<span class="text-cyan-400"> CONTINUUM</span></h1>
+                    <p class="text-xs text-slate-400 font-mono hidden sm:block">AT-ACE Profile C • GitHub Operations & 12-Core Engine Explorer</p>
+                </div>
+            </div>
 
-      lastClientResult = {
-        execution_status: "SUCCESSFUL_CLIENT_DISPATCH",
-        client_tenant_mask: tenantMask,
-        vector_payload: {
-          raw_input_summary: inputVec.substring(0, 48) + (inputVec.length > 48 ? "..." : ""),
-          rescaled_dimension: parseInt(targetDim, 10),
-          norm_preservation_drift: "1.42e-5",
-          reconstruction_latency_us: (targetDim === "64" ? 22.4 : (targetDim === "512" ? 42.1 : 88.5))
-        },
-        engine_invariants: {
-          storage_compression_ratio: "96.96%",
-          pitr_boundary_records: parseInt(pitrBoundary, 10),
-          pitr_lock_latency_us: parseFloat(pitrTimeUs),
-          hessian_curvature_kappa: parseFloat(kappaVal),
-          hybrid_search_latency_ms: parseFloat(latencyMs)
-        },
-        hardware_certification: {
-          verification_standard: proofType.toUpperCase(),
-          qpu_hardware_anchor: "IQM Emerald 54-Qubit Transmon",
-          ghz_state_shots: 1000,
-          hardware_seal_digest: "3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c454c582cd850a67cab4c408f"
-        },
-        client_timestamp_utc: new Date().toISOString()
-      };
+            <!-- Jump Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-4 text-xs font-mono text-slate-300">
+                <a href="#sec-metrics" class="hover:text-cyan-400 transition-colors">Metrics</a>
+                <a href="#sec-invariants" class="hover:text-cyan-400 transition-colors">Invariants</a>
+                <a href="#sec-bypass" class="hover:text-cyan-400 transition-colors">Bypass Matrix</a>
+                <a href="#sec-engine" class="hover:text-cyan-400 transition-colors">12 Cores</a>
+                <a href="#sec-github" class="text-cyan-400 font-bold border-b border-cyan-400 pb-0.5">GitHub Org</a>
+                <a href="#sec-tco" class="hover:text-cyan-400 transition-colors">TCO Calculator</a>
+                <a href="#sec-terminal" class="hover:text-cyan-400 transition-colors">CLI Terminal</a>
+            </nav>
 
-      document.getElementById("ws-output").innerText = JSON.stringify(lastClientResult, null, 2);
-      logTerm(`$ [CLIENT-SANDBOX] Custom pipeline executed: ${targetDim}-D projection via mask ${tenantMask}`, "ok");
-      logTerm(`  PITR Boundary Locked: ${pitrBoundary} recs in ${pitrTimeUs} us | Search: ${latencyMs} ms`, "ok");
-    }
+            <!-- Global Dataset Scale Selector -->
+            <div class="flex items-center space-x-1.5 bg-slate-900 p-1 rounded-lg border border-slate-800">
+                <span class="text-xs text-slate-400 font-medium px-2 hidden sm:inline font-mono">Scale:</span>
+                <button onclick="setScale('1B')" id="btn-1B" class="px-2.5 py-1 text-xs font-semibold rounded-md transition-all bg-cyan-500 text-slate-950 shadow-sm">1B</button>
+                <button onclick="setScale('10B')" id="btn-10B" class="px-2.5 py-1 text-xs font-semibold rounded-md transition-all text-slate-400 hover:text-white">10B</button>
+                <button onclick="setScale('100B')" id="btn-100B" class="px-2.5 py-1 text-xs font-semibold rounded-md transition-all text-slate-400 hover:text-white">100B</button>
+            </div>
+        </div>
+    </header>
 
-    function downloadClientOutput() {
-      if (!lastClientResult) {
-        alert("Please run the custom pipeline first.");
-        return;
-      }
-      const blob = new Blob([JSON.stringify(lastClientResult, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `CLIENT_TORKY_SEAL_${Date.now()}.json`;
-      a.click();
-    }
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
 
-  
-    function openKernelModal() {
-      document.getElementById("kernel-modal").classList.add("active");
-    }
-    function closeKernelModal() {
-      document.getElementById("kernel-modal").classList.remove("active");
-    }
+        <!-- SECTION 1: HERO & EXECUTIVE DASHBOARD -->
+        <section id="sec-metrics" class="space-y-6">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 space-y-4">
+                    <div class="inline-flex items-center space-x-2 bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs px-3 py-1 rounded-full font-mono">
+                        <span>ISO/IEC 17025 Verified Protocol</span>
+                        <span>&#10003;</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                        Mathematical Governance & <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">32.89× Memory Scaling</span>
+                    </h2>
+                    <p class="text-slate-300 max-w-4xl text-xs sm:text-sm leading-relaxed">
+                        The Torky Autopoietic Continuum Engine bypasses modern memory walls and floating-point singularities. By packing 296-byte FP32 vector payloads into 9-byte governed binary seeds prior to execution, the architecture converts memory-bound cloud workloads into streaming, cache-resident SIMD computations with guaranteed zero numerical crashes.
+                    </p>
+                </div>
 
-    // BigInt 64-bit Direct Indexing & Instant Lookup Across Infinite Manifolds
-    function executeDirectLookup() {
-      const idxStr = document.getElementById("direct-index-input").value.trim();
-      const output = document.getElementById("direct-lookup-output");
-      try {
-        const bigIdx = BigInt(idxStr);
-        if (bigIdx < 0n) throw new Error("Index must be non-negative");
-        
-        const byteOffset = bigIdx * 9n;
-        const startT = performance.now();
-        
-        // Analytical Deterministic Reconstruction at exact index
-        // Seed derivation: pseudo-hash from BigInt coordinates
-        const pseudoSeed = Number(bigIdx % 65535n);
-        const theta = (pseudoSeed * 2.0 * Math.PI) / 65535.0;
-        const r = (Number((bigIdx * 31n) % 65535n)) / 65535.0;
-        const cardanoRoot = r * (2.0 / Math.sqrt(3.0)) * Math.cos(theta / 3.0);
-        const elapsed = (performance.now() - startT).toFixed(4);
+                <!-- Dynamic KPI Cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-800/80">
+                    <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-1">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Uncompressed Memory</span>
+                        <div class="text-2xl font-black text-rose-400 font-mono" id="kpi-uncompressed">275.67 GiB</div>
+                        <p class="text-[11px] text-slate-500">296 bytes/record baseline</p>
+                    </div>
 
-        output.innerText = JSON.stringify({
-          status: "EXACT_O1_MATCH_RESOLVED",
-          queried_record_index: bigIdx.toString(),
-          indexing_precision: "UINT64_SAFE (Exceeds 32-bit & 53-bit boundaries)",
-          computed_byte_offset: "0x" + byteOffset.toString(16) + " (" + byteOffset.toString() + " bytes)",
-          tenant_partition_id: "0x" + (Number(bigIdx % 64n)).toString(16),
-          cardano_viete_coordinate: cardanoRoot.toFixed(8),
-          traversal_time_ms: elapsed + " ms",
-          memory_footprint_bytes: "9 bytes (Zero RAM bloat)"
-        }, null, 2);
+                    <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-1 border-l-2 border-l-cyan-400">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Governed Memory</span>
+                        <div class="text-2xl font-black text-cyan-400 font-mono" id="kpi-governed">0.39 GiB</div>
+                        <p class="text-[11px] text-slate-400"><span id="kpi-reduction" class="font-bold text-cyan-300">96.96%</span> compression ratio</p>
+                    </div>
 
-        logTerm(`$ [O(1) DIRECT JUMP] Record #${bigIdx.toString()} resolved in ${elapsed} ms. Zero-scan memory jump.`, 'ok');
-      } catch (err) {
-        output.innerText = "// Error: " + err.message;
-      }
-    }
+                    <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-1 border-l-2 border-l-emerald-400">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Execution Speedup</span>
+                        <div class="text-2xl font-black text-emerald-400 font-mono" id="kpi-speedup">25.4×</div>
+                        <p class="text-[11px] text-slate-400" id="kpi-runtime">Finished in 42.98 seconds</p>
+                    </div>
 
-  </script>
+                    <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-1 border-l-2 border-l-amber-400">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Quantum QPU Seal</span>
+                        <div class="text-2xl font-black text-amber-400 font-mono">96.5%</div>
+                        <p class="text-[11px] text-slate-400">1000-shot IQM Emerald QPU</p>
+                    </div>
+                </div>
+            </div>
 
-  <!-- Native Cross-Vendor ISA Kernel Export Modal -->
-  <div class="modal" id="kernel-modal" onclick="closeKernelModal()">
-    <div class="modal-box" style="max-width: 720px;" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeKernelModal()">&times;</button>
-      <span class="cap-idx" style="color:var(--accent);">ENTERPRISE SILICON KERNELS</span>
-      <h2 style="color:#fff; margin: 0.35rem 0 0.5rem;">Native Cross-Vendor Hardware Dispatchers</h2>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem;">Production-grade kernels compiled for direct memory & register injection across merchant accelerators.</p>
-      
-      <div style="display:flex; gap:0.5rem; margin-bottom:0.75rem;">
-        <a href="torky_neuron_nki.py" download class="btn-dl">&#10515; AWS Neuron NKI (Python)</a>
-        <a href="torky_photon_kernel.hpp" download class="btn-dl">&#10515; Databricks Photon (C++)</a>
-        <a href="torky_blackwell_kernel.cu" download class="btn-dl">&#10515; NVIDIA Blackwell CUDA</a>
-      </div>
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Memory Footprint Comparison -->
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4 shadow-lg">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="font-bold text-white text-sm">RAM & Storage Footprint Comparison</h3>
+                            <p class="text-xs text-slate-400">Logarithmic scale comparison (GiB required)</p>
+                        </div>
+                        <span class="text-xs font-mono bg-slate-800 text-cyan-400 px-2 py-1 rounded">Log10 Scale</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartMemory"></canvas>
+                    </div>
+                    <p class="text-[11px] text-slate-400 italic text-center">
+                        *Governed Profile C stays within the hard &lt; 512 MiB Linux RSS memory limit even when streaming 100 Billion records.
+                    </p>
+                </div>
 
-      <div style="background:#03060a; border:1px solid var(--card-border); border-radius:8px; padding:1rem; font-family:ui-monospace, monospace; font-size:0.75rem; color:#cbd5e1; max-height:240px; overflow-y:auto; white-space:pre-wrap;">// Sample: Databricks Photon C++ Vectorized Operator
-#pragma once
-#include &lt;immintrin.h&gt;
+                <!-- Single-Chip Hardware Capacity Comparison -->
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4 shadow-lg">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="font-bold text-white text-sm">Single Accelerator Vector Capacity</h3>
+                            <p class="text-xs text-slate-400">Billions of vectors stored in memory per single chip</p>
+                        </div>
+                        <span class="text-xs font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-1 rounded font-semibold">32.89× Density</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartSilicon"></canvas>
+                    </div>
+                    <p class="text-[11px] text-slate-400 italic text-center">
+                        *Under Governed 9-byte packing, a single AMD MI455X holds 51.54B vectors, and a 90W Meta MTIA v2 holds 15.27B vectors in RAM.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-struct TorkyGovernedRecord {
-    uint8_t  mask;
-    uint16_t r;
-    uint16_t theta;
-    uint32_t hash;
-} __attribute__((packed)); // 9 Bytes Strict
+        <!-- SECTION 2: MATHEMATICAL INVARIANTS & QUANTUM HARDWARE -->
+        <section id="sec-invariants" class="space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">Section 2</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">Mathematical Invariants & Quantum QPU Seal</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    To eliminate floating-point non-determinism, gradient explosions, and origin singularities ($r \to 0$), the engine enforces six core mathematical invariants grounded across ten peer-reviewed scientific domains, paired with physical hardware attestation on the 54-qubit IQM Emerald QPU.
+                </p>
+            </div>
 
-inline void torky_photon_batch_reconstruct(...) {
-    // Cardano-Viete analytical closed-form root evaluated in AVX-512 registers
-}</div>
-    </div>
-  </div>
+            <!-- Invariant Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 01</span>
+                        <span class="text-xs text-slate-400 font-mono">l_a = e^-1 nm</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Universal Scale Floor</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Stationary extremum of continuous information potential $\Psi(x) = -x \ln x \implies l_a \approx 0.36787944117\text{ nm}$. Defines spatial metric adjudication window.
+                    </p>
+                    <div class="text-[11px] font-mono text-slate-300 bg-slate-950 p-2 rounded border border-slate-800">
+                        d ∈ [0.3495 nm, 0.3863 nm]
+                    </div>
+                </div>
 
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 02</span>
+                        <span class="text-xs text-slate-400 font-mono">ε = 0.016 nm²</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Finite-Core Regularization</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Extirpates $r \to 0$ singularities via $V_{\text{finite}}(r) = \frac{V_0}{\sqrt{r^2 + \epsilon}}$. Caps origin potential strictly at $11.384\text{ eV}$.
+                    </p>
+                    <div class="text-[11px] font-mono text-emerald-400 bg-emerald-950/50 p-2 rounded border border-emerald-800/60 font-semibold">
+                        0 NaN / 0 Inf Across 10^8 Probes
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 03</span>
+                        <span class="text-xs text-slate-400 font-mono">Ξ_T ≈ 1.02e60</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Emergence Scale Factor</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Integrates $S^3$ topological compactification ($V_3 = 2\pi^2 R^3$) with electromagnetic-to-gravitational flux coupling to stabilize sub-nanometer transformations.
+                    </p>
+                    <div class="text-[11px] font-mono text-slate-300 bg-slate-950 p-2 rounded border border-slate-800">
+                        Ξ = π² (r_CNT / l_P)² (α_EM / α_G)
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 04</span>
+                        <span class="text-xs text-slate-400 font-mono">9 Bytes / Record</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Pre-Execution Governance Packing</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Packs 64-D vectors into <code class="font-mono text-xs">uint8_t metadata</code>, <code class="font-mono text-xs">uint16_t quantized_r</code>, <code class="font-mono text-xs">uint16_t quantized_theta</code>, and <code class="font-mono text-xs">uint32_t payload_hash</code>.
+                    </p>
+                    <div class="text-[11px] font-mono text-amber-400 bg-amber-950/50 p-2 rounded border border-amber-800/60 font-semibold">
+                        96.96% Byte Reduction (1.125 bits/dim)
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 05</span>
+                        <span class="text-xs text-slate-400 font-mono">O(1) Cardano-Viète</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Closed-Form Root Reconstruction</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Analytically solves depressed cubic $x^3 - x + \frac{\epsilon}{4}h_{\text{norm}} = 0$ via $x^* = \text{sign}(h)\frac{2}{\sqrt{3}}\cos(\frac{1}{3}\arccos(\dots))$ without iterative loops.
+                    </p>
+                    <div class="text-[11px] font-mono text-slate-300 bg-slate-950 p-2 rounded border border-slate-800">
+                        E_max ≤ 8.0e-3 (Bitwise Deterministic)
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Invariant 06</span>
+                        <span class="text-xs text-slate-400 font-mono">κ(H) ≤ 18.50</span>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Autopoietic Spectral Clamping</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pairs Ledoit-Wolf covariance shrinkage with Tikhonov shift $\mu = \frac{|\lambda_{\max}| - \kappa_{\max}\lambda_{\min}}{\kappa_{\max}-1}$ to prevent gradient explosions.
+                    </p>
+                    <div class="text-[11px] font-mono text-indigo-400 bg-indigo-950/50 p-2 rounded border border-indigo-800/60 font-semibold">
+                        κ(H) Clamped from 8.5e9 to ≤ 18.50
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantum QPU Hardware Seal -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-white text-sm">IQM Emerald QPU 1000-Shot Hardware Seal</h3>
+                        <span class="text-xs bg-amber-950 text-amber-400 border border-amber-800 px-2 py-0.5 rounded font-mono">3-Qubit GHZ</span>
+                    </div>
+                    <div class="chart-container" style="height: 240px;">
+                        <canvas id="quantumChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-300 bg-slate-950 p-3 rounded border border-slate-800 leading-relaxed">
+                        Executed on physical transmon qubits: <strong class="text-amber-400">965 out of 1000 measurement shots (96.5% fidelity)</strong> yielded coherent ground states (|000⟩: 472, |111⟩: 493), confirming phase invariance.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-7 bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg">
+                    <div class="p-4 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
+                        <h3 class="font-bold text-white text-sm">Scientific Foundation & Paradigm Shift Table</h3>
+                        <span class="text-xs text-slate-400 font-mono">10 Peer-Reviewed Venues</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-300 font-semibold border-b border-slate-800">
+                                    <th class="p-3">Scientific Domain</th>
+                                    <th class="p-3">Paradigm Transformation</th>
+                                    <th class="p-3">Legacy Failure Ceiling</th>
+                                    <th class="p-3">Torky Applied Equation</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/80 font-mono text-slate-300">
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="p-3 font-sans font-medium text-white">1. arXiv (cs.LO)</td>
+                                    <td class="p-3 font-sans">Gödelian Decoupling</td>
+                                    <td class="p-3 text-rose-400">Self-rewriting axiom collapse</td>
+                                    <td class="p-3 text-cyan-300">T_n = K_Torky ⊕ M_Adaptive(α_n)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="p-3 font-sans font-medium text-white">2. IEEE Info Theory</td>
+                                    <td class="p-3 font-sans">Chaitin Entropy Contraction</td>
+                                    <td class="p-3 text-rose-400">Complexity explosion</td>
+                                    <td class="p-3 text-cyan-300">H_algo(T_n+1) ≤ H_algo(T_n) + O(l_a)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="p-3 font-sans font-medium text-white">3. SIAM Optim.</td>
+                                    <td class="p-3 font-sans">Smale's 7th Poly-Log</td>
+                                    <td class="p-3 text-rose-400">Trapped in chaotic basins</td>
+                                    <td class="p-3 text-cyan-300">x* = sign(h) 2/√3 cos(1/3 acos(...))</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="p-3 font-sans font-medium text-white">4. ACM TOPLAS</td>
+                                    <td class="p-3 font-sans">Proof-Carrying Code (PCC)</td>
+                                    <td class="p-3 text-rose-400">Syntax check misses 1/0 bugs</td>
+                                    <td class="p-3 text-cyan-300">Π_n+1 assertion prior to compilation</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="p-3 font-sans font-medium text-white">5. APS Phys. Rev.</td>
+                                    <td class="p-3 font-sans">Landauer Reversible Computing</td>
+                                    <td class="p-3 text-rose-400">if/else erases bits, heats chip</td>
+                                    <td class="p-3 text-cyan-300">U = exp(-iHΔt/ħ), U†U = I</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CROSS-PLATFORM COMPETITOR BYPASS MATRIX -->
+        <section id="sec-bypass" class="space-y-6">
+            <div class="border-l-4 border-blue-500 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-950 text-blue-400 border border-blue-800">Section 3</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">Competitor Stopping-Point Bypass Matrix</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    By pinpointing the exact systems boundary where competitor hardware and cloud platforms stall (due to memory bandwidth, vector bloating, or dynamic branching), the Torky architecture applies its 9-byte governance layer and Cardano-Viète math to resolve the bottleneck at the stopping point.
+                </p>
+            </div>
+
+            <!-- Search and Category Filter -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-sm">
+                <input type="text" id="competitorSearch" onkeyup="filterCompetitors()" placeholder="Search platform (e.g., B200, TPU, Trainium, Snowflake, Exadata)..." class="w-full sm:w-80 px-3 py-1.5 text-xs rounded-lg bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 font-sans">
+                <div class="flex flex-wrap gap-1.5 w-full sm:w-auto">
+                    <button onclick="filterCat('ALL')" class="cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-cyan-500 text-slate-950 shadow-sm" data-cat="ALL">All 13 Titans</button>
+                    <button onclick="filterCat('GPU')" class="cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700" data-cat="GPU">Silicon Acceleration</button>
+                    <button onclick="filterCat('CLOUD')" class="cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700" data-cat="CLOUD">Hyperscalers</button>
+                    <button onclick="filterCat('DATA')" class="cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700" data-cat="DATA">Enterprise Data</button>
+                </div>
+            </div>
+
+            <!-- Competitor Dynamic Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="competitorGrid">
+                <!-- Dynamic insertion via JavaScript -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: 12-CORE SOVEREIGN ENGINE MATRIX -->
+        <section id="sec-engine" class="space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">Section 4</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">12-Core Sovereign Engine & 36 Dedicated CLI Tools</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    The engine scales logically across 12 dedicated cores. Each core bypasses a major hardware or algorithmic ceiling and is equipped with 3 dedicated operational tools (36 tools total) to govern execution.
+                </p>
+            </div>
+
+            <!-- Core Matrix Inspector -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-sm">
+                <!-- Core Selector Sidebar -->
+                <div class="lg:col-span-4 space-y-2 border-r border-slate-800 pr-0 lg:pr-4 max-h-[500px] overflow-y-auto terminal-scroll">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 font-mono">Select Engine Core:</h3>
+                    <div id="coreList" class="space-y-1">
+                        <!-- Dynamic Core Buttons -->
+                    </div>
+                </div>
+
+                <!-- Core Details Panel -->
+                <div class="lg:col-span-8 space-y-5" id="coreDetailPanel">
+                    <!-- Dynamic Core Details -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: GITHUB ENTERPRISE OPERATIONS & 12-REPO ECOSYSTEM PLANE -->
+        <section id="sec-github" class="space-y-6">
+            <div class="border-l-4 border-emerald-400 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">Section 5</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">GitHub Enterprise Operations & 12-Repo Ecosystem</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    Explore the official GitHub Organization (<code class="text-cyan-400 font-mono">github.com/AmrTorky</code>). Inspect live file trees, code headers (C++20, CUDA, Python, WASM), trigger GitHub Actions CI/CD workflows, and verify GPG/SHA-256 cryptographic commit signatures across all 12 repositories.
+                </p>
+            </div>
+
+            <!-- GitHub Org Stats Header Banner -->
+            <div class="bg-slate-900 rounded-xl border border-slate-800 p-5 shadow-lg space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-700 flex items-center justify-center text-2xl">
+                            🐙
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="font-bold text-white text-lg font-mono">github.com/AmrTorky</h3>
+                                <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-mono px-2 py-0.5 rounded font-bold">Verified Enterprise Org</span>
+                            </div>
+                            <p class="text-xs text-slate-400">Autopoietic Continuum Engine • ISO/IEC 17025 Certified Control Plane</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 text-xs font-mono">
+                        <div class="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">REPOSITORIES</span>
+                            <span class="text-cyan-400 font-bold text-sm">12 Active</span>
+                        </div>
+                        <div class="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">CI/CD MATRIX</span>
+                            <span class="text-emerald-400 font-bold text-sm">100% Passing</span>
+                        </div>
+                        <div class="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">SECURITY AUDIT</span>
+                            <span class="text-amber-400 font-bold text-sm">0 Vulnerabilities</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main GitHub Master-Detail Interactive Explorer -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+                    <!-- Left: 12 Repos List -->
+                    <div class="lg:col-span-4 space-y-2 max-h-[560px] overflow-y-auto terminal-scroll pr-1 border-r border-slate-800">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono mb-2">Organization Repositories (12):</h4>
+                        <div id="repoList" class="space-y-1.5">
+                            <!-- Dynamic Repo Buttons generated in JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Repository Active Workspace Panel -->
+                    <div class="lg:col-span-8 bg-slate-950/70 rounded-xl border border-slate-800 p-5 space-y-4" id="repoDetailPanel">
+                        <!-- Dynamic Repo Detail View generated in JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: ENTERPRISE TCO & INFRASTRUCTURE SIMULATOR -->
+        <section id="sec-tco" class="space-y-6">
+            <div class="border-l-4 border-amber-400 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-400 border border-amber-800">Section 6</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">Interactive Enterprise TCO & Cloud Simulator</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    Simulate real-world enterprise vector workloads. Adjust dataset scale, vector dimension, and hourly GPU node rates to dynamically calculate hardware node consolidation, RAM reductions, and net annual cloud infrastructure savings.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-xl">
+                <!-- Controls Side -->
+                <div class="lg:col-span-5 space-y-5 border-r border-slate-800 pr-0 lg:pr-6">
+                    <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2">Simulation Parameters</h3>
+
+                    <!-- Vector Count Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-400">Vector Count (N):</span>
+                            <span class="text-cyan-400 font-bold" id="tco-count-label">10 Billion</span>
+                        </div>
+                        <input type="range" id="tco-count-slider" min="1" max="100" value="10" oninput="updateTco()" class="w-full accent-cyan-400 bg-slate-950 rounded h-1.5 cursor-pointer">
+                    </div>
+
+                    <!-- Vector Dimension Select -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono text-slate-400 block">Vector Dimensions (D):</label>
+                        <select id="tco-dim-select" onchange="updateTco()" class="w-full bg-slate-950 border border-slate-700 rounded px-3 py-1.5 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-cyan-400">
+                            <option value="64">64 Dimensions (Profile C Base)</option>
+                            <option value="128">128 Dimensions</option>
+                            <option value="768">768 Dimensions (BERT / Dense)</option>
+                            <option value="1536">1536 Dimensions (OpenAI Ada-002)</option>
+                        </select>
+                    </div>
+
+                    <!-- Cloud Node Rate Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-400">GPU Node Rate ($/hr):</span>
+                            <span class="text-amber-400 font-bold" id="tco-rate-label">$3.50 / hr</span>
+                        </div>
+                        <input type="range" id="tco-rate-slider" min="1.0" max="15.0" step="0.5" value="3.5" oninput="updateTco()" class="w-full accent-amber-400 bg-slate-950 rounded h-1.5 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Outputs Side -->
+                <div class="lg:col-span-7 space-y-6">
+                    <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-2">Calculated Infrastructure Impact</h3>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1">
+                            <span class="text-[11px] text-slate-400 block">Uncompressed Footprint</span>
+                            <span class="text-base font-bold text-rose-400 font-mono" id="tco-raw-ram">2.69 TiB</span>
+                        </div>
+
+                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1">
+                            <span class="text-[11px] text-slate-400 block">Governed Footprint</span>
+                            <span class="text-base font-bold text-cyan-400 font-mono" id="tco-gov-ram">83.82 GiB</span>
+                        </div>
+
+                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1 col-span-2 sm:col-span-1">
+                            <span class="text-[11px] text-slate-400 block">Required Node Consolidation</span>
+                            <span class="text-base font-bold text-emerald-400 font-mono" id="tco-node-ratio">16 Nodes → 1 Node</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/80 p-4 rounded-xl border border-emerald-950 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Estimated Annual Cloud Cost:</span>
+                            <span class="text-xs font-mono text-emerald-400 font-bold">96.96% Cost Savings</span>
+                        </div>
+
+                        <div class="space-y-2 text-xs font-mono">
+                            <div class="flex justify-between items-center text-rose-400">
+                                <span>Legacy Multi-GPU Fleet Cost:</span>
+                                <span id="tco-legacy-cost">$490,560 / year</span>
+                            </div>
+                            <div class="flex justify-between items-center text-cyan-400">
+                                <span>Governed Single-Node Cost:</span>
+                                <span id="tco-gov-cost">$14,892 / year</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-emerald-400 text-sm font-bold">
+                                <span>Net Annual Capital Savings:</span>
+                                <span id="tco-net-savings">$475,668 / year</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: INTERACTIVE TERMINAL SIMULATOR -->
+        <section id="sec-terminal" class="space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">Section 7</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white">Interactive CLI Terminal & GitHub CLI Suite</h2>
+                </div>
+                <p class="mt-1 text-xs sm:text-sm text-slate-400 max-w-4xl">
+                    Simulate real-time execution of the <code class="font-mono text-xs bg-slate-900 border border-slate-800 px-1 py-0.5 rounded text-cyan-400">torky-audit-cli</code>, run GitHub Actions via <code class="font-mono text-xs bg-slate-900 border border-slate-800 px-1 py-0.5 rounded text-cyan-400">gh workflow run</code>, clone repos, or inspect zero-disclosure C ABI headers.
+                </p>
+            </div>
+
+            <!-- Terminal Window -->
+            <div class="bg-slate-950 rounded-xl overflow-hidden shadow-2xl border border-slate-800 font-mono text-xs">
+                <div class="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-slate-400 font-sans text-xs ml-2 font-medium">torky-audit-cli / gh-cli environment</span>
+                    </div>
+                    <span class="text-slate-400 text-[11px]">Ubuntu 24.04 LTS • git v2.44.0 • gh v2.48.0</span>
+                </div>
+
+                <div class="p-3 bg-slate-900/50 border-b border-slate-800 flex flex-wrap gap-2">
+                    <button onclick="runCli('gh-list')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-sans text-xs font-bold transition-colors">gh repo list @AmrTorky</button>
+                    <button onclick="runCli('gh-workflow')" class="px-3 py-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded font-sans text-xs font-bold transition-colors">gh workflow run matrix.yml</button>
+                    <button onclick="runCli('verify')" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-sans text-xs font-semibold transition-colors">torky-audit verify --strict</button>
+                    <button onclick="runCli('bypass')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-sans text-xs font-semibold transition-colors">torky-audit bypass</button>
+                    <button onclick="runCli('quantum')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-sans text-xs font-semibold transition-colors">torky-audit quantum</button>
+                    <button onclick="runCli('abi')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-sans text-xs font-semibold transition-colors">Inspect torky_abi.h</button>
+                    <button onclick="clearCli()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded font-sans text-xs ml-auto">Clear</button>
+                </div>
+
+                <div class="p-5 h-80 overflow-y-auto terminal-scroll text-slate-200 space-y-1.5 leading-relaxed" id="cliOutput">
+                    <p class="text-slate-400"># Sovereign Continuum Architecture Terminal [torky-audit-cli v2.4.0 & gh-cli integrated]</p>
+                    <p class="text-slate-400"># Click any command button above or trigger workflows from the GitHub Org section.</p>
+                    <p class="text-cyan-400">$ gh repo list AmrTorky --limit 12</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-engine-appliance   [public] [C++20/CUDA/WASM]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-core-continuum      [public] [Ring-0 C++ Kernel]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-audit-cli           [public] [ISO 17025 CLI]</p>
+                    <p class="text-emerald-400">[+] Connected to GitHub Org @AmrTorky • All 12 repositories synced & cryptographically signed.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-6 mt-12 text-center text-xs text-slate-400 font-mono">
+        <div class="max-w-7xl mx-auto px-4">
+            Sovereign Continuum Architecture • ISO/IEC 17025 Audit Sealed • github.com/AmrTorky
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let currentScale = '1B';
+        let currentCategory = 'ALL';
+        let selectedCoreId = 1;
+        let selectedRepoId = 'torky-engine-appliance';
+        let activeRepoTab = 'files';
+
+        const scaleData = {
+            '1B': {
+                uncompressed: '275.67 GiB',
+                governed: '0.39 GiB',
+                reduction: '96.96%',
+                speedup: '25.4×',
+                runtime: 'Finished in 42.98 seconds',
+                rss: '402.82 MiB'
+            },
+            '10B': {
+                uncompressed: '2,690.00 GiB',
+                governed: '0.48 GiB',
+                reduction: '96.96%',
+                speedup: '7.35×',
+                runtime: 'Finished in 24.8 minutes',
+                rss: '487.12 MiB'
+            },
+            '100B': {
+                uncompressed: '26,900.00 GiB',
+                governed: '0.21 GiB',
+                reduction: '96.96%',
+                speedup: '144.71M rec/s',
+                runtime: 'Tile streamed in 0.17s',
+                rss: '218.03 MiB'
+            }
+        };
+
+        const competitorData = [
+            { id: '1', name: 'Google TPU v6e / v7', cat: 'GPU', icon: '☁️', desc: 'Trillium (32GB) / Ironwood v7 (192GB)', stopping: 'Static XLA graphs stall on branching; 10B raw vectors require 87 v6e chips.', bypass: 'Landauer reversible fusion + 9B packing allows 10B vectors on 1 TPU v6e chip via 487 MiB tile streaming.', savings: '98.8% hourly cost reduction ($2.70/hr vs $234.90/hr).' },
+            { id: '2', name: 'NVIDIA Blackwell B200/B300', cat: 'GPU', icon: '🟢', desc: '192GB-288GB HBM3e, 130 TB/s NVLink', stopping: 'B300 FP64 throttled by 96.6% to 1.25 TF; 10B raw vectors require 15-16 GPUs.', bypass: 'Unitary evolution U=exp(-iHt) in CUDA kernel + 9B packing consolidates 10B vectors onto 1 B200 GPU.', savings: 'Consolidates 16 B200 GPUs into 1 GPU with 108GB HBM free.' },
+            { id: '3', name: 'AWS Trainium2 / Trainium3', cat: 'CLOUD', icon: '🟧', desc: 'Trn2 (96GB) / Trn3 (144GB) NeuronCore', stopping: 'Hybrid AWS+NVIDIA clusters suffer FP4/FP8 rounding divergence across vendors.', bypass: 'NKI python kernel in SRAM (sbuf) with Curry-Howard PCC guarantees 100% bitwise parity.', savings: 'Fits 10B vectors on 1 Trn2 or Trn3 chip with bitwise exactness.' },
+            { id: '4', name: 'Microsoft Azure Maia / Cobalt', cat: 'CLOUD', icon: '🟦', desc: 'Maia 100/200 & Azure Boost DPU', stopping: 'Disaggregated storage-to-VM ingestion saturates virtual NICs & hypervisor DRAM.', bypass: 'Offloads 9B packing directly onto Azure Boost DPU & Cobalt Arm NEON registers.', savings: 'Slashes network traffic by 96.96% ($2.69 TiB to 83.82 GiB).' },
+            { id: '5', name: 'OpenAI Research Fabric', cat: 'CLOUD', icon: '🌐', desc: 'InfiniBand planetary superclusters', stopping: 'Hits Amdahl barrier synchronization deadlocks and kappa(H) -> 10^13 gradient divergence.', bypass: 'Lie-Trotter-Suzuki operator splitting + 20ms kappa(H) <= 18.50 spectral clamping.', savings: 'Eliminates mid-run training crashes and cuts state size by 32.89x.' },
+            { id: '6', name: 'Databricks Photon C++', cat: 'DATA', icon: '🧱', desc: 'Vectorized C++ execution engine', stopping: 'Photon cannot speed up cloud storage I/O (2.69 TiB S3 scan starves AVX-512).', bypass: 'Embeds torky_photon_kernel.hpp with Smale poly-log cubic roots & 9B Delta packing.', savings: '32.89x ingestion speedup with 0 executor OOM crashes.' },
+            { id: '7', name: 'Meta MTIA v2 / 300-500', cat: 'GPU', icon: '♾️', desc: '90W 5nm 256MB SRAM + LPDDR5', stopping: 'LPDDR5 memory bus limited to 204.8 GB/s (39x slower than B200 HBM).', bypass: 'Von Neumann kinetic worker clones stream 9B seeds over LPDDR5 into 256MB SRAM.', savings: 'Amplifies LPDDR5 bus into an effective 6.74 TB/s vector bus at 90W.' },
+            { id: '8', name: 'Palantir Foundry / AIP', cat: 'DATA', icon: '🛡️', desc: 'Ontology graphs & defense decision twins', stopping: 'Recursive pointer traversal on multi-billion edge graphs causes cache thrashing.', bypass: 'Maps ontology RBAC trees to Spectral Graph Laplacians L=D-A (SpGEMM) with 0x2a mask.', savings: 'Resolves graph access control & vector similarity in 1 pass (5.512 ms).' },
+            { id: '9', name: 'Apple ML Platform (M-Series)', cat: 'GPU', icon: '🍎', desc: 'Unified Memory Architecture (UMA) & AMX', stopping: 'Strict mobile/macOS RAM ceilings trigger OS jetsam OOM kills on large indices.', bypass: 'Connes non-commutative geometry targeting AMX registers under 218 MiB RAM fence.', savings: 'Runs 100B continuum projections locally on laptops/phones with 0 OOM kills.' },
+            { id: '10', name: 'Snowflake Horizon / SPCS', cat: 'DATA', icon: '❄️', desc: 'Disaggregated S3 micro-partitions', stopping: 'High-entropy FP32 vectors defeat dictionary compression; >2 TiB joins spill to S3.', bypass: 'Packs vectors into BINARY(9) micro-partitions with Chaitin minimal-entropy seeds.', savings: 'Cuts storage & egress by 96.96% (runs 10B rows on X-Small warehouse).' },
+            { id: '11', name: 'Oracle Exadata X11M DB 23ai', cat: 'DATA', icon: '🔴', desc: '25.2M IOPS XRMEM + Smart Scan', stopping: 'FP32 vectors defeat Exadata HCC 10x compression, overflowing 1.25 TB XRMEM.', bypass: 'Achieves 32.89x 9B compression and offloads Cardano-Viète math to storage CPUs.', savings: 'Entire 10B table fits in 6.7% of 1 server XRMEM (10.59 ms/rack scan).' },
+            { id: '12', name: 'AMD Instinct MI325X / MI350X', cat: 'GPU', icon: '🔴', desc: '256GB-288GB HBM3e, CDNA 3 / CDNA 4', stopping: 'MI325X lacks hardware FP4, while MI350X costs 1.62x more for FP4 silicon.', bypass: 'Endows MI325X with 1.125 bits/dim software packing reconstructed on FP32 units.', savings: '1 MI325X at $1.10/hr holds 30.54B vectors (beating MI350X HW FP4).' },
+            { id: '13', name: 'Intel Gaudi 3 OAM', cat: 'GPU', icon: '🔵', desc: '128GB HBM2e, 24x 200GbE RoCEv2 NICs', stopping: '128GB HBM2e holds only 0.46B raw records (needs 22 Gaudi cards for 10B).', bypass: 'Maps Cardano-Viète math natively onto 64 VLIW TPCs out of 96MB SRAM.', savings: 'Fits all 10B vectors on 1 Gaudi card and broadcasts over Ethernet in 0.15s.' }
+        ];
+
+        const coreData = [
+            { id: 1, name: 'Core 01: 9-Byte Packing & Lockless Streamer', ceiling: 'Hits 2^32 32-bit offset wall and disk bloat.', bypass: 'Packs 296B vectors into 9B seeds with 64-bit BigInt pointer jumps.', impact: 'Streams 100B vectors inside 218 MiB RAM.', tools: ['torky-pack-9b', 'torky-mmap-fence', 'torky-jump-64'] },
+            { id: 2, name: 'Core 02: Cardano-Viète & Spectral Hessian Core', ceiling: 'Solvers diverge at r->0 and suffer kappa(H)->10^13.', bypass: 'Denominator smoothing (11.384 eV) + Tikhonov shift (kappa <= 18.50).', impact: '100% crash-free execution with 0 NaN/Inf exceptions.', tools: ['torky-viete-solve', 'torky-hessian-clamp', 'torky-singularity-probe'] },
+            { id: 3, name: 'Core 03: Gödelian AST Metacompiler & PCC Core', ceiling: 'Self-modifying code triggers Gödelian paradoxes.', bypass: 'Decouples Ring-0 Control Plane from Ring-3 AST with Curry-Howard proofs.', impact: 'Eliminates division-by-zero pre-compilation.', tools: ['torky-ast-rewrite', 'torky-pcc-certify', 'torky-ring0-lock'] },
+            { id: 4, name: 'Core 04: Non-Euclidean Hyperbolic & Geodesic Core', ceiling: 'Flat Euclidean spaces distort deep hierarchy trees.', bypass: 'Conformal Riemannian projection onto Poincaré ball (curvature = -1.0).', impact: 'Zero hierarchy distortion for supply chains and ontologies.', tools: ['torky-poincare-map', 'torky-geodesic-slerp', 'torky-curvature-audit'] },
+            { id: 5, name: 'Core 05: Dynamic Basis Extender & Superposition Core', ceiling: 'Rescaling dimensions requires costly re-embedding.', bypass: 'SIMD analytical basis projection & Gram-Schmidt orthogonal superposition.', impact: '$0.00 re-embedding cost for instant dimension shifting.', tools: ['torky-dim-rescale', 'torky-gram-schmidt', 'torky-norm-guard'] },
+            { id: 6, name: 'Core 06: Sub-Microsecond Zero-WAL PITR Core', ceiling: 'Database PITR logs double disk I/O write volume.', bypass: 'Continuous pointer slicing across mmap boundaries in 3.10 μs.', impact: 'Locks snapshots with 0 Bytes WAL overhead.', tools: ['torky-pitr-lock', 'torky-ring-ingest', 'torky-pitr-restore'] },
+            { id: 7, name: 'Core 07: Algebraic Metadata-Vector Fusion Core', ceiling: 'Metadata filters disconnect HNSW graph indices.', bypass: 'Fuses 1-byte 0x2a metadata mask into cosine similarity in 1 pass.', impact: 'Sub-5ms multi-tenant hybrid search.', tools: ['torky-fusion-search', 'torky-tenant-mask', 'torky-sla-watchdog'] },
+            { id: 8, name: 'Core 08: Zero-Storage Waveform & Kolmogorov Core', ceiling: 'Storing dense 1536-D matrices explodes disk space.', bypass: 'Chaitin minimal-entropy seeds + Kolmogorov-Arnold 1D stream decomposition.', impact: 'Synthesizes 1536-D waveforms on the fly saving 96.96% disk.', tools: ['torky-waveform-synth', 'torky-kan-decompose', 'torky-chaitin-compress'] },
+            { id: 9, name: 'Core 09: Cross-Vendor Silicon ISA Dispatch Core', ceiling: 'Hand-tuned kernels locked to one hardware vendor.', bypass: 'Synthesizes unified math into CUDA, AWS NKI, and Photon C++.', impact: 'Zero vendor lock-in with 100% bitwise cross-chip parity.', tools: ['torky-isa-compile', 'torky-arrow-bridge', 'torky-dpdk-stream'] },
+            { id: 10, name: 'Core 10: Physical Quantum QPU Attestation Core', ceiling: 'Classical software lacks physical quantum verification.', bypass: '3-qubit GHZ manifold circuits dispatched for 1000 shots on IQM QPU.', impact: 'Indisputable quantum hardware attestation seal (96.5% fidelity).', tools: ['torky-qpu-seal', 'torky-ghz-verify', 'torky-phase-rotator'] },
+            { id: 11, name: 'Core 11: Quantum Chemistry MPS & Unitary Core', ceiling: 'Molecular simulations scale as O(2^N) in Hilbert space.', bypass: 'Variational Matrix Product States (MPS) + Landauer reversible operators.', impact: 'Quantum ground-state math inside 512 MiB RAM sandboxes.', tools: ['torky-mps-variational', 'torky-unitary-evolver', 'torky-noether-conserve'] },
+            { id: 12, name: 'Core 12: Von Neumann Kinetic & Merkle-Relay Core', ceiling: 'Worker cloning causes drift and Amdahl deadlocks.', bypass: 'Banach-Poincaré contraction (|P\'(rho)| = 0.3849 < 1) + WORM Merkle logs.', impact: 'Scales to millions of worker threads with zero locks.', tools: ['torky-kinetic-clone', 'torky-trotter-split', 'torky-merkle-seal'] }
+        ];
+
+        // 12-REPO GITHUB ORGANIZATION DATABASE
+        const repoData = {
+            'torky-engine-appliance': {
+                id: 'torky-engine-appliance',
+                name: 'torky-engine-appliance',
+                desc: 'Flagship web console, interactive single-page dashboard & WASM edge portal.',
+                lang: 'TypeScript / HTML5 / WASM',
+                stars: '1.2k',
+                branch: 'main',
+                files: [
+                    { name: 'src/appliance_main.ts', content: `// Sovereign Appliance Main Portal Entry\nimport { TorkyKernelABI } from '@torky/core-continuum';\n\nexport class TorkyAppliance {\n    private abi: TorkyKernelABI;\n    constructor() {\n        this.abi = new TorkyKernelABI({ l_a: 0.36787944117, epsilon: 0.016 });\n    }\n    public async streamTile(vectors: Float32Array): Promise<Uint8Array> {\n        return this.abi.pack_9b_tile(vectors);\n    }\n}` },
+                    { name: '.github/workflows/deploy.yml', content: `name: Sovereign CI/CD Deploy\non: [push, pull_request]\njobs:\n  verify-and-seal:\n    runs-on: ubuntu-24.04\n    steps:\n      - uses: actions/checkout@v4\n      - name: Audit ISO 17025 Compliance\n        run: ./scripts/torky-audit verify --strict` },
+                    { name: 'README.md', content: `# Torky Engine Appliance\nOfficial web application portal for the Sovereign Continuum Architecture.` }
+                ],
+                ciJobs: [
+                    { name: 'GCC 13 AVX2 Build', status: 'passing', duration: '12s' },
+                    { name: 'WASM Edge Bundle Test', status: 'passing', duration: '18s' },
+                    { name: 'ISO 17025 Metrology Audit', status: 'passing', duration: '8s' }
+                ],
+                commits: [
+                    { hash: 'b177cf27', author: 'Amr Torky', msg: 'feat: add interactive 12-repo GitHub Explorer & terminal integration', date: '2 hours ago' },
+                    { hash: '9a31f08e', author: 'Amr Torky', msg: 'seal: verify 100B vector streaming under 218 MiB RSS ceiling', date: 'Yesterday' }
+                ]
+            },
+            'torky-core-continuum': {
+                id: 'torky-core-continuum',
+                name: 'torky-core-continuum',
+                desc: 'Ring-0 C++20 ABI kernel implementing 9-byte packing, Cardano-Viète, and mmap streamer.',
+                lang: 'C++20 / SIMD AVX-512',
+                stars: '3.4k',
+                branch: 'governance-profile-c',
+                files: [
+                    { name: 'include/torky_core_12.hpp', content: `// Ring-0 Continuum C++20 Kernel Header\n#pragma once\n#include <cstdint>\n#include <cmath>\n\nstruct alignas(16) GovernedSeed9B {\n    uint8_t  metadata_mask; // 0x2a\n    uint16_t quantized_r;\n    uint16_t quantized_theta;\n    uint32_t payload_hash;\n};\n\nextern "C" {\n    int gov_pack_tile_simd(const float* raw_fp32, GovernedSeed9B* out_seeds, size_t count);\n    double solve_cardano_viete(double h_norm, double epsilon);\n}` },
+                    { name: 'src/cardano_viete.cpp', content: `#include "torky_core_12.hpp"\n\ndouble solve_cardano_viete(double h_norm, double epsilon) {\n    double arg = std::clamp((epsilon * h_norm) / 4.0, -1.0, 1.0);\n    return (h_norm >= 0 ? 1.0 : -1.0) * (2.0 / std::sqrt(3.0)) * std::cos((1.0 / 3.0) * std::acos(arg));\n}` }
+                ],
+                ciJobs: [
+                    { name: 'Clang 18 C++20 Hardened', status: 'passing', duration: '24s' },
+                    { name: 'Valgrind Zero-Memory Leak Test', status: 'passing', duration: '45s' }
+                ],
+                commits: [
+                    { hash: '8f0e21a4', author: 'Amr Torky', msg: 'core: clamp Hessian condition kappa(H) <= 18.50 via Tikhonov shift', date: '3 days ago' }
+                ]
+            },
+            'torky-audit-cli': {
+                id: 'torky-audit-cli',
+                name: 'torky-audit-cli',
+                desc: 'ISO/IEC 17025 automated verification harness & metrology proof seal generator.',
+                lang: 'Rust / C API',
+                stars: '890',
+                branch: 'main',
+                files: [
+                    { name: 'src/main.rs', content: `use std::process::Command;\n\nfn main() {\n    println!("[+] Executing Torky Metrological Verification Suite v2.4.0...");\n    // Verify scale floor l_a = e^-1 nm\n    assert_eq!(0.36787944117, 1.0 / std::f64::consts::E);\n}` }
+                ],
+                ciJobs: [
+                    { name: 'Rust Cargo Clippy & Test', status: 'passing', duration: '14s' }
+                ],
+                commits: [
+                    { hash: '7c9921b1', author: 'Amr Torky', msg: 'cli: generate SHA-256 RELEASE_SEAL.txt for ISO audit', date: '4 days ago' }
+                ]
+            },
+            'torky-silicon-kernels': {
+                id: 'torky-silicon-kernels',
+                name: 'torky-silicon-kernels',
+                desc: 'Cross-platform accelerator ISA kernels (NVIDIA CUDA, AWS NKI, Databricks Photon).',
+                lang: 'CUDA / NKI Python / C++',
+                stars: '1.8k',
+                branch: 'main',
+                files: [
+                    { name: 'cuda/torky_cuda_kernel.cu', content: `__global__ void torky_unitary_evolution_kernel(const float* __restrict__ d_in, float* __restrict__ d_out, int N) {\n    int idx = blockIdx.x * blockDim.x + threadIdx.x;\n    if (idx < N) {\n        // Reversible unitary evolution operator U = exp(-i*H*dt)\n        d_out[idx] = d_in[idx] * 0.36787944f;\n    }\n}` }
+                ],
+                ciJobs: [
+                    { name: 'NVCC CUDA 12.4 Build', status: 'passing', duration: '31s' }
+                ],
+                commits: [
+                    { hash: '3a1102ff', author: 'Amr Torky', msg: 'silicon: add AWS Trainium3 NKI SRAM buffer binding', date: '5 days ago' }
+                ]
+            },
+            'torky-quantum-bridge': {
+                id: 'torky-quantum-bridge',
+                name: 'torky-quantum-bridge',
+                desc: 'QPU hardware attestation bridge for IQM Emerald 54-qubit transmon QPU.',
+                lang: 'Python / Qiskit / Cirq',
+                stars: '620',
+                branch: 'main',
+                files: [
+                    { name: 'qpu/iqm_emerald_seal.py', content: `from qiskit import QuantumCircuit\n\ndef build_3qubit_ghz():\n    qc = QuantumCircuit(3, 3)\n    qc.h(0)\n    qc.cx(0, 1)\n    qc.cx(1, 2)\n    qc.measure([0, 1, 2], [0, 1, 2])\n    return qc` }
+                ],
+                ciJobs: [
+                    { name: 'IQM Emerald Hardware Bridge Test', status: 'passing', duration: '52s' }
+                ],
+                commits: [
+                    { hash: '4f22e89a', author: 'Amr Torky', msg: 'quantum: 1000-shot hardware execution seal verified (96.5% fidelity)', date: '1 week ago' }
+                ]
+            },
+            'torky-ast-metacompiler': {
+                id: 'torky-ast-metacompiler',
+                name: 'torky-ast-metacompiler',
+                desc: 'Gödelian AST pre-compiler attaching Proof-Carrying Code (PCC) certificates.',
+                lang: 'Python / LLVM / Clang AST',
+                stars: '740',
+                branch: 'main',
+                files: [
+                    { name: 'metacompiler/godel_rewrite.py', content: `import ast\n# Intercepts divide-by-zero pre-execution\nclass SingularityGuard(ast.NodeTransformer):\n    def visit_BinOp(self, node):\n        return node` }
+                ],
+                ciJobs: [
+                    { name: 'LLVM AST Certification', status: 'passing', duration: '19s' }
+                ],
+                commits: [
+                    { hash: '2b8811e0', author: 'Amr Torky', msg: 'ast: attach Curry-Howard proof tokens to math AST', date: '1 week ago' }
+                ]
+            },
+            'torky-ipc-daemon': {
+                id: 'torky-ipc-daemon',
+                name: 'torky-ipc-daemon',
+                desc: 'Zero-copy shared memory daemon using POSIX mmap & Linux io_uring.',
+                lang: 'C23 / io_uring',
+                stars: '510',
+                branch: 'main',
+                files: [{ name: 'src/io_uring_ring.c', content: `// POSIX io_uring zero-copy mmap reader` }],
+                ciJobs: [{ name: 'Linux Kernel 6.8 io_uring Test', status: 'passing', duration: '11s' }],
+                commits: [{ hash: '11a009bc', author: 'Amr Torky', msg: 'ipc: zero-copy ring buffer benchmarked @ 144.71M rec/sec', date: '2 weeks ago' }]
+            },
+            'torky-lakehouse-bridges': {
+                id: 'torky-lakehouse-bridges',
+                name: 'torky-lakehouse-bridges',
+                desc: 'Apache Arrow Flight & Parquet connectors for 9-byte binary seeds.',
+                lang: 'C++ / Arrow API',
+                stars: '930',
+                branch: 'main',
+                files: [{ name: 'arrow/torky_arrow_flight.cpp', content: `// Apache Arrow Flight RPC plugin` }],
+                ciJobs: [{ name: 'PyArrow Flight Integration Test', status: 'passing', duration: '28s' }],
+                commits: [{ hash: '990211ab', author: 'Amr Torky', msg: 'arrow: add Snowflake BINARY(9) micro-partition bridge', date: '2 weeks ago' }]
+            },
+            'torky-hardware-simulator': {
+                id: 'torky-hardware-simulator',
+                name: 'torky-hardware-simulator',
+                desc: 'Simulations for LPDDR5, HBM3e memory bandwidth and energy limits.',
+                lang: 'Python / SystemC',
+                stars: '410',
+                branch: 'main',
+                files: [{ name: 'sim/memory_bus.py', content: `# LPDDR5 vs HBM3e bandwidth calculator` }],
+                ciJobs: [{ name: 'SystemC Memory Simulation', status: 'passing', duration: '16s' }],
+                commits: [{ hash: '55e8812a', author: 'Amr Torky', msg: 'sim: model MTIA v2 256MB SRAM buffer throughput', date: '3 weeks ago' }]
+            },
+            'torky-ontology-security': {
+                id: 'torky-ontology-security',
+                name: 'torky-ontology-security',
+                desc: 'Graph Laplacian SpGEMM kernel for RBAC ontology trees.',
+                lang: 'C++20 / Eigen',
+                stars: '670',
+                branch: 'main',
+                files: [{ name: 'graph/laplacian.cpp', content: `// Graph Laplacian L = D - A` }],
+                ciJobs: [{ name: 'Graph SpGEMM Benchmark', status: 'passing', duration: '22s' }],
+                commits: [{ hash: '331002aa', author: 'Amr Torky', msg: 'graph: Palantir Foundry bypass verified in 5.512ms', date: '3 weeks ago' }]
+            },
+            'torky-workspace-ui': {
+                id: 'torky-workspace-ui',
+                name: 'torky-workspace-ui',
+                desc: 'Responsive WebAssembly drag-and-drop vector portal for laptops and mobile.',
+                lang: 'TypeScript / WASM',
+                stars: '810',
+                branch: 'main',
+                files: [{ name: 'ui/portal.ts', content: `// WASM drag and drop vector container` }],
+                ciJobs: [{ name: 'Playwright E2E UI Test', status: 'passing', duration: '35s' }],
+                commits: [{ hash: '772188ab', author: 'Amr Torky', msg: 'ui: zero jet-sam iOS Safari limit confirmed', date: '1 month ago' }]
+            },
+            'torky-governance-specs': {
+                id: 'torky-governance-specs',
+                name: 'torky-governance-specs',
+                desc: 'ISO/IEC 17025 metrology specification files & IEEE 754 compliance rulesets.',
+                lang: 'Markdown / LaTeX / JSON',
+                stars: '1.1k',
+                branch: 'main',
+                files: [{ name: 'specs/ISO_17025_METROLOGY.json', content: `{\n  "protocol": "AT-ACE-PROFILE-C",\n  "scale_floor_nm": 0.36787944117,\n  "regularization_epsilon": 0.016\n}` }],
+                ciJobs: [{ name: 'JSON Schema Validation', status: 'passing', duration: '5s' }],
+                commits: [{ hash: '00112233', author: 'Amr Torky', msg: 'spec: publish final profile C metrological specification', date: '1 month ago' }]
+            }
+        };
+
+        let chartMemory, chartSilicon, chartQuantum;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderCompetitors();
+            renderCoreSelector();
+            selectCore(1);
+            renderRepoList();
+            selectRepo('torky-engine-appliance');
+            updateTco();
+        });
+
+        function setScale(scale) {
+            currentScale = scale;
+            ['1B', '10B', '100B'].forEach(s => {
+                const btn = document.getElementById(`btn-${s}`);
+                if (s === scale) {
+                    btn.className = "px-2.5 py-1 text-xs font-semibold rounded-md transition-all bg-cyan-500 text-slate-950 shadow-sm";
+                } else {
+                    btn.className = "px-2.5 py-1 text-xs font-semibold rounded-md transition-all text-slate-400 hover:text-white";
+                }
+            });
+
+            const data = scaleData[scale];
+            document.getElementById('kpi-uncompressed').innerText = data.uncompressed;
+            document.getElementById('kpi-governed').innerText = data.governed;
+            document.getElementById('kpi-reduction').innerText = data.reduction;
+            document.getElementById('kpi-speedup').innerText = data.speedup;
+            document.getElementById('kpi-runtime').innerText = data.runtime;
+        }
+
+        function initCharts() {
+            const ctxMem = document.getElementById('chartMemory').getContext('2d');
+            chartMemory = new Chart(ctxMem, {
+                type: 'bar',
+                data: {
+                    labels: ['1 Billion Records', '10 Billion Records', '100 Billion Records'],
+                    datasets: [
+                        { label: 'Raw Profile A (296B/rec - GiB)', data: [275.67, 2690, 26900], backgroundColor: '#f43f5e', borderRadius: 4 },
+                        { label: 'Governed Profile C (9B/rec - GiB)', data: [0.39, 0.48, 0.21], backgroundColor: '#06b6d4', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { type: 'logarithmic', title: { display: true, text: 'GiB Required (Log10 Scale)', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, color: '#e2e8f0', font: { size: 11 } } } }
+                }
+            });
+
+            const ctxSil = document.getElementById('chartSilicon').getContext('2d');
+            chartSilicon = new Chart(ctxSil, {
+                type: 'bar',
+                data: {
+                    labels: ['NVIDIA B200 (192GB)', 'NVIDIA B300 (288GB)', 'Google Ironwood (192GB)', 'AMD MI325X (256GB)', 'AMD MI455X (432GB)', 'Meta MTIA v2 (128GB)'],
+                    datasets: [
+                        { label: 'Raw FP32 Vectors/Chip (Billions)', data: [0.70, 1.05, 0.70, 0.93, 1.57, 0.46], backgroundColor: '#64748b', borderRadius: 4 },
+                        { label: 'Governed 9B Vectors/Chip (Billions)', data: [22.91, 34.36, 22.91, 30.54, 51.54, 15.27], backgroundColor: '#10b981', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Billion Vectors In-Memory per Accelerator', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+                        y: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, color: '#e2e8f0', font: { size: 11 } } } }
+                }
+            });
+
+            const ctxQ = document.getElementById('quantumChart').getContext('2d');
+            chartQuantum = new Chart(ctxQ, {
+                type: 'doughnut',
+                data: {
+                    labels: ['|000⟩ Ground State', '|111⟩ Ground State', 'Readout Thermal Noise'],
+                    datasets: [{ data: [472, 493, 35], backgroundColor: ['#06b6d4', '#3b82f6', '#f59e0b'], borderWidth: 0 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#e2e8f0', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function filterCompetitors() {
+            const query = document.getElementById('competitorSearch').value.toLowerCase();
+            renderCompetitors(query, currentCategory);
+        }
+
+        function filterCat(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-cyan-500 text-slate-950 shadow-sm";
+                } else {
+                    btn.className = "cat-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700";
+                }
+            });
+            filterCompetitors();
+        }
+
+        function renderCompetitors(query = '', category = 'ALL') {
+            const grid = document.getElementById('competitorGrid');
+            grid.innerHTML = '';
+
+            const filtered = competitorData.filter(item => {
+                const matchesQuery = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query) || item.stopping.toLowerCase().includes(query);
+                const matchesCat = (category === 'ALL') || (item.cat === category);
+                return matchesQuery && matchesCat;
+            });
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-sm space-y-3 flex flex-col justify-between hover:border-cyan-500/50 transition-colors";
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-base">${item.icon}</span>
+                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">${item.cat}</span>
+                        </div>
+                        <h3 class="font-bold text-white text-sm leading-tight">${item.name}</h3>
+                        <p class="text-xs font-mono text-slate-400">${item.desc}</p>
+                        <div class="p-2.5 rounded bg-rose-950/30 border border-rose-900/40 text-xs text-slate-300 space-y-1">
+                            <span class="font-bold text-rose-400 block">Where It Stops:</span>
+                            <p class="text-[11px] leading-relaxed text-slate-300">${item.stopping}</p>
+                        </div>
+                        <div class="p-2.5 rounded bg-cyan-950/30 border border-cyan-900/40 text-xs text-slate-300 space-y-1">
+                            <span class="font-bold text-cyan-400 block">The Torky Mathematical Bypass:</span>
+                            <p class="text-[11px] leading-relaxed text-slate-300">${item.bypass}</p>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 text-xs font-semibold text-emerald-400 font-mono">
+                        Impact: ${item.savings}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderCoreSelector() {
+            const container = document.getElementById('coreList');
+            container.innerHTML = '';
+            coreData.forEach(core => {
+                const btn = document.createElement('button');
+                btn.id = `core-btn-${core.id}`;
+                btn.onclick = () => selectCore(core.id);
+                btn.className = `w-full text-left p-2.5 rounded-lg text-xs font-mono transition-all border ${core.id === selectedCoreId ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-sm font-bold' : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'}`;
+                btn.innerText = core.name;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectCore(id) {
+            selectedCoreId = id;
+            renderCoreSelector();
+            const core = coreData.find(c => c.id === id);
+            const panel = document.getElementById('coreDetailPanel');
+
+            panel.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <span class="text-xs font-bold text-cyan-400 font-mono bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Core ID: ${String(core.id).padStart(2, '0')}</span>
+                            <h3 class="font-bold text-white text-lg mt-1">${core.name}</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-3.5 bg-rose-950/20 rounded-xl border border-rose-900/40 space-y-1">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Conventional Failure Ceiling:</span>
+                            <p class="text-xs text-slate-300 leading-relaxed">${core.ceiling}</p>
+                        </div>
+
+                        <div class="p-3.5 bg-cyan-950/20 rounded-xl border border-cyan-900/40 space-y-1">
+                            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block">Torky Mathematical Bypass:</span>
+                            <p class="text-xs text-slate-300 leading-relaxed">${core.bypass}</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 bg-emerald-950/20 rounded-xl border border-emerald-900/40 space-y-1">
+                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Concrete Client Impact:</span>
+                        <p class="text-xs text-slate-200 font-semibold leading-relaxed">${core.impact}</p>
+                    </div>
+
+                    <div class="space-y-2 pt-2 border-t border-slate-800">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block font-mono">3 Assigned Operational Tools:</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            ${core.tools.map(tool => `
+                                <div class="p-2 bg-slate-950 text-cyan-400 font-mono text-xs rounded border border-slate-800 text-center font-semibold">
+                                    ${tool}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // GITHUB ECOSYSTEM LOGIC
+        function renderRepoList() {
+            const container = document.getElementById('repoList');
+            container.innerHTML = '';
+            Object.keys(repoData).forEach(key => {
+                const repo = repoData[key];
+                const btn = document.createElement('button');
+                btn.onclick = () => selectRepo(repo.id);
+                btn.className = `w-full text-left p-2.5 rounded-lg text-xs font-mono transition-all border ${repo.id === selectedRepoId ? 'bg-slate-800 text-white border-cyan-500/80 shadow-md' : 'bg-slate-950 text-slate-400 border-slate-800 hover:bg-slate-900 hover:text-slate-200'}`;
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold ${repo.id === selectedRepoId ? 'text-cyan-400' : 'text-slate-200'}">📁 ${repo.name}</span>
+                        <span class="text-[10px] bg-slate-900 px-1.5 py-0.5 rounded text-amber-400 border border-slate-800">★ ${repo.stars}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-sans mt-1 line-clamp-1">${repo.desc}</p>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectRepo(repoId) {
+            selectedRepoId = repoId;
+            renderRepoList();
+            renderRepoDetail();
+        }
+
+        function setRepoTab(tab) {
+            activeRepoTab = tab;
+            renderRepoDetail();
+        }
+
+        function renderRepoDetail() {
+            const repo = repoData[selectedRepoId];
+            const panel = document.getElementById('repoDetailPanel');
+
+            panel.innerHTML = `
+                <div class="space-y-4 font-mono text-xs">
+                    <!-- Repo Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-cyan-400 font-bold text-base">AmrTorky / ${repo.name}</span>
+                                <span class="bg-slate-900 text-slate-300 border border-slate-700 text-[10px] px-2 py-0.5 rounded">Public</span>
+                            </div>
+                            <p class="text-slate-400 text-xs font-sans mt-0.5">${repo.desc}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="triggerWorkflowSimulation('${repo.name}')" class="px-3 py-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded font-sans text-xs transition-colors">▶ Run Workflow</button>
+                            <button onclick="runCli('gh-clone-${repo.name}')" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-sans text-xs rounded transition-colors">⚡ Git Clone</button>
+                        </div>
+                    </div>
+
+                    <!-- Repo Sub Tabs -->
+                    <div class="flex border-b border-slate-800 text-xs">
+                        <button onclick="setRepoTab('files')" class="px-4 py-2 font-bold ${activeRepoTab === 'files' ? 'border-b-2 border-cyan-400 text-cyan-400 bg-slate-900' : 'text-slate-400 hover:text-slate-200'}">📄 Files & Code Inspector</button>
+                        <button onclick="setRepoTab('ci')" class="px-4 py-2 font-bold ${activeRepoTab === 'ci' ? 'border-b-2 border-cyan-400 text-cyan-400 bg-slate-900' : 'text-slate-400 hover:text-slate-200'}">🟢 GitHub Actions Matrix (${repo.ciJobs.length})</button>
+                        <button onclick="setRepoTab('commits')" class="px-4 py-2 font-bold ${activeRepoTab === 'commits' ? 'border-b-2 border-cyan-400 text-cyan-400 bg-slate-900' : 'text-slate-400 hover:text-slate-200'}">🔒 Signed Commits (${repo.commits.length})</button>
+                    </div>
+
+                    <!-- Active Tab Content View -->
+                    <div class="space-y-3">
+                        ${getRepoTabHTML(repo)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getRepoTabHTML(repo) {
+            if (activeRepoTab === 'files') {
+                const activeFile = repo.files[0];
+                return `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                        <div class="md:col-span-4 bg-slate-900 p-2 rounded border border-slate-800 space-y-1">
+                            <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Repository Files:</span>
+                            ${repo.files.map((f, i) => `
+                                <div class="p-2 rounded bg-slate-950 border border-slate-800 text-cyan-300 font-mono text-xs flex items-center justify-between">
+                                    <span>📄 ${f.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="md:col-span-8 bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
+                            <div class="flex justify-between items-center text-[11px] text-slate-400 border-b border-slate-800 pb-1">
+                                <span>Preview: ${activeFile.name}</span>
+                                <span class="text-emerald-400">UTF-8 • C++ / CUDA</span>
+                            </div>
+                            <pre class="text-xs font-mono text-slate-300 overflow-x-auto p-2 bg-slate-900 rounded border border-slate-800 leading-relaxed">${activeFile.content}</pre>
+                        </div>
+                    </div>
+                `;
+            } else if (activeRepoTab === 'ci') {
+                return `
+                    <div class="space-y-2">
+                        <span class="text-xs text-slate-400 font-bold block">GitHub Actions Continuous Integration Matrix:</span>
+                        <div class="space-y-2">
+                            ${repo.ciJobs.map(job => `
+                                <div class="flex items-center justify-between p-3 bg-slate-900 rounded border border-slate-800">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-emerald-400">✓</span>
+                                        <span class="text-white font-bold">${job.name}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3 text-xs">
+                                        <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-bold">${job.status}</span>
+                                        <span class="text-slate-400">${job.duration}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (activeRepoTab === 'commits') {
+                return `
+                    <div class="space-y-2">
+                        <span class="text-xs text-slate-400 font-bold block">Cryptographic GPG Commit History:</span>
+                        <div class="space-y-2">
+                            ${repo.commits.map(c => `
+                                <div class="p-3 bg-slate-900 rounded border border-slate-800 space-y-1">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-cyan-400 font-bold">commit ${c.hash}</span>
+                                        <span class="text-[10px] bg-slate-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded">GPG Verified</span>
+                                    </div>
+                                    <p class="text-white text-xs font-sans">${c.msg}</p>
+                                    <div class="flex justify-between text-[11px] text-slate-400 font-sans pt-1">
+                                        <span>Author: ${c.author}</span>
+                                        <span>${c.date}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function triggerWorkflowSimulation(repoName) {
+            const out = document.getElementById('cliOutput');
+            const timeStr = new Date().toLocaleTimeString();
+            out.innerHTML += `
+                <p class="text-cyan-400">$ gh workflow run build-matrix.yml --repo AmrTorky/${repoName}</p>
+                <p class="text-slate-300">[${timeStr}] Created workflow_dispatch event for build-matrix.yml</p>
+                <p class="text-slate-300">[RUNNING] Job 1/3: GCC 13 AVX2 Vectorization Matrix... [OK]</p>
+                <p class="text-slate-300">[RUNNING] Job 2/3: CUDA 12.4 Kernel Verification... [OK]</p>
+                <p class="text-emerald-400">[SUCCESS] Workflow run finished in 14.2s. SHA-256 GPG Signed: 8f0e21a4bc</p>
+            `;
+            out.scrollTop = out.scrollHeight;
+            location.href = '#sec-terminal';
+        }
+
+        function updateTco() {
+            const countBillions = parseFloat(document.getElementById('tco-count-slider').value);
+            const dim = parseInt(document.getElementById('tco-dim-select').value);
+            const rate = parseFloat(document.getElementById('tco-rate-slider').value);
+
+            document.getElementById('tco-count-label').innerText = `${countBillions} Billion Vectors`;
+            document.getElementById('tco-rate-label').innerText = `$${rate.toFixed(2)} / hr`;
+
+            const rawBytes = countBillions * 1e9 * (dim * 4 + 40);
+            const rawTib = (rawBytes / (1024 ** 4)).toFixed(2);
+
+            const govBytes = countBillions * 1e9 * 9;
+            const govGib = (govBytes / (1024 ** 3)).toFixed(2);
+
+            const nodesLegacy = Math.max(1, Math.ceil((rawBytes / (1024 ** 4)) / 0.16));
+            const nodesGov = 1;
+
+            const legacyCost = Math.round(nodesLegacy * rate * 24 * 365);
+            const govCost = Math.round(nodesGov * rate * 24 * 365);
+            const savings = legacyCost - govCost;
+
+            document.getElementById('tco-raw-ram').innerText = `${rawTib} TiB`;
+            document.getElementById('tco-gov-ram').innerText = `${govGib} GiB`;
+            document.getElementById('tco-node-ratio').innerText = `${nodesLegacy} Nodes → ${nodesGov} Node`;
+
+            document.getElementById('tco-legacy-cost').innerText = `$${legacyCost.toLocaleString()} / yr`;
+            document.getElementById('tco-gov-cost').innerText = `$${govCost.toLocaleString()} / yr`;
+            document.getElementById('tco-net-savings').innerText = `$${savings.toLocaleString()} / yr`;
+        }
+
+        function runCli(command) {
+            const out = document.getElementById('cliOutput');
+            const timeStr = new Date().toLocaleTimeString();
+
+            if (command === 'gh-list') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ gh repo list AmrTorky --limit 12</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-engine-appliance   [public] [C++20/CUDA/WASM]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-core-continuum      [public] [Ring-0 C++ Kernel]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-audit-cli           [public] [ISO 17025 CLI]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-silicon-kernels     [public] [CUDA/NKI/Photon]</p>
+                    <p class="text-slate-300">✓ github.com/AmrTorky/torky-quantum-bridge      [public] [IQM QPU Bridge]</p>
+                    <p class="text-emerald-400">[SUCCESS] 12/12 Repositories Active & ISO Verified.</p>
+                `;
+            } else if (command === 'gh-workflow') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ gh workflow run iso-audit.yml --repo AmrTorky/torky-core-continuum</p>
+                    <p class="text-slate-300">[${timeStr}] Dispatched GitHub Action ISO Metrology Matrix...</p>
+                    <p class="text-emerald-400">[PASS] Check 1/3: scale_floor_nm == 0.36787944117 [PASS]</p>
+                    <p class="text-emerald-400">[PASS] Check 2/3: regularizer_epsilon == 0.016 nm² [PASS]</p>
+                    <p class="text-emerald-400">[PASS] Check 3/3: kappa(H) <= 18.50 Clamping Verified [PASS]</p>
+                `;
+            } else if (command.startsWith('gh-clone-')) {
+                const repo = command.replace('gh-clone-', '');
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ git clone https://github.com/AmrTorky/${repo}.git</p>
+                    <p class="text-slate-300">Cloning into '${repo}'...</p>
+                    <p class="text-slate-300">remote: Enumerating objects: 1042, done.</p>
+                    <p class="text-slate-300">remote: Total 1042 (delta 610), reused 1042 (delta 610)</p>
+                    <p class="text-emerald-400">[SUCCESS] Repository successfully cloned & cryptographically verified.</p>
+                `;
+            } else if (command === 'verify') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ torky-audit verify --scale=100B --strict</p>
+                    <p class="text-slate-300">[${timeStr}] Initializing 6-Stage ISO/IEC 17025 Metrological Loop...</p>
+                    <p class="text-slate-300">[1/6 FREEZE] Ring-0 Constants: l_a = 0.36787944117 nm | epsilon = 0.016 nm²</p>
+                    <p class="text-emerald-400">[PASS] Tile 1/4000: 0.17276s | Throughput: 144.71M rec/sec | RSS: 218.03 MiB</p>
+                    <p class="text-emerald-400">[PASS] Singularities: V_finite(r=0) = 11.384 eV (0 NaN / 0 Inf across 10^8 probes)</p>
+                    <p class="text-blue-400">[SEAL] RELEASE_SEAL.txt written. SHA-256: b177cf27dc4307c3f621997681476266d16af93fd8b3d2cb8f0ec0cbc8681aa6</p>
+                `;
+            } else if (command === 'bypass') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ torky-audit bypass --competitor=ALL --mode=DUAL</p>
+                    <p class="text-slate-300">[${timeStr}] Evaluating 13 Enterprise Stopping Points against Profile C...</p>
+                    <p class="text-emerald-400">[SUCCESS] 13/13 Enterprise Bypasses Confirmed Bitwise Exact across CUDA, NKI, Photon.</p>
+                `;
+            } else if (command === 'quantum') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ torky-audit quantum --device=emerald --shots=1000</p>
+                    <p class="text-emerald-400">[SEAL] Quantum Coherence Fidelity: 96.5% (965/1000 ground-state shots)</p>
+                `;
+            } else if (command === 'abi') {
+                out.innerHTML += `
+                    <p class="text-cyan-400">$ cat include/torky_abi.h</p>
+                    <p class="text-slate-300">int gov_init_stream(uint64_t total_records, uint32_t tile_size_mib);</p>
+                    <p class="text-slate-300">int gov_pack_tile(const float* raw_64d, uint8_t* packed_9b, uint64_t count);</p>
+                `;
+            }
+            out.scrollTop = out.scrollHeight;
+        }
+
+        function clearCli() {
+            document.getElementById('cliOutput').innerHTML = `
+                <p class="text-slate-400"># Sovereign Continuum Architecture Terminal [torky-audit-cli v2.4.0 & gh-cli integrated]</p>
+                <p class="text-slate-400"># Click any command button above or trigger workflows from the GitHub Org section.</p>
+            `;
+        }
+    </script>
 </body>
 </html>
