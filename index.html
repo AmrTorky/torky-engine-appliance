@@ -1339,5 +1339,80 @@
             `;
         }
     </script>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("[Sovereign Bridge] Initializing live interactive button handlers...");
+            const interactiveElements = document.querySelectorAll("button, .btn, .card, .clickable, [role=\"button\"]");
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener("click", async (e) => {
+                    console.log("[Sovereign] Button pressed, triggering live backend engine...");
+                    try {
+                        const res = await fetch("/api/execute-engine", { method: "POST" });
+                        const data = await res.json();
+                        alert("=== TORKY SOVEREIGN ENGINE EXECUTION ==\n\n" + data.stdout);
+                    } catch(err) {
+                        console.error("Backend bridge error:", err);
+                    }
+                });
+            });
+        });
+        </script>
+        
+<!-- LIVE_BRIDGE_START -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Wire Invariant Cards
+    document.querySelectorAll(".invariant-card, .card").forEach((card, index) => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => triggerBackend(`invariant_0${index+1}`));
+    });
+
+    // 2. Wire Titan Matrix Cards (Google, NVIDIA, etc.)
+    document.querySelectorAll(".titan-card, [class*="Google"], [class*="NVIDIA"]").forEach(card => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", (e) => {
+            let target = "generic_titan";
+            if(e.currentTarget.innerText.includes("TPU")) target = "titan_google_tpu";
+            if(e.currentTarget.innerText.includes("Blackwell")) target = "titan_nvidia_blackwell";
+            triggerBackend(target);
+        });
+    });
+
+    // 3. Wire GitHub Repo Links
+    document.querySelectorAll(".repo-card, [class*="torky-"]").forEach(repo => {
+        repo.style.cursor = "pointer";
+        repo.addEventListener("click", () => triggerBackend("repo_sync_" + repo.innerText.trim().split("\n")[0]));
+    });
+
+    // 4. Wire TCO Simulator
+    const tcoInputs = document.querySelectorAll("input[type=range], select");
+    tcoInputs.forEach(input => {
+        input.addEventListener("change", () => {
+            fetch("/api/execute", {
+                method: "POST",
+                body: JSON.stringify({ target: "tco_simulator", vectors_b: 10, dim: 64 })
+            }).then(res => res.json()).then(data => alert("TCO Recalculated by Engine:\n" + data.stdout));
+        });
+    });
+
+    async function triggerBackend(targetID) {
+        try {
+            const res = await fetch("/api/execute", {
+                method: "POST",
+                body: JSON.stringify({ target: targetID })
+            });
+            const data = await res.json();
+            alert(`[REAL EXECUTION OUTPUT]\n${data.stdout}`);
+        } catch(e) {
+            console.error(e);
+        }
+    }
+});
+</script>
+<!-- LIVE_BRIDGE_END -->
 </body>
+
+        
 </html>
