@@ -1,0 +1,9 @@
+{
+  "status": "SEALED_CONSERVED",
+  "iterations": 50000,
+  "mean_latency_us": 360.4582,
+  "p99_tail_latency_us": 921.217,
+  "jitter_us": 560.7588,
+  "max_field_invariant_drift": 1.1102230246251565e-16,
+  "numerical_convergence": "EXACT_DOUBLE_PRECISION"
+}
