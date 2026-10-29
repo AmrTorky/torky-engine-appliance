@@ -37,6 +37,7 @@ fix_*.sh
 generate_*.py
 initialize_*.sh
 inject_*.py
+lib/
 local_verification_certificate.json
 make_*.py
 one drive/
