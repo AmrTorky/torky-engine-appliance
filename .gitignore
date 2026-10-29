@@ -26,6 +26,7 @@
 *.xlsx
 *.yaml
 __pycache__/
+bin/
 build/
 build_*.py
 build_docker.sh
