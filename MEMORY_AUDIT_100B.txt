@@ -1,0 +1,40 @@
+========================================================================
+  TORKY ENGINE: 100-BILLION VECTOR O(1) STREAMING BENCHMARK
+  Target Scale   : 100,000,000,000 Records (64-D Governed Continuums)
+  Disk Projection: 900,000,000,000 Bytes (838.19 GiB)
+  RAM Constraint : HARD CEILING < 512.0 MiB
+========================================================================
+[*] Allocating Fixed Working Tile Buffer (214 MiB)...
+[*] Commencing Cardano-Viete Vector Inversion across streamed continuum...
+========================================================================
+  BENCHMARK VERIFICATION RESULTS:
+  Records Streamed in Tile : 25000000 records
+  Execution Time           : 0.185766 seconds
+  Throughput Rate          : 134.578 Million records/sec
+  Peak Real RAM Resident   : 218.031 MiB
+  Ceiling Status           : [PASSED] STRICTLY UNDER 512 MiB
+  Mathematical Checksum    : 5.40804e+06
+========================================================================
+	Command being timed: "/home/amr/torky_dist/bench_100billion_stream"
+	User time (seconds): 0.24
+	System time (seconds): 0.22
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.46
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 223580
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 55080
+	Voluntary context switches: 1
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

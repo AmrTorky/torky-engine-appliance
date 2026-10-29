@@ -1,0 +1,4 @@
+nohup: ignoring input
+127.0.0.1 - - [24/Oct/2026 04:33:43] "GET /metrics HTTP/1.1" 200 -
+127.0.0.1 - - [24/Oct/2026 04:33:43] "POST /delete HTTP/1.1" 200 -
+127.0.0.1 - - [24/Oct/2026 04:33:44] "POST /search/hybrid HTTP/1.1" 200 -

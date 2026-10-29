@@ -1,0 +1,23 @@
+{
+  "certification_timestamp": "2026-10-24T13:25:38.030006+00:00",
+  "profile": "Profile C (Commercial Appliance)",
+  "daemon_pid": 154709,
+  "endpoints_verified": {
+    "status": {
+      "engine": "Torky Autopoietic Continuum Engine (AT-ACE Profile C - Commercial Appliance)",
+      "governed_records": 1000000,
+      "active_records": 999999,
+      "packed_record_bytes": 9,
+      "compression_efficiency": "96.96%",
+      "invariant_kappa_max": 18.5,
+      "tombstones": 1,
+      "status": "HEALTHY_OPERATIONAL"
+    },
+    "pitr_sample": {
+      "historical_boundary_records": 250000,
+      "mapped_storage_bytes": 2250000,
+      "isolation_latency_us": 2.38,
+      "pitr_status": "PITR_OFFSET_LOCKED"
+    }
+  }
+}

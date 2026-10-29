@@ -1,0 +1,20 @@
+{
+  "engine": "Torky Autopoietic Continuum Engine (AT-ACE Profile C)",
+  "verification_tier": "PHYSICAL_QPU_HARDWARE_SEAL",
+  "qpu_provider": "IQM Resonance",
+  "device_instance": "emerald",
+  "shots_executed": 1000,
+  "execution_duration_sec": 20.442,
+  "measurement_counts": {
+    "000": 472,
+    "111": 493,
+    "100": 10,
+    "001": 8,
+    "010": 1,
+    "011": 6,
+    "110": 6,
+    "101": 4
+  },
+  "timestamp_utc": "2026-10-24 19:01:27Z",
+  "sha256_quantum_hardware_seal": "3ad2325697ac3e6cd1adf2f789b7c4ca9255e65c454c582cd850a67cab4c408f"
+}
