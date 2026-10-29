@@ -7,3 +7,86 @@ upgrade_*.py
 run_iqm_*.py
 *.tar.gz
 stress_1M.torky
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Local fabric and clean workspace builds
+torky_enterprise_fabric/
+torky-engine-appliance-clean/
+build/
+*.so
+torky_engine
+
+# Binary databases, checkpoints, and benchmark artifacts
+*.torky
+*.npy
+*.bin
+server.log
+
+# Raw documentation, blueprints, media, and keys
+*.pdf
+*.pptx
+*.docx
+*.xlsx
+*.txt
+*.key
+*.winmd
+*.exe
+*.png
+*.jpg
+*.jpeg
+*.yaml
+*.out.txt
+*.json
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Local fabric and clean workspace builds
+torky_enterprise_fabric/
+torky-engine-appliance-clean/
+build/
+*.so
+torky_engine
+
+# Binary databases, checkpoints, and benchmark artifacts
+*.torky
+*.npy
+*.bin
+server.log
+
+# Raw documentation, blueprints, media, and keys
+*.pdf
+*.pptx
+*.docx
+*.xlsx
+*.txt
+*.key
+*.winmd
+*.exe
+*.png
+*.jpg
+*.jpeg
+*.yaml
+*.out.txt
+*.json
+
+# Orchestration & deployment shell scripts
+deploy_*.sh
+provision_*.sh
+finalize_*.sh
+fix_*.sh
+initialize_*.sh
+upload_*.sh
+build_docker.sh
+run_master_enterprise_pipeline.sh
+
+# Auxiliary local experiment directories
+china/
+one drive/
+sum/
+travis/
+torky-portal/
