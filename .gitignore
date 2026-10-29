@@ -1,92 +1,54 @@
-__pycache__/
-build_*.py
-generate_*.py
-inject_*.py
-make_*.py
-upgrade_*.py
-run_iqm_*.py
-*.tar.gz
-stress_1M.torky
-
-# Python caches
-__pycache__/
-*.py[cod]
-
-# Local fabric and clean workspace builds
-torky_enterprise_fabric/
-torky-engine-appliance-clean/
-build/
-*.so
-torky_engine
-
-# Binary databases, checkpoints, and benchmark artifacts
-*.torky
-*.npy
-*.bin
-server.log
-
-# Raw documentation, blueprints, media, and keys
-*.pdf
-*.pptx
-*.docx
-*.xlsx
-*.txt
-*.key
-*.winmd
-*.exe
-*.png
-*.jpg
-*.jpeg
-*.yaml
-*.out.txt
-*.json
-
-# Python caches
-__pycache__/
-*.py[cod]
-
-# Local fabric and clean workspace builds
-torky_enterprise_fabric/
-torky-engine-appliance-clean/
-build/
-*.so
-torky_engine
-
-# Binary databases, checkpoints, and benchmark artifacts
-*.torky
-*.npy
-*.bin
-server.log
-
-# Raw documentation, blueprints, media, and keys
-*.pdf
-*.pptx
-*.docx
-*.xlsx
-*.txt
-*.key
-*.winmd
-*.exe
-*.png
-*.jpg
-*.jpeg
-*.yaml
-*.out.txt
-*.json
-
-# Orchestration & deployment shell scripts
-deploy_*.sh
-provision_*.sh
-finalize_*.sh
-fix_*.sh
-initialize_*.sh
-upload_*.sh
-build_docker.sh
-run_master_enterprise_pipeline.sh
 
 # Auxiliary local experiment directories
+# Binary databases, checkpoints, and benchmark artifacts
+# Local fabric and clean workspace builds
+# Orchestration & deployment shell scripts
+# Python caches
+# Raw documentation, blueprints, media, and keys
+*.bin
+*.docx
+*.exe
+*.jpeg
+*.jpg
+*.json
+*.key
+*.npy
+*.out.txt
+*.pdf
+*.png
+*.pptx
+*.py[cod]
+*.so
+*.tar.gz
+*.torky
+*.txt
+*.winmd
+*.xlsx
+*.yaml
+__pycache__/
+build/
+build_*.py
+build_docker.sh
 china/
+deploy_*.sh
+finalize_*.sh
+fix_*.sh
+generate_*.py
+initialize_*.sh
+inject_*.py
+local_verification_certificate.json
+make_*.py
 one drive/
+provision_*.sh
+run_iqm_*.py
+run_master_enterprise_pipeline.sh
+server.log
+stress_1M.torky
 sum/
-travis/
+torky-engine-appliance-clean/
 torky-portal/
+torky_engine
+torky_enterprise_fabric/
+travis/
+upgrade_*.py
+upload_*.sh
