@@ -27,3 +27,6 @@ g++ -O3 -std=c++20 -march=native -Iinclude src/dedicated_backend_engine.cpp -o b
 ./build/dedicated_backend_engine -3.5 1.2
 ./run_audit.sh --input ./examples/sample_vectors.csv
 ```
+-
+## 📊 Sovereign Benchmark & Transcendence Reports
+For detailed empirical audit results, hardware breakdown, and 100x GPU transcendence proofs, see the [Benchmark & Transcendence Suite](./BENCHMARKS_AND_TRANSCENDENCE.md).
